@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import './utils/colors.dart';
+// import './utils/colors.dart';
 import './responsive/mobile_screen_layout.dart';
 import './responsive/responsive_layout.dart';
 import './responsive/web_screen_layout.dart';
