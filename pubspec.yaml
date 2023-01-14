@@ -89,13 +89,6 @@ flutter:
         - asset: assets/fonts/Merriweather-Regular.ttf
         - asset: assets/fonts/Merriweather-Bold.ttf
           weight: 700
-    - family: Lora
-      fonts:
-        - asset: assets/fonts/Lora-Regular.ttf
-    - family: Montserrat
-      fonts:
-        - asset: assets/fonts/Montserrat-ExtraBold.ttf
-          weight: 800   
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
