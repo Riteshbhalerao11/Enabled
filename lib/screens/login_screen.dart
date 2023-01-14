@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
+
+import '/widgets/text_fields.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -11,19 +14,27 @@ class LoginScreen extends StatelessWidget {
           child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
+          // ignore: prefer_const_literals_to_create_immutables
+          children: [
+            const Text(
               "Enabled",
               style: TextStyle(
                   height: 0.5,
                   fontSize: 72,
                   color: Colors.white,
-                  fontFamily: 'Pacifico'),
+                  fontFamily: 'Pacifico',
+                  shadows: [
+                    Shadow(
+                      offset: Offset(0, 5),
+                      blurRadius: 4,
+                      color: Colors.black26,
+                    )
+                  ]),
             ),
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
-            Text(
+            const Text(
               "Share your story",
               style: TextStyle(
                   height: 0.5,
@@ -31,7 +42,11 @@ class LoginScreen extends StatelessWidget {
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
-            )
+            ),
+            const SizedBox(
+              height: 32,
+            ),
+            const LoginForm(),
           ],
         ),
       )),
