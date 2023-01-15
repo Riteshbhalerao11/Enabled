@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '/widgets/text_fields.dart';
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -11,7 +13,7 @@ class LoginScreen extends StatelessWidget {
           child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Text(
               "Enabled",
               style: TextStyle(
@@ -31,7 +33,8 @@ class LoginScreen extends StatelessWidget {
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
-            )
+            ),
+            LoginForm(),
           ],
         ),
       )),
