@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/login_form.dart';
+import '../widgets/signup_form.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatelessWidget {
+  const SignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,24 +43,14 @@ class LoginScreen extends StatelessWidget {
                     color: Colors.white),
               ),
               SizedBox(height: 32),
-              LoginForm(),
+              SignupForm(),
             ],
           ),
           Flexible(
               flex: 1,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 48),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text("forgot password ?",
-                        style: TextStyle(
-                            fontFamily: 'Lora',
-                            fontSize: 20,
-                            color: Colors.white)),
-                  ),
-                ),
+                child: Container(),
               )),
         ],
       )),
