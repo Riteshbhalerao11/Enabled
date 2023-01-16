@@ -35,7 +35,6 @@ class _LoginFormState extends State<LoginForm> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              height: 40,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextFormField(
                 validator: (value) {
@@ -48,7 +47,9 @@ class _LoginFormState extends State<LoginForm> {
                 style: const TextStyle(
                     fontFamily: 'Lora', fontSize: 16, color: Color(0xFF454545)),
                 decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
+                    isDense: true,
                     filled: true,
                     fillColor: Colors.white,
                     hintText: "User name",
@@ -62,7 +63,6 @@ class _LoginFormState extends State<LoginForm> {
             ),
             const SizedBox(height: 16),
             Container(
-              height: 40,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextFormField(
                 validator: (value) {
@@ -74,7 +74,9 @@ class _LoginFormState extends State<LoginForm> {
                 style: const TextStyle(
                     fontFamily: 'Lora', fontSize: 16, color: Color(0xFF454545)),
                 decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
+                    isDense: true,
                     filled: true,
                     fillColor: Colors.white,
                     hintText: "Password",
