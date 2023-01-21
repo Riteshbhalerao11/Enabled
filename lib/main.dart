@@ -1,12 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import './utils/colors.dart';
-import './responsive/mobile_screen_layout.dart';
-import './responsive/responsive_layout.dart';
-import './responsive/web_screen_layout.dart';
+// import './responsive/mobile_screen_layout.dart';
+// import './responsive/responsive_layout.dart';
+// import './responsive/web_screen_layout.dart';
 import './screens/signup_screen.dart';
 import './screens/login_screen.dart';
+import './screens/home_page_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +30,18 @@ class MyApp extends StatelessWidget {
         secondary: accentappColor,
       )),
       debugShowCheckedModeBanner: false,
-      home: SignupScreen(),
+      home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, userSnapshot) {
+            if (userSnapshot.hasData) {
+              return const HomePage();
+            }
+            return const LoginScreen();
+          }),
+      // initialRoute: '/',
+      routes: {
+        '/signup': (context) => const SignupScreen(),
+      },
       // home: const ResponsiveLayout(
       //     mobileScreenLayout: MobileScreenLayout(),
       //     webScreenLayout: WebScreenLayout()),

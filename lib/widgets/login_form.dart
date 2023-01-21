@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+  final void Function(
+          String email, String password, BuildContext ctx, bool isLoading)
+      loginUser;
+  const LoginForm(this.loginUser, {super.key});
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -9,8 +12,9 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formkey = GlobalKey<FormState>();
-  String? _userEmail = '';
-  String? _userPassword = '';
+  var isLoading = false;
+  String _userEmail = '';
+  String _userPassword = '';
   final defaultBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(20),
       borderSide: const BorderSide(color: Colors.white));
@@ -21,8 +25,7 @@ class _LoginFormState extends State<LoginForm> {
     if (isValid != null) {
       if (isValid) {
         _formkey.currentState?.save();
-        print(_userEmail);
-        print(_userPassword);
+        widget.loginUser(_userEmail, _userPassword, context, isLoading);
       }
     }
   }
@@ -57,7 +60,7 @@ class _LoginFormState extends State<LoginForm> {
                     enabledBorder: defaultBorder,
                     focusedBorder: defaultBorder),
                 onSaved: (newValue) {
-                  _userEmail = newValue;
+                  _userEmail = newValue!;
                 },
               ),
             ),
@@ -84,7 +87,7 @@ class _LoginFormState extends State<LoginForm> {
                     enabledBorder: defaultBorder,
                     focusedBorder: defaultBorder),
                 onSaved: (newValue) {
-                  _userPassword = newValue;
+                  _userPassword = newValue!;
                 },
               ),
             ),
@@ -132,26 +135,33 @@ class _LoginFormState extends State<LoginForm> {
                         ))),
               ],
             ),
-            Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                width: double.infinity,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                ),
-                child: TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "Sign up",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        letterSpacing: 2),
+            if (isLoading)
+              const CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            if (!isLoading)
+              Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  width: double.infinity,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondary,
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
                   ),
-                ))
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/signup');
+                    },
+                    child: const Text(
+                      "Sign up",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          letterSpacing: 2),
+                    ),
+                  ))
           ],
         ));
   }

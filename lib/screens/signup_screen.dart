@@ -38,6 +38,9 @@ class _SignupScreenState extends State<SignupScreen> {
         'followers': [],
         'following': [],
       });
+      setState(() {
+        isLoading = false;
+      });
     } on FirebaseAuthException catch (err) {
       var message = "Something went wrong , Please try again !";
       if (err.message != null) {
@@ -108,11 +111,24 @@ class _SignupScreenState extends State<SignupScreen> {
                 ],
               ),
               Flexible(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 48),
-                    child: Container(),
-                  )),
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 48),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("Back to login",
+                          style: TextStyle(
+                              fontFamily: 'Lora',
+                              fontSize: 20,
+                              color: Colors.white)),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

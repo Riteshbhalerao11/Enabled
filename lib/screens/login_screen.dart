@@ -1,9 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../widgets/login_form.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _auth = FirebaseAuth.instance;
+  void loginUser(
+      String email, String password, BuildContext ctx, bool isLoading) async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      UserCredential authres = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      setState(() {
+        isLoading = true;
+      });
+    } on FirebaseAuthException catch (err) {
+      var message = "Something went wrong please try again";
+      if (err.message != null) {
+        message = err.message!;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          message,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        backgroundColor: Colors.red,
+        padding: const EdgeInsetsDirectional.all(24),
+      ));
+      setState(() {
+        isLoading = true;
+      });
+    } catch (err) {
+      print(err);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +59,8 @@ class LoginScreen extends StatelessWidget {
               Flexible(flex: 1, child: Container()),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "Enabled",
                     style: TextStyle(
                         height: 0.5,
@@ -35,10 +74,10 @@ class LoginScreen extends StatelessWidget {
                               color: Colors.black26)
                         ]),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
-                  Text(
+                  const Text(
                     "Share your story",
                     style: TextStyle(
                         height: 0.5,
@@ -47,8 +86,8 @@ class LoginScreen extends StatelessWidget {
                         fontWeight: FontWeight.normal,
                         color: Colors.white),
                   ),
-                  SizedBox(height: 32),
-                  LoginForm(),
+                  const SizedBox(height: 32),
+                  LoginForm(loginUser),
                 ],
               ),
               Flexible(

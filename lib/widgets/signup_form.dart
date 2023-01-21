@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignupForm extends StatefulWidget {
@@ -23,7 +22,7 @@ class _SignupFormState extends State<SignupForm> {
 
   void _trySubmit() {
     final isValid = _formkey.currentState?.validate();
-    // FocusScope.of(context).unfocus();
+    FocusScope.of(context).unfocus();
     if (isValid != null) {
       if (isValid) {
         _formkey.currentState?.save();
