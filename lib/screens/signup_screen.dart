@@ -1,9 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../widgets/signup_form.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
+
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+  var isLoading = false;
+
+  void submitData(
+    String username,
+    String email,
+    String password,
+    String bio,
+    BuildContext ctx,
+  ) async {
+    UserCredential authres;
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      authres = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      await _firestore.collection('users').doc(authres.user!.uid).set({
+        'username': username,
+        'email': email,
+        'password': password,
+        'bio': bio,
+        'followers': [],
+        'following': [],
+      });
+    } on FirebaseAuthException catch (err) {
+      var message = "Something went wrong , Please try again !";
+      if (err.message != null) {
+        message = err.message!;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            message,
+            style: const TextStyle(color: Colors.white, fontSize: 16),
+          ),
+          backgroundColor: Colors.red,
+          padding: const EdgeInsetsDirectional.all(24),
+        ),
+      );
+      setState(() {
+        isLoading = false;
+      });
+    } catch (err) {
+      print(err);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +76,8 @@ class SignupScreen extends StatelessWidget {
               Flexible(flex: 1, child: Container()),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "Enabled",
                     style: TextStyle(
                         height: 0.5,
@@ -35,10 +91,10 @@ class SignupScreen extends StatelessWidget {
                               color: Colors.black26)
                         ]),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
-                  Text(
+                  const Text(
                     "Share your story",
                     style: TextStyle(
                         height: 0.5,
@@ -47,8 +103,8 @@ class SignupScreen extends StatelessWidget {
                         fontWeight: FontWeight.normal,
                         color: Colors.white),
                   ),
-                  SizedBox(height: 32),
-                  SignupForm(),
+                  const SizedBox(height: 32),
+                  SignupForm(submitData, isLoading),
                 ],
               ),
               Flexible(

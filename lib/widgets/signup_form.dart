@@ -2,17 +2,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignupForm extends StatefulWidget {
-  const SignupForm({super.key});
-
+  const SignupForm(this.submitData, this.isLoading, {super.key});
+  final bool isLoading;
+  final void Function(String username, String email, String password,
+      String bio, BuildContext ctx) submitData;
   @override
   State<SignupForm> createState() => _SignupFormState();
 }
 
 class _SignupFormState extends State<SignupForm> {
   final _formkey = GlobalKey<FormState>();
-  String? _userEmail = '';
-  String? _userPassword = '';
-  String? _bio = '';
+  String _userEmail = '';
+  String _userPassword = '';
+  String _userBio = '';
+  String _userName = '';
 
   final defaultBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(20),
@@ -24,8 +27,8 @@ class _SignupFormState extends State<SignupForm> {
     if (isValid != null) {
       if (isValid) {
         _formkey.currentState?.save();
-        print(_userEmail);
-        print(_userPassword);
+        widget.submitData(_userName.trim(), _userEmail.trim(),
+            _userPassword.trim(), _userBio.trim(), context);
       }
     }
   }
@@ -60,7 +63,7 @@ class _SignupFormState extends State<SignupForm> {
                     enabledBorder: defaultBorder,
                     focusedBorder: defaultBorder),
                 onSaved: (newValue) {
-                  _userPassword = newValue;
+                  _userEmail = newValue!;
                 },
               ),
             ),
@@ -90,7 +93,7 @@ class _SignupFormState extends State<SignupForm> {
                     enabledBorder: defaultBorder,
                     focusedBorder: defaultBorder),
                 onSaved: (newValue) {
-                  _userEmail = newValue;
+                  _userName = newValue!;
                 },
               ),
             ),
@@ -106,6 +109,7 @@ class _SignupFormState extends State<SignupForm> {
                 },
                 style: const TextStyle(
                     fontFamily: 'Lora', fontSize: 16, color: Color(0xFF454545)),
+                obscureText: true,
                 decoration: InputDecoration(
                     isDense: true,
                     contentPadding: const EdgeInsets.symmetric(
@@ -117,7 +121,7 @@ class _SignupFormState extends State<SignupForm> {
                     enabledBorder: defaultBorder,
                     focusedBorder: defaultBorder),
                 onSaved: (newValue) {
-                  _userPassword = newValue;
+                  _userPassword = newValue!;
                 },
               ),
             ),
@@ -149,29 +153,35 @@ class _SignupFormState extends State<SignupForm> {
                     focusedBorder: defaultBorder,
                     errorBorder: defaultBorder),
                 onSaved: (newValue) {
-                  _userEmail = newValue;
+                  _userBio = newValue!;
                 },
               ),
             ),
             const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ElevatedButton(
-                  onPressed: _trySubmit,
-                  style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(396, 40),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      elevation: 0,
-                      backgroundColor: Theme.of(context).colorScheme.secondary),
-                  child: const Text("Signup",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          letterSpacing: 2))),
-            ),
+            if (widget.isLoading)
+              const CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            if (!widget.isLoading)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ElevatedButton(
+                    onPressed: _trySubmit,
+                    style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(396, 40),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        elevation: 0,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary),
+                    child: const Text("Signup",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            letterSpacing: 2))),
+              ),
           ],
         ));
   }
