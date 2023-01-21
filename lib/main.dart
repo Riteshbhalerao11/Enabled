@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         secondary: accentappColor,
       )),
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: SignupScreen(),
       // home: const ResponsiveLayout(
       //     mobileScreenLayout: MobileScreenLayout(),
       //     webScreenLayout: WebScreenLayout()),

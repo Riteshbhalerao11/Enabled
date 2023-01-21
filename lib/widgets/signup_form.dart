@@ -41,8 +41,8 @@ class _SignupFormState extends State<SignupForm> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextFormField(
                 validator: (value) {
-                  if (value == null || value.length < 7) {
-                    return "Invalid Password";
+                  if (value == null || !value.contains('@')) {
+                    return "Invalid Email address";
                   }
                   return null;
                 },
@@ -71,8 +71,8 @@ class _SignupFormState extends State<SignupForm> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextFormField(
                 validator: (value) {
-                  if (value == null || !value.contains('@')) {
-                    return "Please enter valid email address";
+                  if (value!.trim() == '') {
+                    return "Please enter username";
                   }
                   return null;
                 },
@@ -128,8 +128,8 @@ class _SignupFormState extends State<SignupForm> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextFormField(
                 validator: (value) {
-                  if (value == null || !value.contains('@')) {
-                    return "Please enter valid email address";
+                  if (value!.trim() == '') {
+                    return "Please enter bio";
                   }
                   return null;
                 },
