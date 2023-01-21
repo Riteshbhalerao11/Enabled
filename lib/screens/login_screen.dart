@@ -7,13 +7,14 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var statusBar = MediaQuery.of(context).viewPadding.top;
+    var deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: SafeArea(
           child: SingleChildScrollView(
         child: SizedBox(
-          height: MediaQuery.of(context).size.height -
-              MediaQuery.of(context).viewPadding.top,
+          height: deviceHeight - statusBar,
           child: Column(
             children: [
               Flexible(flex: 1, child: Container()),
