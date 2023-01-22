@@ -28,9 +28,9 @@ class HomePage extends StatelessWidget {
               ))
         ],
       ),
-      body: Row(children: [
-
-        ],),
-      )
+      body: Row(
+        children: [],
+      ),
+    );
   }
 }
