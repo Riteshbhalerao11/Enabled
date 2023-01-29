@@ -12,16 +12,21 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
-  void loginUser(
-      String email, String password, BuildContext ctx, bool isLoading) async {
+  var isLoading = false;
+  loginUser(String email, String password, BuildContext ctx) async {
     try {
       setState(() {
         isLoading = true;
       });
-      UserCredential authres = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
+      await _auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+        Navigator.of(context).pushReplacementNamed('/home_page');
+        return value;
+      });
+
       setState(() {
-        isLoading = true;
+        isLoading = false;
       });
     } on FirebaseAuthException catch (err) {
       var message = "Something went wrong please try again";
@@ -37,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: const EdgeInsetsDirectional.all(24),
       ));
       setState(() {
-        isLoading = true;
+        isLoading = false;
       });
     } catch (err) {
       print(err);
@@ -89,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.white),
                     ),
                     const SizedBox(height: 32),
-                    LoginForm(loginUser),
+                    LoginForm(loginUser, isLoading),
                   ],
                 ),
                 Flexible(

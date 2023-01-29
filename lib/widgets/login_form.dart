@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
-  final void Function(
-          String email, String password, BuildContext ctx, bool isLoading)
+  final bool isLoading;
+  final void Function(String email, String password, BuildContext ctx)
       loginUser;
-  const LoginForm(this.loginUser, {super.key});
+  const LoginForm(this.loginUser, this.isLoading, {super.key});
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -12,7 +12,6 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formkey = GlobalKey<FormState>();
-  var isLoading = false;
   String _userEmail = '';
   String _userPassword = '';
   final defaultBorder = OutlineInputBorder(
@@ -25,7 +24,7 @@ class _LoginFormState extends State<LoginForm> {
     if (isValid != null) {
       if (isValid) {
         _formkey.currentState?.save();
-        widget.loginUser(_userEmail, _userPassword, context, isLoading);
+        widget.loginUser(_userEmail, _userPassword, context);
       }
     }
   }
@@ -50,15 +49,18 @@ class _LoginFormState extends State<LoginForm> {
                 style: const TextStyle(
                     fontFamily: 'Lora', fontSize: 16, color: Color(0xFF454545)),
                 decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                    isDense: true,
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: "User name",
-                    border: defaultBorder,
-                    enabledBorder: defaultBorder,
-                    focusedBorder: defaultBorder),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  isDense: true,
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: "User name",
+                  border: defaultBorder,
+                  enabledBorder: defaultBorder,
+                  focusedBorder: defaultBorder,
+                  errorStyle:
+                      const TextStyle(color: Colors.white, fontSize: 16),
+                ),
                 onSaved: (newValue) {
                   _userEmail = newValue!;
                 },
@@ -77,39 +79,51 @@ class _LoginFormState extends State<LoginForm> {
                 style: const TextStyle(
                     fontFamily: 'Lora', fontSize: 16, color: Color(0xFF454545)),
                 decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                    isDense: true,
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: "Password",
-                    border: defaultBorder,
-                    enabledBorder: defaultBorder,
-                    focusedBorder: defaultBorder),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  isDense: true,
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: "Password",
+                  border: defaultBorder,
+                  enabledBorder: defaultBorder,
+                  focusedBorder: defaultBorder,
+                  errorStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+                obscureText: true,
                 onSaved: (newValue) {
                   _userPassword = newValue!;
                 },
               ),
             ),
             const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ElevatedButton(
-                  onPressed: _trySubmit,
-                  style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(396, 40),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      elevation: 0,
-                      backgroundColor: Theme.of(context).colorScheme.secondary),
-                  child: const Text("Login",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          letterSpacing: 2))),
-            ),
+            if (widget.isLoading)
+              const CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            if (!widget.isLoading)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ElevatedButton(
+                    onPressed: _trySubmit,
+                    style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(396, 40),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        elevation: 0,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary),
+                    child: const Text("Login",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            letterSpacing: 2))),
+              ),
             Row(
               children: [
                 Expanded(
@@ -135,33 +149,28 @@ class _LoginFormState extends State<LoginForm> {
                         ))),
               ],
             ),
-            if (isLoading)
-              const CircularProgressIndicator(
-                color: Colors.white,
-              ),
-            if (!isLoading)
-              Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  width: double.infinity,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondary,
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+            Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                width: double.infinity,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondary,
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/signup');
+                  },
+                  child: const Text(
+                    "Sign up",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        letterSpacing: 2),
                   ),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/signup');
-                    },
-                    child: const Text(
-                      "Sign up",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          letterSpacing: 2),
-                    ),
-                  ))
+                ))
           ],
         ));
   }

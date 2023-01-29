@@ -9,6 +9,7 @@ import './utils/colors.dart';
 import './screens/signup_screen.dart';
 import './screens/login_screen.dart';
 import './screens/home_page_screen.dart';
+import './screens/profile_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSwatch().copyWith(
         primary: primaryAppColor,
         secondary: accentappColor,
+        tertiary: buttonColor,
       )),
       debugShowCheckedModeBanner: false,
       home: StreamBuilder(
@@ -38,9 +40,11 @@ class MyApp extends StatelessWidget {
             }
             return const LoginScreen();
           }),
-      // initialRoute: '/',
       routes: {
+        '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignupScreen(),
+        '/home_page': (context) => const HomePage(),
+        '/profile_page': (context) => const ProfilePage(),
       },
       // home: const ResponsiveLayout(
       //     mobileScreenLayout: MobileScreenLayout(),

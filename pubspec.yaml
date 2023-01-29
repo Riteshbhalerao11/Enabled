@@ -35,6 +35,7 @@ dependencies:
   firebase_auth: ^4.2.5
   firebase_storage: ^11.0.10
   cloud_firestore: ^4.3.1
+  get: ^4.6.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -96,6 +97,9 @@ flutter:
       fonts:
         - asset: assets/fonts/Montserrat-ExtraBold.ttf
           weight: 800
+    - family: SecularOne
+      fonts:
+        - asset: assets/fonts/SecularOne-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
