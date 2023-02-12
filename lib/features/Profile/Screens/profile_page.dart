@@ -1,20 +1,22 @@
+import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../widgets/Buttons/nav_buttons.dart';
+import 'package:enabled_try_1/features/Home/widgets/Buttons/nav_buttons.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userProvider);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        title: const Text(
-          "Myself",
-          style: TextStyle(color: Colors.black),
+        title: Text(
+          user?.username ?? "--",
+          style: const TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.white,
       ),
       body: Column(children: [
         Row(
@@ -22,7 +24,7 @@ class ProfilePage extends StatelessWidget {
             Flexible(flex: 2, child: Container()),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 8.0),
-              child: NavButtons("HOME", false, "/home_page"),
+              child: NavButtons("HOME", false, "/"),
             ),
             Flexible(flex: 2, child: Container()),
             const Padding(

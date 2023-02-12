@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:routemaster/routemaster.dart';
 
 class NavButtons extends StatelessWidget {
   final String title;
@@ -10,7 +11,7 @@ class NavButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        isSelected ? Null : Navigator.of(context).pushReplacementNamed(page);
+        isSelected ? Null : Routemaster.of(context).push(page);
       },
       style: TextButton.styleFrom(
         backgroundColor:
@@ -27,7 +28,9 @@ class NavButtons extends StatelessWidget {
           fontFamily: 'SecularOne',
           fontSize: 16,
           letterSpacing: 1.28,
-          color: isSelected ? Colors.white : Colors.black,
+          color: isSelected
+              ? Theme.of(context).colorScheme.onPrimaryContainer
+              : Theme.of(context).colorScheme.onSecondaryContainer,
         ),
       ),
     );

@@ -1,16 +1,17 @@
+import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginForm extends StatefulWidget {
-  final bool isLoading;
+class LoginForm extends ConsumerStatefulWidget {
   final void Function(String email, String password, BuildContext ctx)
       loginUser;
-  const LoginForm(this.loginUser, this.isLoading, {super.key});
+  const LoginForm(this.loginUser, {super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  ConsumerState<LoginForm> createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _LoginFormState extends ConsumerState<LoginForm> {
   final _formkey = GlobalKey<FormState>();
   String _userEmail = '';
   String _userPassword = '';
@@ -31,6 +32,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(authControllerProvider);
     return Form(
         key: _formkey,
         child: Column(
@@ -100,11 +102,11 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
             const SizedBox(height: 16),
-            if (widget.isLoading)
+            if (isLoading)
               const CircularProgressIndicator(
                 color: Colors.white,
               ),
-            if (!widget.isLoading)
+            if (!isLoading)
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: ElevatedButton(
