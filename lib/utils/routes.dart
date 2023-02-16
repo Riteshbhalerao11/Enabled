@@ -9,7 +9,6 @@ import '../features/Home/Screens/home_page_screen.dart';
 //loggedout
 final loggedoutRoute = RouteMap(routes: {
   '/': (_) => const MaterialPage(child: LoginScreen()),
-  '/signup': (_) => const MaterialPage(child: SignupScreen()),
 });
 
 //Loggedin
@@ -18,6 +17,7 @@ final loggedinRoute = RouteMap(routes: {
       child: HomePage(),
       pushTransition: PageTransition.none,
       popTransition: PageTransition.none),
+  // '/signup': (_) => const MaterialPage(child: SignupScreen()),
   '/profile/:uid': (route) => TransitionPage(
       child: ProfilePage(
         uid: route.pathParameters['uid']!,

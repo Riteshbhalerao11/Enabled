@@ -1,9 +1,10 @@
+import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:enabled_try_1/features/Auth/screen/widgets/title.dart';
 import 'package:enabled_try_1/features/Auth/screen/widgets/forms/signup_form.dart';
-import 'package:enabled_try_1/features/auth/controller/auth_controller.dart';
+
 import 'package:enabled_try_1/features/auth/screen/widgets/subtitle.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -22,7 +23,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     String bio,
   ) async {
     ref
-        .read(authControllerProvider.notifier)
+        .read(signupAuthControllerProvider.notifier)
         .signupUser(username, email, password, bio, context);
   }
 

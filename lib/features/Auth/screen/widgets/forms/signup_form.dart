@@ -35,8 +35,7 @@ class _SignupFormState extends ConsumerState<SignupForm> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(authControllerProvider);
-    print(isLoading);
+    final isLoading = ref.watch(signupAuthControllerProvider);
     return Form(
         key: _formkey,
         child: Column(
@@ -55,15 +54,20 @@ class _SignupFormState extends ConsumerState<SignupForm> {
                 style: const TextStyle(
                     fontFamily: 'Lora', fontSize: 16, color: Color(0xFF454545)),
                 decoration: InputDecoration(
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: "Email address",
-                    border: defaultBorder,
-                    enabledBorder: defaultBorder,
-                    focusedBorder: defaultBorder),
+                  isDense: true,
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: "Email address",
+                  border: defaultBorder,
+                  enabledBorder: defaultBorder,
+                  focusedBorder: defaultBorder,
+                  errorStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
                 onSaved: (newValue) {
                   _userEmail = newValue!;
                 },
@@ -85,15 +89,20 @@ class _SignupFormState extends ConsumerState<SignupForm> {
                 style: const TextStyle(
                     fontFamily: 'Lora', fontSize: 16, color: Color(0xFF454545)),
                 decoration: InputDecoration(
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: "User name",
-                    border: defaultBorder,
-                    enabledBorder: defaultBorder,
-                    focusedBorder: defaultBorder),
+                  isDense: true,
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: "User name",
+                  border: defaultBorder,
+                  enabledBorder: defaultBorder,
+                  focusedBorder: defaultBorder,
+                  errorStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
                 onSaved: (newValue) {
                   _userName = newValue!;
                 },
@@ -113,15 +122,20 @@ class _SignupFormState extends ConsumerState<SignupForm> {
                     fontFamily: 'Lora', fontSize: 16, color: Color(0xFF454545)),
                 obscureText: true,
                 decoration: InputDecoration(
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: "Password",
-                    border: defaultBorder,
-                    enabledBorder: defaultBorder,
-                    focusedBorder: defaultBorder),
+                  isDense: true,
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: "Password",
+                  border: defaultBorder,
+                  enabledBorder: defaultBorder,
+                  focusedBorder: defaultBorder,
+                  errorStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
                 onSaved: (newValue) {
                   _userPassword = newValue!;
                 },
@@ -153,7 +167,11 @@ class _SignupFormState extends ConsumerState<SignupForm> {
                     border: defaultBorder,
                     enabledBorder: defaultBorder,
                     focusedBorder: defaultBorder,
-                    errorBorder: defaultBorder),
+                    errorBorder: defaultBorder,
+                    errorStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    )),
                 onSaved: (newValue) {
                   _userBio = newValue!;
                 },

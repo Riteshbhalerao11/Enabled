@@ -48,6 +48,11 @@ class AuthRepository {
       String username, String email, String password, String bio) async {
     UserModel userModel;
     try {
+      final querySnapshot =
+          await _users.where('username', isEqualTo: username).get();
+      if (querySnapshot.docs.isNotEmpty) {
+        return left(Failure('Username is already taken'));
+      }
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       userModel = UserModel(

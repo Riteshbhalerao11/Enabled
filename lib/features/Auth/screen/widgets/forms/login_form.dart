@@ -1,4 +1,5 @@
 import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
+import 'package:enabled_try_1/features/Auth/screen/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
@@ -163,7 +164,8 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Routemaster.of(context).push('/signup');
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => const SignupScreen()));
                   },
                   child: const Text(
                     "Sign up",

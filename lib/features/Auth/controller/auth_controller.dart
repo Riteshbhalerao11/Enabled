@@ -39,24 +39,50 @@ class AuthController extends StateNotifier<bool> {
 
   Future loginUser(String email, String password, BuildContext ctx) async {
     state = true;
-    print("this $state");
     final user = await _authRepository.loginUser(email, password);
     state = false;
-    print("this $state");
     user.fold(
         (l) => showSnackBar(ctx, l.message),
         (userModel) =>
             _ref.read(userProvider.notifier).update((state) => userModel));
   }
 
+  // Future signupUser(String username, String email, String password, String bio,
+  //     BuildContext ctx) async {
+  //   state = true;
+  //   print('that $state');
+  //   final user =
+  //       await _authRepository.signupUser(username, email, password, bio);
+  //   state = false;
+  //   print('that $state');
+  //   user.fold(
+  //       (l) => showSnackBar(ctx, l.message),
+  //       (userModel) =>
+  //           _ref.read(userProvider.notifier).update((state) => userModel));
+  // }
+}
+
+final signupAuthControllerProvider =
+    StateNotifierProvider<SignupAuthController, bool>(
+  (ref) => SignupAuthController(
+      authRepository: ref.watch(authRepositoryProvider), ref: ref),
+);
+
+class SignupAuthController extends StateNotifier<bool> {
+  final AuthRepository _authRepository;
+  final Ref _ref;
+  SignupAuthController(
+      {required AuthRepository authRepository, required Ref ref})
+      : _authRepository = authRepository,
+        _ref = ref,
+        super(false);
+
   Future signupUser(String username, String email, String password, String bio,
       BuildContext ctx) async {
     state = true;
-    print('that $state');
     final user =
         await _authRepository.signupUser(username, email, password, bio);
     state = false;
-    print('that $state');
     user.fold(
         (l) => showSnackBar(ctx, l.message),
         (userModel) =>
