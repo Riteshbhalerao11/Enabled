@@ -52,7 +52,7 @@ class AuthRepository {
           email: email, password: password);
       userModel = UserModel(
           username: username, email: email, password: password, bio: bio);
-      await _users.doc(userCred.user?.uid).set(userModel.toMap());
+      await _users.doc(userCred.user!.uid).set(userModel.toMap());
       return right(userModel);
     } on FirebaseException catch (e) {
       return left(Failure(e.message ?? "Something went wrong. Unknown error"));

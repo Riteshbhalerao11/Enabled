@@ -36,6 +36,7 @@ class _SignupFormState extends ConsumerState<SignupForm> {
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(authControllerProvider);
+    print(isLoading);
     return Form(
         key: _formkey,
         child: Column(

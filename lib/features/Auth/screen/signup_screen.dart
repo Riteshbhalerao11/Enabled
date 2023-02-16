@@ -5,6 +5,7 @@ import 'package:enabled_try_1/features/Auth/screen/widgets/title.dart';
 import 'package:enabled_try_1/features/Auth/screen/widgets/forms/signup_form.dart';
 import 'package:enabled_try_1/features/auth/controller/auth_controller.dart';
 import 'package:enabled_try_1/features/auth/screen/widgets/subtitle.dart';
+import 'package:routemaster/routemaster.dart';
 
 class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});
@@ -14,7 +15,7 @@ class SignupScreen extends ConsumerStatefulWidget {
 }
 
 class _SignupScreenState extends ConsumerState<SignupScreen> {
-  void submitData(
+  submitData(
     String username,
     String email,
     String password,
@@ -57,7 +58,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     alignment: Alignment.bottomCenter,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Routemaster.of(context).pop();
                       },
                       child: const Text("Back to login",
                           style: TextStyle(

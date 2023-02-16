@@ -39,8 +39,10 @@ class AuthController extends StateNotifier<bool> {
 
   Future loginUser(String email, String password, BuildContext ctx) async {
     state = true;
+    print("this $state");
     final user = await _authRepository.loginUser(email, password);
     state = false;
+    print("this $state");
     user.fold(
         (l) => showSnackBar(ctx, l.message),
         (userModel) =>
@@ -50,9 +52,11 @@ class AuthController extends StateNotifier<bool> {
   Future signupUser(String username, String email, String password, String bio,
       BuildContext ctx) async {
     state = true;
+    print('that $state');
     final user =
         await _authRepository.signupUser(username, email, password, bio);
     state = false;
+    print('that $state');
     user.fold(
         (l) => showSnackBar(ctx, l.message),
         (userModel) =>

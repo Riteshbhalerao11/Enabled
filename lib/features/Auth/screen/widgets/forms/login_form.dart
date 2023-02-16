@@ -1,6 +1,7 @@
 import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
   final void Function(String email, String password, BuildContext ctx)
@@ -33,6 +34,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(authControllerProvider);
+    print(isLoading);
     return Form(
         key: _formkey,
         child: Column(
@@ -161,7 +163,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/signup');
+                    Routemaster.of(context).push('/signup');
                   },
                   child: const Text(
                     "Sign up",
