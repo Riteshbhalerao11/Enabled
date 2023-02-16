@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:routemaster/routemaster.dart';
 
 class AddButton extends StatelessWidget {
   const AddButton({super.key});
@@ -6,7 +7,9 @@ class AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Routemaster.of(context).push('/add_post');
+        },
         icon: const Icon(
           Icons.add_circle,
           color: Colors.black,

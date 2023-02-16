@@ -35,7 +35,6 @@ class _LoginFormState extends ConsumerState<LoginForm> {
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(authControllerProvider);
-    print(isLoading);
     return Form(
         key: _formkey,
         child: Column(
@@ -43,65 +42,77 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextFormField(
-                validator: (value) {
-                  if (value == null || !value.contains('@')) {
-                    return "Please enter valid email address";
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.emailAddress,
-                style: const TextStyle(
-                    fontFamily: 'Lora', fontSize: 16, color: Color(0xFF454545)),
-                decoration: InputDecoration(
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  isDense: true,
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "User name",
-                  border: defaultBorder,
-                  enabledBorder: defaultBorder,
-                  focusedBorder: defaultBorder,
-                  errorStyle:
-                      const TextStyle(color: Colors.white, fontSize: 16),
+              child: Semantics(
+                excludeSemantics: true,
+                label: "Email address input box. Double tap to activate",
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || !value.contains('@')) {
+                      return "Please enter valid email address";
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  style: const TextStyle(
+                      fontFamily: 'Lora',
+                      fontSize: 16,
+                      color: Color(0xFF454545)),
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
+                    isDense: true,
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: "Email address",
+                    border: defaultBorder,
+                    enabledBorder: defaultBorder,
+                    focusedBorder: defaultBorder,
+                    errorStyle:
+                        const TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                  onSaved: (newValue) {
+                    _userEmail = newValue!;
+                  },
                 ),
-                onSaved: (newValue) {
-                  _userEmail = newValue!;
-                },
               ),
             ),
             const SizedBox(height: 16),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextFormField(
-                validator: (value) {
-                  if (value == null || value.length < 7) {
-                    return "Invalid Password";
-                  }
-                  return null;
-                },
-                style: const TextStyle(
-                    fontFamily: 'Lora', fontSize: 16, color: Color(0xFF454545)),
-                decoration: InputDecoration(
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  isDense: true,
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "Password",
-                  border: defaultBorder,
-                  enabledBorder: defaultBorder,
-                  focusedBorder: defaultBorder,
-                  errorStyle: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
+              child: Semantics(
+                excludeSemantics: true,
+                label: "Password input box. Double tap to activate",
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.length < 7) {
+                      return "Invalid Password";
+                    }
+                    return null;
+                  },
+                  style: const TextStyle(
+                      fontFamily: 'Lora',
+                      fontSize: 16,
+                      color: Color(0xFF454545)),
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
+                    isDense: true,
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: "Password",
+                    border: defaultBorder,
+                    enabledBorder: defaultBorder,
+                    focusedBorder: defaultBorder,
+                    errorStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
                   ),
+                  obscureText: true,
+                  onSaved: (newValue) {
+                    _userPassword = newValue!;
+                  },
                 ),
-                obscureText: true,
-                onSaved: (newValue) {
-                  _userPassword = newValue!;
-                },
               ),
             ),
             const SizedBox(height: 16),

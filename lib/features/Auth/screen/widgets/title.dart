@@ -5,16 +5,19 @@ class TitleWidg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      "Enabled",
-      style: TextStyle(
-        height: 0.5,
-        fontSize: 72,
-        color: Theme.of(context).textTheme.titleLarge?.color,
-        fontFamily: 'Pacifico',
-        shadows: const [
-          Shadow(offset: Offset(1, 5), blurRadius: 4.0, color: Colors.black26)
-        ],
+    return Semantics(
+      label: "App logo",
+      child: Text(
+        "Enabled",
+        style: TextStyle(
+          height: 0.5,
+          fontSize: 72,
+          color: Theme.of(context).textTheme.titleLarge?.color,
+          fontFamily: 'Pacifico',
+          shadows: const [
+            Shadow(offset: Offset(1, 5), blurRadius: 4.0, color: Colors.black26)
+          ],
+        ),
       ),
     );
   }

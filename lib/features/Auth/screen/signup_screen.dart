@@ -42,11 +42,18 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const TitleWidg(),
-                  const SizedBox(
-                    height: 12,
+                  MergeSemantics(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        TitleWidg(),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Tagline(),
+                      ],
+                    ),
                   ),
-                  const Tagline(),
                   const SizedBox(height: 32),
                   SignupForm(submitData),
                 ],

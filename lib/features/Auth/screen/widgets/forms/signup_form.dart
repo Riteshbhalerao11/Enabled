@@ -43,138 +43,162 @@ class _SignupFormState extends ConsumerState<SignupForm> {
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextFormField(
-                validator: (value) {
-                  if (value == null || !value.contains('@')) {
-                    return "Invalid Email address";
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.emailAddress,
-                style: const TextStyle(
-                    fontFamily: 'Lora', fontSize: 16, color: Color(0xFF454545)),
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "Email address",
-                  border: defaultBorder,
-                  enabledBorder: defaultBorder,
-                  focusedBorder: defaultBorder,
-                  errorStyle: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-                onSaved: (newValue) {
-                  _userEmail = newValue!;
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.trim() == '') {
-                    return "Please enter username";
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.emailAddress,
-                style: const TextStyle(
-                    fontFamily: 'Lora', fontSize: 16, color: Color(0xFF454545)),
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "User name",
-                  border: defaultBorder,
-                  enabledBorder: defaultBorder,
-                  focusedBorder: defaultBorder,
-                  errorStyle: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-                onSaved: (newValue) {
-                  _userName = newValue!;
-                },
-              ),
-            ),
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextFormField(
-                validator: (value) {
-                  if (value == null || value.length < 7) {
-                    return "Invalid Password";
-                  }
-                  return null;
-                },
-                style: const TextStyle(
-                    fontFamily: 'Lora', fontSize: 16, color: Color(0xFF454545)),
-                obscureText: true,
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "Password",
-                  border: defaultBorder,
-                  enabledBorder: defaultBorder,
-                  focusedBorder: defaultBorder,
-                  errorStyle: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-                onSaved: (newValue) {
-                  _userPassword = newValue!;
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.trim() == '') {
-                    return "Please enter bio";
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.emailAddress,
-                maxLines: 3,
-                style: const TextStyle(
-                    fontFamily: 'Lora', fontSize: 16, color: Color(0xFF454545)),
-                decoration: InputDecoration(
+              child: Semantics(
+                excludeSemantics: true,
+                label: "Email address input box. Double tap to activate",
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || !value.contains('@')) {
+                      return "Invalid Email address";
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  style: const TextStyle(
+                      fontFamily: 'Lora',
+                      fontSize: 16,
+                      color: Color(0xFF454545)),
+                  decoration: InputDecoration(
                     isDense: true,
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 10),
                     filled: true,
                     fillColor: Colors.white,
-                    hintText: "Enter your Bio",
+                    hintText: "Email address",
                     border: defaultBorder,
                     enabledBorder: defaultBorder,
                     focusedBorder: defaultBorder,
-                    errorBorder: defaultBorder,
                     errorStyle: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
-                    )),
-                onSaved: (newValue) {
-                  _userBio = newValue!;
-                },
+                    ),
+                  ),
+                  onSaved: (newValue) {
+                    _userEmail = newValue!;
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Semantics(
+                excludeSemantics: true,
+                label: "User name input box. Double tap to activate",
+                child: TextFormField(
+                  validator: (value) {
+                    if (value!.trim() == '') {
+                      return "Please enter username";
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  style: const TextStyle(
+                      fontFamily: 'Lora',
+                      fontSize: 16,
+                      color: Color(0xFF454545)),
+                  decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: "User name",
+                    border: defaultBorder,
+                    enabledBorder: defaultBorder,
+                    focusedBorder: defaultBorder,
+                    errorStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                  onSaved: (newValue) {
+                    _userName = newValue!;
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Semantics(
+                excludeSemantics: true,
+                label: "Password input box. Double tap to activate",
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.length < 7) {
+                      return "Invalid Password";
+                    }
+                    return null;
+                  },
+                  style: const TextStyle(
+                      fontFamily: 'Lora',
+                      fontSize: 16,
+                      color: Color(0xFF454545)),
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: "Password",
+                    border: defaultBorder,
+                    enabledBorder: defaultBorder,
+                    focusedBorder: defaultBorder,
+                    errorStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                  onSaved: (newValue) {
+                    _userPassword = newValue!;
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Semantics(
+                excludeSemantics: true,
+                label: "Bio input box. Double tap to activate",
+                child: TextFormField(
+                  validator: (value) {
+                    if (value!.trim() == '') {
+                      return "Please enter bio";
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  maxLines: 3,
+                  style: const TextStyle(
+                      fontFamily: 'Lora',
+                      fontSize: 16,
+                      color: Color(0xFF454545)),
+                  decoration: InputDecoration(
+                      isDense: true,
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 10),
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: "Enter your Bio",
+                      border: defaultBorder,
+                      enabledBorder: defaultBorder,
+                      focusedBorder: defaultBorder,
+                      errorBorder: defaultBorder,
+                      errorStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      )),
+                  onSaved: (newValue) {
+                    _userBio = newValue!;
+                  },
+                ),
               ),
             ),
             const SizedBox(height: 16),
