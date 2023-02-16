@@ -1,6 +1,6 @@
 # ENABLED
 
-Enabled is a community platform app specially designed for Persons With Disabilities (PWDs) and also a startup idea under E-Yantra Innovation Challenge 2022-23.
+Enabled is a community platform app specially designed for People With Disabilities (PWDs) and also a startup idea under E-Yantra Innovation Challenge 2022-23.
 
 This project is still in early stages of development.
 
