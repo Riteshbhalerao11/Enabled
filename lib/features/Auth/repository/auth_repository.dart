@@ -35,6 +35,7 @@ class AuthRepository {
     try {
       UserCredential userCred = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
+      print(userCred.user!.uid);
       userModel = await getUserData(userCred.user!.uid).first;
       return right(userModel);
     } on FirebaseException catch (e) {
@@ -56,7 +57,14 @@ class AuthRepository {
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       userModel = UserModel(
-          username: username, email: email, password: password, bio: bio);
+          username: username,
+          email: email,
+          firstName: ' ',
+          password: password,
+          bio: bio,
+          points: 0,
+          profilepic: " ",
+          friends: []);
       await _users.doc(userCred.user!.uid).set(userModel.toMap());
       return right(userModel);
     } on FirebaseException catch (e) {

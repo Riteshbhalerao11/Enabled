@@ -1,47 +1,71 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
+import 'dart:core';
 
 class UserModel {
   final String username;
   final String email;
+  final String firstName;
   final String password;
   final String bio;
-  UserModel({
-    required this.username,
-    required this.email,
-    required this.password,
-    required this.bio,
-  });
+  final int points;
+  final String profilepic;
+  final List<String> friends;
+
+  UserModel(
+      {required this.username,
+      required this.email,
+      required this.password,
+      required this.bio,
+      required this.points,
+      required this.profilepic,
+      required this.friends,
+      required this.firstName});
 
   UserModel copyWith({
     String? username,
     String? email,
+    String? firstName,
     String? password,
     String? bio,
+    int? points,
+    String? profilepic,
+    List<String>? friends,
   }) {
     return UserModel(
-      username: username ?? this.username,
-      email: email ?? this.email,
-      password: password ?? this.password,
-      bio: bio ?? this.bio,
-    );
+        username: username ?? this.username,
+        email: email ?? this.email,
+        password: password ?? this.password,
+        bio: bio ?? this.bio,
+        points: points ?? this.points,
+        profilepic: profilepic ?? this.profilepic,
+        friends: friends ?? this.friends,
+        firstName: firstName ?? this.firstName);
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'username': username,
+      'firstName': firstName,
       'email': email,
       'password': password,
       'bio': bio,
+      'points': points,
+      'profilepic': profilepic,
+      'friends': friends,
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      username: map['username'] as String,
-      email: map['email'] as String,
-      password: map['password'] as String,
-      bio: map['bio'] as String,
+      username: map['username'] ?? "",
+      email: map['email'] ?? "",
+      firstName: map['firstName'] ?? '',
+      password: map['password'] ?? "",
+      bio: map['bio'] ?? "",
+      points: map['points']?.toInt() ?? 0,
+      profilepic: map['profilepic'] ?? "",
+      friends: List<String>.from(map['friends'] as List),
     );
   }
 
@@ -52,7 +76,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(username: $username, email: $email, password: $password, bio: $bio)';
+    return 'UserModel(username: $username, email: $email, password: $password, bio: $bio, points: $points, profilepic: $profilepic, friends: $friends)';
   }
 
   @override
@@ -62,7 +86,10 @@ class UserModel {
     return other.username == username &&
         other.email == email &&
         other.password == password &&
-        other.bio == bio;
+        other.bio == bio &&
+        other.points == points &&
+        other.profilepic == profilepic &&
+        listEquals(other.friends, friends);
   }
 
   @override
@@ -70,6 +97,9 @@ class UserModel {
     return username.hashCode ^
         email.hashCode ^
         password.hashCode ^
-        bio.hashCode;
+        bio.hashCode ^
+        points.hashCode ^
+        profilepic.hashCode ^
+        friends.hashCode;
   }
 }

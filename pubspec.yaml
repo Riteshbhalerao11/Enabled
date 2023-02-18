@@ -44,6 +44,7 @@ dependencies:
   go_router: ^6.0.6
   routemaster: ^1.0.1
   page_transition: "^2.0.9"
+  image_card: ^0.0.4
 
 dev_dependencies:
   flutter_test:
@@ -104,6 +105,12 @@ flutter:
     - family: SecularOne
       fonts:
         - asset: assets/fonts/SecularOne-Regular.ttf
+    - family: Signika
+      fonts:
+        - asset: assets/fonts/Signika-Regular.ttf
+    - family: PTSans
+      fonts:
+        - asset: assets/fonts/PTSans-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

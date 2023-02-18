@@ -91,6 +91,9 @@ class _SignupFormState extends ConsumerState<SignupForm> {
                   validator: (value) {
                     if (value!.trim() == '') {
                       return "Please enter username";
+                    } else if (value.trim() != value.trim().toLowerCase() &&
+                        value.trim().contains(" ")) {
+                      return "Enter valid username";
                     }
                     return null;
                   },

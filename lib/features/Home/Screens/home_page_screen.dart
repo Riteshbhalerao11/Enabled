@@ -16,18 +16,10 @@ class HomePage extends ConsumerWidget {
         appBar: AppBar(
           elevation: 0,
           leading: const AddButton(),
-          actions: [
-            const MessagesButton(),
-            const NotificationButton(),
-            const SettingsButton(),
-            TextButton(
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
-                },
-                child: const Text(
-                  "Sign out",
-                  style: TextStyle(color: Colors.black),
-                ))
+          actions: const [
+            MessagesButton(),
+            NotificationButton(),
+            SettingsButton(),
           ],
         ),
         body: CustomScrollView(
