@@ -16,6 +16,11 @@ final authRepoGetUserData = StreamProvider.family((ref, String uid) {
   return authController.getUserData(uid);
 });
 
+final authRepoGetActiveUserData = FutureProvider((ref) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.getActiveUserData();
+});
+
 final userProvider = StateProvider<UserModel?>((ref) => null);
 
 final authControllerProvider = StateNotifierProvider<AuthController, bool>(
@@ -35,6 +40,11 @@ class AuthController extends StateNotifier<bool> {
 
   Stream<UserModel> getUserData(String uid) {
     return _authRepository.getUserData(uid);
+  }
+
+  Future<UserModel?> getActiveUserData() async {
+    UserModel? user = await _authRepository.getCurrentUserData();
+    return user;
   }
 
   Future loginUser(String email, String password, BuildContext ctx) async {
@@ -77,11 +87,11 @@ class SignupAuthController extends StateNotifier<bool> {
         _ref = ref,
         super(false);
 
-  Future signupUser(String username, String email, String password, String bio,
+  Future signupUser(String username, String email, String password, String bio, String name,
       BuildContext ctx) async {
     state = true;
     final user =
-        await _authRepository.signupUser(username, email, password, bio);
+        await _authRepository.signupUser(username, email, password, bio, name);
     state = false;
     user.fold(
         (l) => showSnackBar(ctx, l.message),

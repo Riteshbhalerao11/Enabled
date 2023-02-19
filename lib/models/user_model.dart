@@ -6,11 +6,13 @@ class UserModel {
   final String email;
   final String password;
   final String bio;
+  final String name;
   UserModel({
     required this.username,
     required this.email,
     required this.password,
     required this.bio,
+    required this.name,
   });
 
   UserModel copyWith({
@@ -18,12 +20,14 @@ class UserModel {
     String? email,
     String? password,
     String? bio,
+    String? name,
   }) {
     return UserModel(
       username: username ?? this.username,
       email: email ?? this.email,
       password: password ?? this.password,
       bio: bio ?? this.bio,
+      name: name ?? this.name,
     );
   }
 
@@ -33,6 +37,7 @@ class UserModel {
       'email': email,
       'password': password,
       'bio': bio,
+      'name': name,
     };
   }
 
@@ -42,6 +47,7 @@ class UserModel {
       email: map['email'] as String,
       password: map['password'] as String,
       bio: map['bio'] as String,
+      name: map['name'] as String,
     );
   }
 
@@ -52,7 +58,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(username: $username, email: $email, password: $password, bio: $bio)';
+    return 'UserModel(username: $username, email: $email, password: $password, bio: $bio, name: $name)';
   }
 
   @override
@@ -62,7 +68,8 @@ class UserModel {
     return other.username == username &&
         other.email == email &&
         other.password == password &&
-        other.bio == bio;
+        other.bio == bio &&
+        other.name == name;
   }
 
   @override
@@ -70,6 +77,7 @@ class UserModel {
     return username.hashCode ^
         email.hashCode ^
         password.hashCode ^
-        bio.hashCode;
+        bio.hashCode ^
+        name.hashCode;
   }
 }

@@ -30,6 +30,17 @@ class AuthRepository {
   CollectionReference get _users =>
       _firestore.collection(FireBaseConstants.usersCollection);
 
+  Future<UserModel?> getCurrentUserData() async {
+    var userData =
+        await _users.doc(_auth.currentUser?.uid).get();
+
+    UserModel? user;
+    if (userData.data() != null) {
+      user = UserModel.fromMap(userData.data()! as Map<String, dynamic>);
+    }
+    return user;
+  }
+
   FutureEither<UserModel> loginUser(String email, String password) async {
     UserModel userModel;
     try {
@@ -45,7 +56,7 @@ class AuthRepository {
   }
 
   FutureEither<UserModel> signupUser(
-      String username, String email, String password, String bio) async {
+      String username, String email, String password, String bio, String name) async {
     UserModel userModel;
     try {
       final querySnapshot =
@@ -56,7 +67,7 @@ class AuthRepository {
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       userModel = UserModel(
-          username: username, email: email, password: password, bio: bio);
+          username: username, email: email, password: password, bio: bio, name: name);
       await _users.doc(userCred.user!.uid).set(userModel.toMap());
       return right(userModel);
     } on FirebaseException catch (e) {

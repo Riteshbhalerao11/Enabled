@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class SignupForm extends ConsumerStatefulWidget {
   const SignupForm(this.submitData, {super.key});
   final void Function(
-      String username, String email, String password, String bio) submitData;
+      String username, String email, String password, String bio, String name) submitData;
   @override
   ConsumerState<SignupForm> createState() => _SignupFormState();
 }
@@ -16,6 +16,7 @@ class _SignupFormState extends ConsumerState<SignupForm> {
   String _userPassword = '';
   String _userBio = '';
   String _userName = '';
+  String _nameOfUser = '';
 
   final defaultBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(20),
@@ -28,7 +29,7 @@ class _SignupFormState extends ConsumerState<SignupForm> {
       if (isValid) {
         _formkey.currentState?.save();
         widget.submitData(_userName.trim(), _userEmail.trim(),
-            _userPassword.trim(), _userBio.trim());
+            _userPassword.trim(), _userBio.trim(), _nameOfUser.trim());
       }
     }
   }
@@ -86,7 +87,7 @@ class _SignupFormState extends ConsumerState<SignupForm> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Semantics(
                 excludeSemantics: true,
-                label: "User name input box. Double tap to activate",
+                label: "Username input box. Double tap to activate",
                 child: TextFormField(
                   validator: (value) {
                     if (value!.trim() == '') {
@@ -116,6 +117,45 @@ class _SignupFormState extends ConsumerState<SignupForm> {
                   ),
                   onSaved: (newValue) {
                     _userName = newValue!;
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Semantics(
+                excludeSemantics: true,
+                label: "Name input box. Double tap to activate",
+                child: TextFormField(
+                  validator: (value) {
+                    if (value!.trim() == '') {
+                      return "Please enter name";
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.name,
+                  style: const TextStyle(
+                      fontFamily: 'Lora',
+                      fontSize: 16,
+                      color: Color(0xFF454545)),
+                  decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: "Name",
+                    border: defaultBorder,
+                    enabledBorder: defaultBorder,
+                    focusedBorder: defaultBorder,
+                    errorStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                  onSaved: (newValue) {
+                    _nameOfUser = newValue!;
                   },
                 ),
               ),

@@ -1,5 +1,5 @@
-import 'package:enabled_try_1/core/Providers/firebase.dart';
-import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
+// import 'package:enabled_try_1/core/Providers/firebase.dart';
+// import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:enabled_try_1/features/Home/widgets/Buttons/nav_buttons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,9 @@ class HomePage extends ConsumerWidget {
           elevation: 0,
           leading: const AddButton(),
           actions: [
-            const MessagesButton(),
+            MessagesButton(
+              uid: uid.toString(),
+            ),
             const NotificationButton(),
             const SettingsButton(),
             TextButton(
