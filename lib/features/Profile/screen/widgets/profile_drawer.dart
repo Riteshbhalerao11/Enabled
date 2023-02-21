@@ -1,9 +1,11 @@
+import 'package:enabled_try_1/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 
 class ProfileDrawer extends StatelessWidget {
-  const ProfileDrawer({super.key});
+  const ProfileDrawer({super.key, required this.user});
+  final UserModel user;
   Future<dynamic> logout(BuildContext context) async {
     Routemaster.of(context).popUntil((route) => false);
     await FirebaseAuth.instance.signOut();
@@ -40,24 +42,6 @@ class ProfileDrawer extends StatelessWidget {
                   letterSpacing: 1.2),
             ),
           ),
-          ListTile(
-            onTap: () {
-              Routemaster.of(context).push("/edit_profile");
-            },
-            splashColor: Theme.of(context).colorScheme.onPrimary,
-            shape: const Border(bottom: BorderSide(color: Colors.blueGrey)),
-            leading: Icon(
-              Icons.edit,
-              color: Theme.of(context).colorScheme.onSecondary,
-            ),
-            title: const Text(
-              "My Profile",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: "Montserrat",
-                  letterSpacing: 1.2),
-            ),
-          )
         ],
       ),
     );

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class MediaButton extends StatelessWidget {
   const MediaButton({super.key, required this.path, required this.title});

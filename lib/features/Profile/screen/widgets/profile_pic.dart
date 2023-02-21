@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ProfilePicture extends StatelessWidget {
@@ -14,5 +15,48 @@ class ProfilePicture extends StatelessWidget {
       height: 300,
       width: double.infinity,
     );
+  }
+}
+
+class FilledPictureUrl extends StatelessWidget {
+  const FilledPictureUrl({super.key, required this.url});
+  final String url;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white70,
+        ),
+        height: 300,
+        width: double.infinity,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.network(
+            url,
+            fit: BoxFit.cover,
+          ),
+        ));
+  }
+}
+
+class FilledPicture extends StatelessWidget {
+  const FilledPicture({super.key, required this.img});
+  final File img;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white70,
+        ),
+        height: 300,
+        width: double.infinity,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.file(img, fit: BoxFit.contain),
+        ));
   }
 }

@@ -10,23 +10,19 @@ class BioBox extends StatelessWidget {
       child: SizedBox(
         height: 100,
         width: double.infinity,
-        child: Stack(
-          children: [
-            Container(
-              height: 100,
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-              ),
-              child: Text(
-                bio,
-                style: const TextStyle(
-                    color: Colors.black, fontSize: 16, fontFamily: "PTSans"),
-              ),
-            ),
-          ],
+        child: Container(
+          height: 100,
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+          ),
+          child: Text(
+            bio,
+            style: const TextStyle(
+                color: Colors.black, fontSize: 16, fontFamily: "PTSans"),
+          ),
         ),
       ),
     );

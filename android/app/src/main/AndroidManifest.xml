@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.enabled_try_1">
+    <uses-permission android:name="android.permission.VIBRATE" />
    <application
         android:label="enabled_try_1"
         android:name="${applicationName}"

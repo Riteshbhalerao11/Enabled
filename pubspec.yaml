@@ -45,6 +45,7 @@ dependencies:
   routemaster: ^1.0.1
   page_transition: "^2.0.9"
   image_card: ^0.0.4
+  file_picker: ^5.2.5
 
 dev_dependencies:
   flutter_test:

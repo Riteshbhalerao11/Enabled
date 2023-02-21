@@ -1,12 +1,16 @@
 import 'package:enabled_try_1/core/Common/error_text.dart';
 import 'package:enabled_try_1/core/Common/loader.dart';
+
 import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/bio_box.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/info_bar.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_buttons.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_drawer.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_pic.dart';
+import 'package:enabled_try_1/features/edit_profile/screens/edit_profile_screen.dart';
+import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:enabled_try_1/features/Home/widgets/Buttons/nav_buttons.dart';
@@ -30,7 +34,24 @@ class ProfilePage extends ConsumerWidget {
               body: Column(
                 children: [
                   const NavigationButtons(),
-                  const ProfilePicture(),
+                  if (user.profilepic == '')
+                    GestureDetector(
+                        onLongPress: () {
+                          HapticFeedback.heavyImpact();
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  EditProfileScreen(user: user, uid: uid),
+                            ),
+                          );
+                        },
+                        child: const ProfilePicture()),
+                  GestureDetector(
+                      onLongPress: () {
+                        HapticFeedback.heavyImpact();
+                        showDialogBox(context, "Edit Profile ? ", user, uid);
+                      },
+                      child: FilledPictureUrl(url: user.profilepic)),
                   const SizedBox(
                     height: 16,
                   ),
@@ -57,7 +78,9 @@ class ProfilePage extends ConsumerWidget {
                   )
                 ],
               ),
-              drawer: const ProfileDrawer(),
+              drawer: ProfileDrawer(
+                user: user,
+              ),
             );
           },
           error: (error, stackTrace) => ErrorText(error: error.toString()),

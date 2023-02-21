@@ -35,7 +35,6 @@ class AuthRepository {
     try {
       UserCredential userCred = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      print(userCred.user!.uid);
       userModel = await getUserData(userCred.user!.uid).first;
       return right(userModel);
     } on FirebaseException catch (e) {
@@ -77,5 +76,28 @@ class AuthRepository {
   Stream<UserModel> getUserData(String uid) {
     return _users.doc(uid).snapshots().map(
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+  }
+
+  FutureVoid editUser(UserModel user, String uid) async {
+    try {
+      return right(_users.doc(uid).update(user.toMap()));
+    } on FirebaseException catch (e) {
+      return left(Failure(e.toString()));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureVoid editBio(UserModel user, String uid, String prevBio) async {
+    if (user.bio == prevBio) {
+      return left(Failure("Bio unchanged"));
+    }
+    try {
+      return right(_users.doc(uid).update(user.toMap()));
+    } on FirebaseException catch (e) {
+      return left(Failure(e.toString()));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
   }
 }
