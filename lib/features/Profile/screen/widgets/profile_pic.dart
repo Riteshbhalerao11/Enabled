@@ -23,6 +23,7 @@ class FilledPictureUrl extends StatelessWidget {
   final String url;
   @override
   Widget build(BuildContext context) {
+    print("object");
     return Container(
         margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
         decoration: BoxDecoration(

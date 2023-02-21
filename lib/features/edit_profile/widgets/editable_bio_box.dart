@@ -1,7 +1,11 @@
 import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
+import 'package:enabled_try_1/features/edit_profile/repository/edit_provider.dart';
 import 'package:enabled_try_1/models/user_model.dart';
+import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
 class EditBioBox extends ConsumerStatefulWidget {
   const EditBioBox({super.key, required this.user, required this.uid});
@@ -13,17 +17,36 @@ class EditBioBox extends ConsumerStatefulWidget {
 
 class _EditBioBoxState extends ConsumerState<EditBioBox> {
   void save(UserModel user, String uid, String bio, BuildContext ctx) {
+    if (user.bio == bio) {
+      ref.read(editProvider.notifier).toggleState();
+      return;
+    }
     ref
         .watch(authControllerProvider.notifier)
         .editBio(user: user, uid: uid, bio: bio, ctx: ctx);
   }
 
+  late TextEditingController bioEditingController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    final String initBio = widget.user.bio;
+    super.initState();
+    bioEditingController = TextEditingController(text: initBio);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    bioEditingController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final String initBio = widget.user.bio;
     String bio;
     final isLoading = ref.watch(authControllerProvider);
-    final bioEditingController = TextEditingController(text: initBio);
     return Column(
       children: [
         Padding(
@@ -52,7 +75,9 @@ class _EditBioBoxState extends ConsumerState<EditBioBox> {
                 onFieldSubmitted: (value) {
                   bioEditingController.text = value;
                 },
-                maxLines: 5,
+                maxLines: 3,
+                maxLength: 48 * 3,
+                maxLengthEnforcement: MaxLengthEnforcement.enforced,
                 style: const TextStyle(
                     color: Colors.black, fontSize: 16, fontFamily: "PTSans"),
               ),

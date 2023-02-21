@@ -1,7 +1,9 @@
 import 'package:enabled_try_1/core/Constants/failure.dart';
 import 'package:enabled_try_1/core/Constants/typedef.dart';
+import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -44,8 +46,8 @@ class AuthRepository {
     }
   }
 
-  FutureEither<UserModel> signupUser(
-      String username, String email, String password, String bio) async {
+  FutureEither<UserModel> signupUser(String username, String email,
+      String password, String firstname, String bio) async {
     UserModel userModel;
     try {
       final querySnapshot =
@@ -56,9 +58,10 @@ class AuthRepository {
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       userModel = UserModel(
+          uid: userCred.user!.uid,
           username: username,
           email: email,
-          firstName: ' ',
+          firstName: firstname,
           password: password,
           bio: bio,
           points: 0,
@@ -76,6 +79,19 @@ class AuthRepository {
   Stream<UserModel> getUserData(String uid) {
     return _users.doc(uid).snapshots().map(
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+  }
+
+  Stream<UserModel> getUserByName(String username) {
+    return _users.where('username', isEqualTo: username).snapshots().map(
+      (snapshot) {
+        if (snapshot.docs.isNotEmpty) {
+          return UserModel.fromMap(
+              snapshot.docs.first.data() as Map<String, dynamic>);
+        } else {
+          throw Exception("User not found");
+        }
+      },
+    );
   }
 
   FutureVoid editUser(UserModel user, String uid) async {
@@ -99,5 +115,27 @@ class AuthRepository {
     } catch (e) {
       return left(Failure(e.toString()));
     }
+  }
+
+  Stream<List<UserModel>> searchUsers(String query) {
+    return _users
+        .where(
+          'username',
+          isGreaterThanOrEqualTo: query.isEmpty ? 0 : query,
+          isLessThan: query.isEmpty
+              ? null
+              : query.substring(0, query.length - 1) +
+                  String.fromCharCode(
+                    query.codeUnitAt(query.length - 1) + 1,
+                  ),
+        )
+        .snapshots()
+        .map((event) {
+      List<UserModel> users = [];
+      for (var user in event.docs) {
+        users.add(UserModel.fromMap(user.data() as Map<String, dynamic>));
+      }
+      return users;
+    });
   }
 }

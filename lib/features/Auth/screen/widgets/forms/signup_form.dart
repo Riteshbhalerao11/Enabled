@@ -1,11 +1,12 @@
 import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SignupForm extends ConsumerStatefulWidget {
   const SignupForm(this.submitData, {super.key});
-  final void Function(
-      String username, String email, String password, String bio) submitData;
+  final void Function(String username, String email, String password,
+      String firstname, String bio) submitData;
   @override
   ConsumerState<SignupForm> createState() => _SignupFormState();
 }
@@ -16,6 +17,7 @@ class _SignupFormState extends ConsumerState<SignupForm> {
   String _userPassword = '';
   String _userBio = '';
   String _userName = '';
+  String _firstName = '';
 
   final defaultBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(20),
@@ -28,7 +30,7 @@ class _SignupFormState extends ConsumerState<SignupForm> {
       if (isValid) {
         _formkey.currentState?.save();
         widget.submitData(_userName.trim(), _userEmail.trim(),
-            _userPassword.trim(), _userBio.trim());
+            _userPassword.trim(), _firstName.trim(), _userBio.trim());
       }
     }
   }
@@ -91,7 +93,7 @@ class _SignupFormState extends ConsumerState<SignupForm> {
                   validator: (value) {
                     if (value!.trim() == '') {
                       return "Please enter username";
-                    } else if (value.trim() != value.trim().toLowerCase() &&
+                    } else if (value.trim() != value.trim().toLowerCase() ||
                         value.trim().contains(" ")) {
                       return "Enter valid username";
                     }
@@ -158,6 +160,51 @@ class _SignupFormState extends ConsumerState<SignupForm> {
                   ),
                   onSaved: (newValue) {
                     _userPassword = newValue!;
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Semantics(
+                excludeSemantics: true,
+                label: "First name input box. Double tap to activate",
+                child: TextFormField(
+                  validator: (value) {
+                    if (value!.trim() == '') {
+                      return "Please enter username";
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  maxLength: 20,
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                  style: const TextStyle(
+                      fontFamily: 'Lora',
+                      fontSize: 16,
+                      color: Color(0xFF454545)),
+                  decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: "First name",
+                    counterStyle:
+                        const TextStyle(color: Colors.white, fontSize: 14),
+                    border: defaultBorder,
+                    enabledBorder: defaultBorder,
+                    focusedBorder: defaultBorder,
+                    errorStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                  onSaved: (newValue) {
+                    _firstName = newValue!;
                   },
                 ),
               ),

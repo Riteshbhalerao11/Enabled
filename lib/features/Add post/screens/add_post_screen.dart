@@ -1,5 +1,5 @@
-import 'package:enabled_try_1/features/Home/widgets/Buttons/add_post_buttons.dart';
 import 'package:flutter/material.dart';
+import 'widgets/buttons.dart';
 
 class AddPostScreen extends StatelessWidget {
   const AddPostScreen({super.key});

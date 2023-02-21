@@ -20,11 +20,12 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     String username,
     String email,
     String password,
+    String firstname,
     String bio,
   ) async {
     ref
         .read(signupAuthControllerProvider.notifier)
-        .signupUser(username, email, password, bio, context);
+        .signupUser(username, email, password, firstname, bio, context);
   }
 
   @override

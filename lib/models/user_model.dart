@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'dart:core';
 
 class UserModel {
+  final String uid;
   final String username;
   final String email;
   final String firstName;
@@ -13,7 +14,8 @@ class UserModel {
   final List<String> friends;
 
   UserModel(
-      {required this.username,
+      {required this.uid,
+      required this.username,
       required this.email,
       required this.password,
       required this.bio,
@@ -23,6 +25,7 @@ class UserModel {
       required this.firstName});
 
   UserModel copyWith({
+    String? uid,
     String? username,
     String? email,
     String? firstName,
@@ -33,6 +36,7 @@ class UserModel {
     List<String>? friends,
   }) {
     return UserModel(
+        uid: uid ?? this.uid,
         username: username ?? this.username,
         email: email ?? this.email,
         password: password ?? this.password,
@@ -45,6 +49,7 @@ class UserModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'uid': uid,
       'username': username,
       'firstName': firstName,
       'email': email,
@@ -58,6 +63,7 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
+      uid: map['uid'] ?? '',
       username: map['username'] ?? "",
       email: map['email'] ?? "",
       firstName: map['firstName'] ?? '',
@@ -76,14 +82,15 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(username: $username, email: $email, password: $password, bio: $bio, points: $points, profilepic: $profilepic, friends: $friends)';
+    return 'UserModel(uid : $uid, username: $username, email: $email, password: $password, bio: $bio, points: $points, profilepic: $profilepic, friends: $friends)';
   }
 
   @override
   bool operator ==(covariant UserModel other) {
     if (identical(this, other)) return true;
 
-    return other.username == username &&
+    return other.uid == uid &&
+        other.username == username &&
         other.email == email &&
         other.password == password &&
         other.bio == bio &&

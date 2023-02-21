@@ -1,5 +1,6 @@
 import 'package:enabled_try_1/features/Add%20post/screens/add_post_screen.dart';
 import 'package:enabled_try_1/features/Auth/screen/signup_screen.dart';
+import 'package:enabled_try_1/features/Feed_page/screen/feed_screen.dart';
 import 'package:enabled_try_1/features/Profile/screen/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
@@ -21,6 +22,12 @@ final loggedinRoute = RouteMap(routes: {
   // '/signup': (_) => const MaterialPage(child: SignupScreen()),
   '/profile/:uid': (route) => TransitionPage(
       child: ProfilePage(
+        uid: route.pathParameters['uid']!,
+      ),
+      pushTransition: PageTransition.none,
+      popTransition: PageTransition.none),
+  '/feed_page/:uid': (route) => TransitionPage(
+      child: FeedScreen(
         uid: route.pathParameters['uid']!,
       ),
       pushTransition: PageTransition.none,

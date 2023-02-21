@@ -1,13 +1,11 @@
 import 'package:enabled_try_1/core/Common/error_text.dart';
 import 'package:enabled_try_1/core/Common/loader.dart';
-
 import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/bio_box.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/info_bar.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_buttons.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_drawer.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_pic.dart';
-import 'package:enabled_try_1/features/edit_profile/screens/edit_profile_screen.dart';
 import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,25 +31,21 @@ class ProfilePage extends ConsumerWidget {
               ),
               body: Column(
                 children: [
-                  const NavigationButtons(),
-                  if (user.profilepic == '')
+                  NavigationButtons(uid: uid),
+                  if (user.profilepic.length == 1)
                     GestureDetector(
                         onLongPress: () {
                           HapticFeedback.heavyImpact();
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  EditProfileScreen(user: user, uid: uid),
-                            ),
-                          );
+                          showDialogBox(context, "Edit Profile ? ", user, uid);
                         },
                         child: const ProfilePicture()),
-                  GestureDetector(
-                      onLongPress: () {
-                        HapticFeedback.heavyImpact();
-                        showDialogBox(context, "Edit Profile ? ", user, uid);
-                      },
-                      child: FilledPictureUrl(url: user.profilepic)),
+                  if (user.profilepic.length != 1)
+                    GestureDetector(
+                        onLongPress: () {
+                          HapticFeedback.heavyImpact();
+                          showDialogBox(context, "Edit Profile ? ", user, uid);
+                        },
+                        child: FilledPictureUrl(url: user.profilepic)),
                   const SizedBox(
                     height: 16,
                   ),
@@ -92,7 +86,10 @@ class ProfilePage extends ConsumerWidget {
 class NavigationButtons extends StatelessWidget {
   const NavigationButtons({
     super.key,
+    required this.uid,
   });
+
+  final String uid;
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +101,9 @@ class NavigationButtons extends StatelessWidget {
           child: NavButtons("HOME", false, "/"),
         ),
         Flexible(flex: 2, child: Container()),
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
-          child: NavButtons("FEED", false, "null"),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: NavButtons("FEED", false, "/feed_page/$uid"),
         ),
         Flexible(flex: 2, child: Container()),
         const Padding(

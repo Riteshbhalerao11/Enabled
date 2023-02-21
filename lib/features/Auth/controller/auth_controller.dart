@@ -10,6 +10,11 @@ import '../repository/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../utils/snackbar_&_fp.dart';
 
+final searchUsersProvider = StreamProvider.family((ref, String username) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.searchUsers(username);
+});
+
 final authStateChangeProvider = StreamProvider((ref) {
   final authController = ref.watch(authControllerProvider.notifier);
   return authController.authStateChanged;
@@ -18,6 +23,12 @@ final authStateChangeProvider = StreamProvider((ref) {
 final authRepoGetUserData = StreamProvider.family((ref, String uid) {
   final authController = ref.watch(authControllerProvider.notifier);
   return authController.getUserData(uid);
+});
+
+final getUserDataByName =
+    StreamProvider.family.autoDispose((ref, String username) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.getUserByName(username);
 });
 
 final userProvider = StateProvider<UserModel?>((ref) => null);
@@ -39,6 +50,10 @@ class AuthController extends StateNotifier<bool> {
 
   Stream<UserModel> getUserData(String uid) {
     return _authRepository.getUserData(uid);
+  }
+
+  Stream<UserModel> getUserByName(String username) {
+    return _authRepository.getUserByName(username);
   }
 
   Future loginUser(String email, String password, BuildContext ctx) async {
@@ -66,6 +81,10 @@ class AuthController extends StateNotifier<bool> {
       showSnackBar(ctx, "Bio updated !", false);
     });
   }
+
+  Stream<List<UserModel>> searchUsers(String query) {
+    return _authRepository.searchUsers(query);
+  }
 }
 
 final signupAuthControllerProvider =
@@ -89,11 +108,11 @@ class SignupAuthController extends StateNotifier<bool> {
         _storageRepository = storageRepository,
         super(false);
 
-  Future signupUser(String username, String email, String password, String bio,
-      BuildContext ctx) async {
+  Future signupUser(String username, String email, String password,
+      String firstname, String bio, BuildContext ctx) async {
     state = true;
-    final user =
-        await _authRepository.signupUser(username, email, password, bio);
+    final user = await _authRepository.signupUser(
+        username, email, password, firstname, bio);
     state = false;
     user.fold(
         (l) => showSnackBar(ctx, l.message, true),

@@ -1,5 +1,3 @@
-import 'package:enabled_try_1/core/Providers/firebase.dart';
-import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:enabled_try_1/features/Home/widgets/Buttons/nav_buttons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -34,9 +32,9 @@ class HomePage extends ConsumerWidget {
                   child: NavButtons("HOME", true, 'null'),
                 ),
                 Flexible(flex: 2, child: Container()),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: NavButtons("FEED", false, "null"),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: NavButtons("FEED", false, "/feed_page/$uid"),
                 ),
                 Flexible(flex: 2, child: Container()),
                 Padding(
