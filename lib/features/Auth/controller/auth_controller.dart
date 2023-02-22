@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:enabled_try_1/features/edit_profile/repository/edit_profile_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:routemaster/routemaster.dart';
 
 import '../../../models/user_model.dart';
@@ -79,6 +80,38 @@ class AuthController extends StateNotifier<bool> {
     res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
       Routemaster.of(ctx).pop();
       showSnackBar(ctx, "Bio updated !", false);
+    });
+  }
+
+  void sendFriendReq(String userUid, String uid, BuildContext ctx) async {
+    final res = await _authRepository.friendUser(userUid, uid);
+    res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
+      ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
+      showSnackBar(ctx, "Friend request sent", false);
+    });
+  }
+
+  void unFriend(String userUid, String uid, BuildContext ctx) async {
+    final res = await _authRepository.unFriendUser(userUid, uid);
+    res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
+      ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
+      showSnackBar(ctx, "Unfriend successful", false);
+    });
+  }
+
+  void acceptUserReq(String userUid, String uid, BuildContext ctx) async {
+    final res = await _authRepository.acceptUserReq(userUid, uid);
+    res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
+      ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
+      showSnackBar(ctx, "Friend added", false);
+    });
+  }
+
+  void cancelFriendRequest(String userUid, String uid, BuildContext ctx) async {
+    final res = await _authRepository.cancelUserReq(userUid, uid);
+    res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
+      ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
+      showSnackBar(ctx, "Request Cancelled", false);
     });
   }
 

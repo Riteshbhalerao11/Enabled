@@ -1,9 +1,7 @@
 import 'package:enabled_try_1/core/Constants/failure.dart';
 import 'package:enabled_try_1/core/Constants/typedef.dart';
-import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -58,15 +56,17 @@ class AuthRepository {
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       userModel = UserModel(
-          uid: userCred.user!.uid,
-          username: username,
-          email: email,
-          firstName: firstname,
-          password: password,
-          bio: bio,
-          points: 0,
-          profilepic: " ",
-          friends: []);
+        uid: userCred.user!.uid,
+        username: username,
+        email: email,
+        firstName: firstname,
+        password: password,
+        bio: bio,
+        points: 0,
+        profilepic: " ",
+        friends: [],
+        friendreqs: [],
+      );
       await _users.doc(userCred.user!.uid).set(userModel.toMap());
       return right(userModel);
     } on FirebaseException catch (e) {
@@ -137,5 +137,62 @@ class AuthRepository {
       }
       return users;
     });
+  }
+
+  FutureVoid friendUser(String userUid, String uid) async {
+    try {
+      return right(_users.doc(userUid).update({
+        "friendreqs": FieldValue.arrayUnion([uid]),
+      }));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureVoid unFriendUser(String userUid, String uid) async {
+    try {
+      await _users.doc(uid).update({
+        "friends": FieldValue.arrayRemove([userUid]),
+      });
+      return right(_users.doc(userUid).update({
+        "friends": FieldValue.arrayRemove([uid]),
+      }));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureVoid acceptUserReq(String userUid, String uid) async {
+    try {
+      await _users.doc(userUid).update({
+        "friends": FieldValue.arrayUnion([uid]),
+      });
+      return right(_users.doc(uid).update({
+        "friends": FieldValue.arrayUnion([userUid]),
+      }));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureVoid cancelUserReq(String userUid, String uid) async {
+    try {
+      await _users.doc(userUid).update({
+        "friendreqs": FieldValue.arrayRemove([uid]),
+      });
+      return right(_users.doc(uid).update({
+        "friendreqs": FieldValue.arrayRemove([userUid]),
+      }));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
   }
 }
