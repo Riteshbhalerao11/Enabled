@@ -1,9 +1,11 @@
 import 'package:enabled_try_1/models/user_model.dart';
+import 'package:enabled_try_1/utils/Theme/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
-class ProfileDrawer extends StatelessWidget {
+class ProfileDrawer extends ConsumerWidget {
   const ProfileDrawer({super.key, required this.user});
   final UserModel user;
   Future<dynamic> logout(BuildContext context) async {
@@ -11,9 +13,12 @@ class ProfileDrawer extends StatelessWidget {
     await FirebaseAuth.instance.signOut();
   }
 
-  void navigate() {}
+  void toggleTheme(BuildContext context, WidgetRef ref) {
+    ref.read(themeNotifierProvider.notifier).toggleTheme();
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Drawer(
       child: ListView(
         children: [
@@ -26,18 +31,36 @@ class ProfileDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
+              toggleTheme(context, ref);
+            },
+            splashColor: Theme.of(context).colorScheme.onPrimary,
+            shape: const Border(bottom: BorderSide(color: Colors.blueGrey)),
+            leading: Icon(
+              Icons.logout,
+              color: Theme.of(context).colorScheme.onSecondaryContainer,
+            ),
+            title: Text(
+              "Theme change",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                  fontFamily: "Montserrat",
+                  letterSpacing: 1.2),
+            ),
+          ),
+          ListTile(
+            onTap: () {
               logout(context);
             },
             splashColor: Theme.of(context).colorScheme.onPrimary,
             shape: const Border(bottom: BorderSide(color: Colors.blueGrey)),
             leading: Icon(
               Icons.logout,
-              color: Theme.of(context).colorScheme.onSecondary,
+              color: Theme.of(context).colorScheme.onSecondaryContainer,
             ),
-            title: const Text(
+            title: Text(
               "Logout",
               style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).colorScheme.onSecondaryContainer,
                   fontFamily: "Montserrat",
                   letterSpacing: 1.2),
             ),

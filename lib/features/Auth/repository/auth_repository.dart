@@ -67,6 +67,7 @@ class AuthRepository {
         friends: [],
         friendreqs: [],
       );
+
       await _users.doc(userCred.user!.uid).set(userModel.toMap());
       return right(userModel);
     } on FirebaseException catch (e) {
@@ -139,10 +140,11 @@ class AuthRepository {
     });
   }
 
-  FutureVoid friendUser(String userUid, String uid) async {
+  FutureVoid friendUser(
+      {required String otherUid, required String username}) async {
     try {
-      return right(_users.doc(userUid).update({
-        "friendreqs": FieldValue.arrayUnion([uid]),
+      return right(_users.doc(otherUid).update({
+        "friendreqs": FieldValue.arrayUnion([username]),
       }));
     } on FirebaseException catch (e) {
       throw e.message!;
@@ -151,13 +153,14 @@ class AuthRepository {
     }
   }
 
-  FutureVoid unFriendUser(String userUid, String uid) async {
+  FutureVoid unFriendUser(
+      {required String otherUid, required String myUid}) async {
     try {
-      await _users.doc(uid).update({
-        "friends": FieldValue.arrayRemove([userUid]),
+      await _users.doc(myUid).update({
+        "friends": FieldValue.arrayRemove([otherUid]),
       });
-      return right(_users.doc(userUid).update({
-        "friends": FieldValue.arrayRemove([uid]),
+      return right(_users.doc(otherUid).update({
+        "friends": FieldValue.arrayRemove([myUid]),
       }));
     } on FirebaseException catch (e) {
       throw e.message!;
@@ -166,13 +169,14 @@ class AuthRepository {
     }
   }
 
-  FutureVoid acceptUserReq(String userUid, String uid) async {
+  FutureVoid acceptUserReq(
+      {required String otherUid, required String myUid}) async {
     try {
-      await _users.doc(userUid).update({
-        "friends": FieldValue.arrayUnion([uid]),
+      await _users.doc(otherUid).update({
+        "friends": FieldValue.arrayUnion([myUid]),
       });
-      return right(_users.doc(uid).update({
-        "friends": FieldValue.arrayUnion([userUid]),
+      return right(_users.doc(myUid).update({
+        "friends": FieldValue.arrayUnion([otherUid]),
       }));
     } on FirebaseException catch (e) {
       throw e.message!;
@@ -181,13 +185,14 @@ class AuthRepository {
     }
   }
 
-  FutureVoid cancelUserReq(String userUid, String uid) async {
+  FutureVoid cancelUserReq(
+      {required String username, required String otherUid}) async {
     try {
-      await _users.doc(userUid).update({
-        "friendreqs": FieldValue.arrayRemove([uid]),
-      });
-      return right(_users.doc(uid).update({
-        "friendreqs": FieldValue.arrayRemove([userUid]),
+      // await _users.doc(userUid).update({
+      //   "friendreqs": FieldValue.arrayRemove([uid]),
+      // });
+      return right(_users.doc(otherUid).update({
+        "friendreqs": FieldValue.arrayRemove([username]),
       }));
     } on FirebaseException catch (e) {
       throw e.message!;

@@ -11,28 +11,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ViewOnlyProfilePage extends ConsumerWidget {
-  final String username;
-  ViewOnlyProfilePage({super.key, required this.username});
+  final String otherUsername;
+  final String myUsername;
+  ViewOnlyProfilePage(
+      {super.key, required this.otherUsername, required this.myUsername});
 
   void sendFriendReq(
-      WidgetRef ref, String uid, String userUid, BuildContext ctx) {
-    ref.read(authControllerProvider.notifier).sendFriendReq(uid, userUid, ctx);
-  }
-
-  void unFriend(WidgetRef ref, String uid, String userUid, BuildContext ctx) {
-    ref.read(authControllerProvider.notifier).unFriend(uid, userUid, ctx);
-  }
-
-  void cancelRequest(
-      WidgetRef ref, String uid, String userUid, BuildContext ctx) {
-    print("object");
+      WidgetRef ref, String myUid, String otherUid, BuildContext ctx) {
     ref
         .read(authControllerProvider.notifier)
-        .cancelFriendRequest(uid, userUid, ctx);
+        .sendFriendReq(otherUid: otherUid, username: myUsername, ctx: ctx);
   }
 
-  void showDialogBox(
-      BuildContext ctx, WidgetRef ref, String uid, String userUid) {
+  void unFriend(
+      WidgetRef ref, String myUid, String otherUid, BuildContext ctx) {
+    ref
+        .read(authControllerProvider.notifier)
+        .unFriend(myUid: myUid, otherUid: otherUid, ctx: ctx);
+  }
+
+  void cancelRequest(WidgetRef ref, String otherUid, BuildContext ctx) {
+    print("object");
+    ref.read(authControllerProvider.notifier).cancelFriendRequest(
+        otherUid: otherUid, username: myUsername, ctx: ctx);
+  }
+
+  void showDialogBox(BuildContext ctx, WidgetRef ref, String otherUid) {
     showDialog(
         context: ctx,
         builder: (ctx) {
@@ -54,7 +58,7 @@ class ViewOnlyProfilePage extends ConsumerWidget {
                     style: TextStyle(color: Colors.black),
                   ),
                   onPressed: () {
-                    cancelRequest(ref, uid, userUid, ctx);
+                    cancelRequest(ref, otherUid, ctx);
                   }),
             ],
           );
@@ -63,10 +67,9 @@ class ViewOnlyProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userUid = FirebaseAuth.instance.currentUser!.uid;
-    return ref.watch(getUserDataByName(username)).when(
+    final myUid = FirebaseAuth.instance.currentUser!.uid;
+    return ref.watch(getUserDataByName(otherUsername)).when(
           data: (user) {
-            print(user);
             return Scaffold(
               backgroundColor: Theme.of(context).colorScheme.primary,
               appBar: AppBar(
@@ -83,7 +86,7 @@ class ViewOnlyProfilePage extends ConsumerWidget {
                   const SizedBox(
                     height: 16,
                   ),
-                  if (user.uid != userUid)
+                  if (user.uid != myUid)
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Theme.of(context)
@@ -92,19 +95,19 @@ class ViewOnlyProfilePage extends ConsumerWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         onPressed: () {
-                          if (user.friends.contains(userUid)) {
-                            unFriend(ref, user.uid, userUid, context);
-                          } else if (user.friendreqs.contains(userUid)) {
-                            cancelRequest(ref, user.uid, userUid, context);
+                          if (user.friends.contains(myUsername)) {
+                            unFriend(ref, myUid, user.uid, context);
+                          } else if (user.friendreqs.contains(myUsername)) {
+                            cancelRequest(ref, user.uid, context);
                           } else {
-                            sendFriendReq(ref, user.uid, userUid, context);
+                            sendFriendReq(ref, myUid, user.uid, context);
                           }
                         },
                         child: FriendButton(
-                          userUid: userUid,
+                          username: myUsername,
                           user: user,
                         )),
-                  if (user.uid != userUid)
+                  if (user.uid != myUid)
                     const SizedBox(
                       height: 16,
                     ),
@@ -140,13 +143,13 @@ class ViewOnlyProfilePage extends ConsumerWidget {
 }
 
 class FriendButton extends StatelessWidget {
-  const FriendButton({super.key, required this.userUid, required this.user});
+  const FriendButton({super.key, required this.username, required this.user});
 
-  final String userUid;
+  final String username;
   final UserModel user;
   @override
   Widget build(BuildContext context) {
-    if (user.friends.contains(userUid)) {
+    if (user.friends.contains(username)) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Text(
@@ -157,7 +160,7 @@ class FriendButton extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSecondaryContainer),
         ),
       );
-    } else if (user.friendreqs.contains(userUid)) {
+    } else if (user.friendreqs.contains(username)) {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
         child: Text(

@@ -83,32 +83,48 @@ class AuthController extends StateNotifier<bool> {
     });
   }
 
-  void sendFriendReq(String userUid, String uid, BuildContext ctx) async {
-    final res = await _authRepository.friendUser(userUid, uid);
+  void sendFriendReq(
+      {required String otherUid,
+      required BuildContext ctx,
+      required String username}) async {
+    final res = await _authRepository.friendUser(
+        otherUid: otherUid, username: username);
     res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
       ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
       showSnackBar(ctx, "Friend request sent", false);
     });
   }
 
-  void unFriend(String userUid, String uid, BuildContext ctx) async {
-    final res = await _authRepository.unFriendUser(userUid, uid);
+  void unFriend(
+      {required String otherUid,
+      required String myUid,
+      required BuildContext ctx}) async {
+    final res =
+        await _authRepository.unFriendUser(otherUid: otherUid, myUid: myUid);
     res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
       ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
       showSnackBar(ctx, "Unfriend successful", false);
     });
   }
 
-  void acceptUserReq(String userUid, String uid, BuildContext ctx) async {
-    final res = await _authRepository.acceptUserReq(userUid, uid);
+  void acceptUserReq(
+      {required String otherUid,
+      required String myUid,
+      required BuildContext ctx}) async {
+    final res =
+        await _authRepository.acceptUserReq(otherUid: otherUid, myUid: myUid);
     res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
       ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
       showSnackBar(ctx, "Friend added", false);
     });
   }
 
-  void cancelFriendRequest(String userUid, String uid, BuildContext ctx) async {
-    final res = await _authRepository.cancelUserReq(userUid, uid);
+  void cancelFriendRequest(
+      {required String username,
+      required String otherUid,
+      required BuildContext ctx}) async {
+    final res = await _authRepository.cancelUserReq(
+        username: username, otherUid: otherUid);
     res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
       ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
       showSnackBar(ctx, "Request Cancelled", false);
