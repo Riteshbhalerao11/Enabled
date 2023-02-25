@@ -12,7 +12,6 @@ class UserModel {
   final int points;
   final String profilepic;
   final List<String> friends;
-  final List<String> friendreqs;
 
   UserModel(
       {required this.uid,
@@ -23,7 +22,6 @@ class UserModel {
       required this.points,
       required this.profilepic,
       required this.friends,
-      required this.friendreqs,
       required this.firstName});
 
   UserModel copyWith({
@@ -36,7 +34,6 @@ class UserModel {
     int? points,
     String? profilepic,
     List<String>? friends,
-    List<String>? friendreqs,
   }) {
     return UserModel(
         uid: uid ?? this.uid,
@@ -47,8 +44,7 @@ class UserModel {
         points: points ?? this.points,
         profilepic: profilepic ?? this.profilepic,
         friends: friends ?? this.friends,
-        firstName: firstName ?? this.firstName,
-        friendreqs: friendreqs ?? this.friendreqs);
+        firstName: firstName ?? this.firstName);
   }
 
   Map<String, dynamic> toMap() {
@@ -62,7 +58,6 @@ class UserModel {
       'points': points,
       'profilepic': profilepic,
       'friends': friends,
-      'friendreqs': friendreqs,
     };
   }
 
@@ -77,7 +72,6 @@ class UserModel {
       points: map['points']?.toInt() ?? 0,
       profilepic: map['profilepic'] ?? "",
       friends: List<String>.from(map['friends'] as List),
-      friendreqs: List<String>.from(map['friendreqs'] as List),
     );
   }
 
@@ -88,7 +82,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(uid : $uid, username: $username, email: $email, password: $password, bio: $bio, points: $points, profilepic: $profilepic, friends: $friends , friendreqs: $friendreqs)';
+    return 'UserModel(uid : $uid, username: $username, email: $email, password: $password, bio: $bio, points: $points, profilepic: $profilepic, friends: $friends)';
   }
 
   @override
@@ -102,8 +96,7 @@ class UserModel {
         other.bio == bio &&
         other.points == points &&
         other.profilepic == profilepic &&
-        listEquals(other.friends, friends) &&
-        listEquals(other.friendreqs, friendreqs);
+        listEquals(other.friends, friends);
   }
 
   @override

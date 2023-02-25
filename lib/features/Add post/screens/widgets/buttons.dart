@@ -1,9 +1,81 @@
+import 'dart:io';
+
+// import 'package:enabled_try_1/features/Add%20post/screens/add_video.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:enabled_try_1/features/Add post/screens/confirm_video.dart';
 
 class AddPostButton extends StatelessWidget {
   final String title;
   final bool isVideo;
   const AddPostButton({super.key, required this.title, required this.isVideo});
+
+  pickVideo(ImageSource src, BuildContext context) async {
+    final video = await ImagePicker().pickVideo(source: src);
+    if (video != null) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ConfirmScreen(
+            videoFile: File(video.path),
+            videoPath: video.path,
+          ),
+        ),
+      );
+    }
+  }
+
+  showOptionsDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => SimpleDialog(
+        children: [
+          SimpleDialogOption(
+            onPressed: () => pickVideo(ImageSource.gallery, context),
+            child: Row(
+              children: const [
+                Icon(Icons.image),
+                Padding(
+                  padding: EdgeInsets.all(7.0),
+                  child: Text(
+                    'Gallery',
+                    style: TextStyle(fontSize: 20, color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SimpleDialogOption(
+            onPressed: () => pickVideo(ImageSource.camera, context),
+            child: Row(
+              children: const [
+                Icon(Icons.camera_alt),
+                Padding(
+                  padding: EdgeInsets.all(7.0),
+                  child: Text('Camera',
+                      style: TextStyle(fontSize: 20, color: Colors.black)),
+                ),
+              ],
+            ),
+          ),
+          SimpleDialogOption(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Row(
+              children: const [
+                Icon(Icons.cancel),
+                Padding(
+                  padding: EdgeInsets.all(7.0),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(fontSize: 20, color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +120,11 @@ class AddPostButton extends StatelessWidget {
           )
         ],
       ),
-      onPressed: () {},
+      onPressed: () => showOptionsDialog(context),
     );
   }
 }
+// onPressed: () {
+//         Navigator.of(context).push(MaterialPageRoute(
+//             builder: (context) => showOptionsDialog(context)()));
+//       }

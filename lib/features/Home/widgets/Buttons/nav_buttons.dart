@@ -15,9 +15,8 @@ class NavButtons extends StatelessWidget {
         isSelected ? Null : Routemaster.of(context).push(page);
       },
       style: TextButton.styleFrom(
-        backgroundColor: isSelected
-            ? Theme.of(context).colorScheme.tertiary
-            : Theme.of(context).colorScheme.onPrimaryContainer,
+        backgroundColor:
+            isSelected ? Theme.of(context).colorScheme.tertiary : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         padding: const EdgeInsets.symmetric(vertical: 8),
         alignment: Alignment.center,

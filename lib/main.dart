@@ -47,7 +47,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     return ref.watch(authStateChangeProvider).when(
         data: (data) => MaterialApp.router(
               title: 'Enabled',
-              theme: ref.watch(themeNotifierProvider),
+              theme: Pallete.lightModeAppTheme,
               debugShowCheckedModeBanner: false,
               routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
                 if (data != null) {

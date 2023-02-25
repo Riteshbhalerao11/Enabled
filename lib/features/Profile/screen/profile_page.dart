@@ -26,9 +26,7 @@ class ProfilePage extends ConsumerWidget {
               appBar: AppBar(
                 title: Text(
                   user.firstName,
-                  style: TextStyle(
-                      color:
-                          Theme.of(context).colorScheme.onSecondaryContainer),
+                  style: const TextStyle(color: Colors.black),
                 ),
               ),
               body: Column(

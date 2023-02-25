@@ -6,18 +6,14 @@ class AddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0),
-      child: IconButton(
-          onPressed: () {
-            Routemaster.of(context).push('/add_post');
-          },
-          icon: Icon(
-            Icons.add_circle,
-            color: Theme.of(context).colorScheme.onSecondaryContainer,
-            size: 30,
-          )),
-    );
+    return IconButton(
+        onPressed: () {
+          Routemaster.of(context).push('/add_post');
+        },
+        icon: const Icon(
+          Icons.add_circle,
+          color: Colors.black,
+        ));
   }
 }
 

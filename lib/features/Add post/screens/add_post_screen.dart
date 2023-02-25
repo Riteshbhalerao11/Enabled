@@ -30,7 +30,7 @@ class AddPostScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(8.0),
             child: AddPostButton(
-              title: "Post video",
+              title: 'Post Video',
               isVideo: true,
             ),
           )

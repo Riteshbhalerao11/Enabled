@@ -13,9 +13,9 @@ class FeedScreen extends ConsumerWidget {
           elevation: 0,
           actions: [
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.search,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+                color: Colors.black,
               ),
               onPressed: () {
                 showSearch(context: context, delegate: SearchUserDelegate(ref));

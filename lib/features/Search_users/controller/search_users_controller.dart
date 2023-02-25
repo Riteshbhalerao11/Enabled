@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enabled_try_1/core/Common/error_text.dart';
+import 'package:enabled_try_1/core/Common/loader.dart';
 import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:enabled_try_1/features/Profile/screen/read_only_profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,29 +9,9 @@ class SearchUserDelegate extends SearchDelegate {
   final WidgetRef ref;
   SearchUserDelegate(this.ref);
 
-  // @override
-  // // TODO: implement searchFieldStyle
-  // TextStyle? get searchFieldStyle => const TextStyle(color: Colors.black);
   @override
-  ThemeData appBarTheme(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    final ColorScheme colorScheme = theme.colorScheme;
-    return theme.copyWith(
-      appBarTheme: AppBarTheme(
-          backgroundColor: colorScheme.brightness == Brightness.dark
-              ? Colors.grey[900]
-              : Colors.white,
-          iconTheme: theme.primaryIconTheme.copyWith(color: Colors.grey),
-          toolbarTextStyle: TextStyle(
-              color: Theme.of(context).colorScheme.onSecondaryContainer)),
-      inputDecorationTheme: searchFieldDecorationTheme ??
-          InputDecorationTheme(
-            hintStyle: TextStyle(
-                color: Theme.of(context).colorScheme.onSecondaryContainer),
-            border: InputBorder.none,
-          ),
-    );
-  }
+  // TODO: implement searchFieldStyle
+  TextStyle? get searchFieldStyle => const TextStyle(color: Colors.black);
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -58,17 +37,9 @@ class SearchUserDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    void navigate(String username) async {
-      final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-      final uid = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot userSnapshot =
-          await _firestore.collection('users').doc(uid).get();
-      final myUsername = await userSnapshot.get('username');
+    void navigate(String username) {
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ViewOnlyProfilePage(
-                otherUsername: username,
-                myUsername: myUsername,
-              )));
+          builder: (context) => ViewOnlyProfilePage(username: username)));
     }
 
     return ref.watch(searchUsersProvider(query)).when(
@@ -107,9 +78,7 @@ class SearchUserDelegate extends SearchDelegate {
                       user.username,
                       style: const TextStyle(color: Colors.black),
                     ),
-                    onTap: () => navigate(
-                      user.username,
-                    ),
+                    onTap: () => navigate(user.username),
                   );
                 },
               ),

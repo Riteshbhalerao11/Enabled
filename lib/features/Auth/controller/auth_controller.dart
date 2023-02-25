@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:enabled_try_1/features/edit_profile/repository/edit_profile_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:routemaster/routemaster.dart';
 
 import '../../../models/user_model.dart';
@@ -80,54 +79,6 @@ class AuthController extends StateNotifier<bool> {
     res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
       Routemaster.of(ctx).pop();
       showSnackBar(ctx, "Bio updated !", false);
-    });
-  }
-
-  void sendFriendReq(
-      {required String otherUid,
-      required BuildContext ctx,
-      required String username}) async {
-    final res = await _authRepository.friendUser(
-        otherUid: otherUid, username: username);
-    res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
-      ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
-      showSnackBar(ctx, "Friend request sent", false);
-    });
-  }
-
-  void unFriend(
-      {required String otherUid,
-      required String myUid,
-      required BuildContext ctx}) async {
-    final res =
-        await _authRepository.unFriendUser(otherUid: otherUid, myUid: myUid);
-    res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
-      ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
-      showSnackBar(ctx, "Unfriend successful", false);
-    });
-  }
-
-  void acceptUserReq(
-      {required String otherUid,
-      required String myUid,
-      required BuildContext ctx}) async {
-    final res =
-        await _authRepository.acceptUserReq(otherUid: otherUid, myUid: myUid);
-    res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
-      ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
-      showSnackBar(ctx, "Friend added", false);
-    });
-  }
-
-  void cancelFriendRequest(
-      {required String username,
-      required String otherUid,
-      required BuildContext ctx}) async {
-    final res = await _authRepository.cancelUserReq(
-        username: username, otherUid: otherUid);
-    res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
-      ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
-      showSnackBar(ctx, "Request Cancelled", false);
     });
   }
 

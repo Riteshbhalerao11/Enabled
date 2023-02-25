@@ -1,7 +1,9 @@
 import 'package:enabled_try_1/core/Constants/failure.dart';
 import 'package:enabled_try_1/core/Constants/typedef.dart';
+import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -56,18 +58,15 @@ class AuthRepository {
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       userModel = UserModel(
-        uid: userCred.user!.uid,
-        username: username,
-        email: email,
-        firstName: firstname,
-        password: password,
-        bio: bio,
-        points: 0,
-        profilepic: " ",
-        friends: [],
-        friendreqs: [],
-      );
-
+          uid: userCred.user!.uid,
+          username: username,
+          email: email,
+          firstName: firstname,
+          password: password,
+          bio: bio,
+          points: 0,
+          profilepic: " ",
+          friends: []);
       await _users.doc(userCred.user!.uid).set(userModel.toMap());
       return right(userModel);
     } on FirebaseException catch (e) {
@@ -138,66 +137,5 @@ class AuthRepository {
       }
       return users;
     });
-  }
-
-  FutureVoid friendUser(
-      {required String otherUid, required String username}) async {
-    try {
-      return right(_users.doc(otherUid).update({
-        "friendreqs": FieldValue.arrayUnion([username]),
-      }));
-    } on FirebaseException catch (e) {
-      throw e.message!;
-    } catch (e) {
-      return left(Failure(e.toString()));
-    }
-  }
-
-  FutureVoid unFriendUser(
-      {required String otherUid, required String myUid}) async {
-    try {
-      await _users.doc(myUid).update({
-        "friends": FieldValue.arrayRemove([otherUid]),
-      });
-      return right(_users.doc(otherUid).update({
-        "friends": FieldValue.arrayRemove([myUid]),
-      }));
-    } on FirebaseException catch (e) {
-      throw e.message!;
-    } catch (e) {
-      return left(Failure(e.toString()));
-    }
-  }
-
-  FutureVoid acceptUserReq(
-      {required String otherUid, required String myUid}) async {
-    try {
-      await _users.doc(otherUid).update({
-        "friends": FieldValue.arrayUnion([myUid]),
-      });
-      return right(_users.doc(myUid).update({
-        "friends": FieldValue.arrayUnion([otherUid]),
-      }));
-    } on FirebaseException catch (e) {
-      throw e.message!;
-    } catch (e) {
-      return left(Failure(e.toString()));
-    }
-  }
-
-  FutureVoid cancelUserReq(
-      {required String username, required String otherUid}) async {
-    try {
-      // await _users.doc(userUid).update({
-      //   "friendreqs": FieldValue.arrayRemove([uid]),
-      // });
-      return right(_users.doc(otherUid).update({
-        "friendreqs": FieldValue.arrayRemove([username]),
-      }));
-    } on FirebaseException catch (e) {
-      throw e.message!;
-    } catch (e) {
-      return left(Failure(e.toString()));
-    }
   }
 }

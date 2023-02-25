@@ -13,11 +13,11 @@ class InfoBar extends StatelessWidget {
             margin: const EdgeInsets.only(left: 16),
             height: 40,
             width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.horizontal(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.horizontal(
                 left: Radius.circular(20),
               ),
-              color: Theme.of(context).colorScheme.onBackground,
+              color: Color(0xFF333333),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

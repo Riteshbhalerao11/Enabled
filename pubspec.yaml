@@ -46,7 +46,10 @@ dependencies:
   page_transition: "^2.0.9"
   image_card: ^0.0.4
   file_picker: ^5.2.5
-  shared_preferences: ^2.0.18
+  image_picker: ^0.8.6+2
+  video_player: ^2.5.1
+  get: ^4.6.5
+  video_compress: ^3.1.2
 
 dev_dependencies:
   flutter_test:
