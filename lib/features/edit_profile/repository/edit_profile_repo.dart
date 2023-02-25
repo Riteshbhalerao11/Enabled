@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:enabled_try_1/core/Constants/typedef.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 final editProfileRepositoryProvider = Provider((ref) =>
     EditProfileRepository(firebaseStorage: ref.watch(storageProvider)));

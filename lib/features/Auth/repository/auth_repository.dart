@@ -170,13 +170,24 @@ class AuthRepository {
   }
 
   FutureVoid acceptUserReq(
-      {required String otherUid, required String myUid}) async {
+      {required String otherUsername,
+      required String myUsername,
+      required myUid}) async {
     try {
-      await _users.doc(otherUid).update({
-        "friends": FieldValue.arrayUnion([myUid]),
+      print("executed");
+      final userSnapshot =
+          await _users.where('username', isEqualTo: otherUsername).get();
+      final userDoc = userSnapshot.docs.first;
+      final userUid = userDoc.id;
+      await _users.doc(userUid).update({
+        "friends": FieldValue.arrayUnion([myUsername]),
       });
+      await _users.doc(myUid).update({
+        "friendreqs": FieldValue.arrayRemove([otherUsername]),
+      });
+
       return right(_users.doc(myUid).update({
-        "friends": FieldValue.arrayUnion([otherUid]),
+        "friends": FieldValue.arrayUnion([otherUsername]),
       }));
     } on FirebaseException catch (e) {
       throw e.message!;

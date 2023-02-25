@@ -10,9 +10,6 @@ class SearchUserDelegate extends SearchDelegate {
   final WidgetRef ref;
   SearchUserDelegate(this.ref);
 
-  // @override
-  // // TODO: implement searchFieldStyle
-  // TextStyle? get searchFieldStyle => const TextStyle(color: Colors.black);
   @override
   ThemeData appBarTheme(BuildContext context) {
     final ThemeData theme = Theme.of(context);

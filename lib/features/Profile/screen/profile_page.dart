@@ -1,6 +1,7 @@
 import 'package:enabled_try_1/core/Common/error_text.dart';
 import 'package:enabled_try_1/core/Common/loader.dart';
 import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
+import 'package:enabled_try_1/features/Home/widgets/Buttons/appbar_buttons.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/bio_box.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/info_bar.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_buttons.dart';
@@ -24,6 +25,7 @@ class ProfilePage extends ConsumerWidget {
             return Scaffold(
               backgroundColor: Theme.of(context).colorScheme.primary,
               appBar: AppBar(
+                leading: AddButton(user: user),
                 title: Text(
                   user.firstName,
                   style: TextStyle(
@@ -53,7 +55,7 @@ class ProfilePage extends ConsumerWidget {
                   ),
                   InfoBar(
                     username: user.username,
-                    points: user.points.toString(),
+                    friends: user.friends.length.toString(),
                   ),
                   const SizedBox(
                     height: 16,
@@ -73,9 +75,6 @@ class ProfilePage extends ConsumerWidget {
                     ],
                   )
                 ],
-              ),
-              drawer: ProfileDrawer(
-                user: user,
               ),
             );
           },

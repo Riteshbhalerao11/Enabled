@@ -1,9 +1,10 @@
+import 'package:enabled_try_1/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'widgets/buttons.dart';
 
 class AddPostScreen extends StatelessWidget {
-  const AddPostScreen({super.key});
-
+  const AddPostScreen({super.key, required this.user});
+  final UserModel user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,22 +17,24 @@ class AddPostScreen extends StatelessWidget {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: AddPostButton(
               title: "Post image",
               isVideo: false,
+              user: user,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: AddPostButton(
               title: "Post video",
               isVideo: true,
+              user: user,
             ),
           )
         ],

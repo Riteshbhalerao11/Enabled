@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class InfoBar extends StatelessWidget {
-  const InfoBar({super.key, required this.username, required this.points});
+  const InfoBar({super.key, required this.username, required this.friends});
   final String username;
-  final String points;
+  final String friends;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -36,12 +36,19 @@ class InfoBar extends StatelessWidget {
                 Flexible(
                   child: Padding(
                     padding: const EdgeInsets.only(right: 14.0),
-                    child: Text(points,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontFamily: "Signika",
-                            fontSize: 16,
-                            letterSpacing: 1.2)),
+                    child: friends == '1'
+                        ? Text("$friends Friend",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontFamily: "Signika",
+                                fontSize: 16,
+                                letterSpacing: 1.2))
+                        : Text("$friends Friends",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontFamily: "Signika",
+                                fontSize: 16,
+                                letterSpacing: 1.2)),
                   ),
                 ),
               ],

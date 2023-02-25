@@ -57,3 +57,33 @@ void showDialogBox(
         );
       });
 }
+
+void showGeneralDialogBox(BuildContext ctx, String message, Function function) {
+  showDialog(
+      context: ctx,
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text(
+            message,
+            style: const TextStyle(color: Colors.black),
+          ),
+          actions: [
+            TextButton(
+              child: const Text('No', style: TextStyle(color: Colors.black)),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+            ),
+            TextButton(
+                child: const Text(
+                  'Yes',
+                  style: TextStyle(color: Colors.black),
+                ),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                  function();
+                }),
+          ],
+        );
+      });
+}

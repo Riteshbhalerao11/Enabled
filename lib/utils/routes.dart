@@ -1,12 +1,13 @@
-import 'package:enabled_try_1/features/Add%20post/screens/add_post_screen.dart';
-import 'package:enabled_try_1/features/Auth/screen/signup_screen.dart';
-import 'package:enabled_try_1/features/Feed_page/screen/feed_screen.dart';
-import 'package:enabled_try_1/features/Profile/screen/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 
-import '../features/Auth/screen/login_screen.dart';
-import '../features/Home/Screens/home_page_screen.dart';
+import 'package:enabled_try_1/features/Add_post/screens/add_image_screen.dart';
+import 'package:enabled_try_1/features/Add_post/screens/add_post_screen.dart';
+import 'package:enabled_try_1/features/Add_post/screens/add_video_screen.dart';
+import 'package:enabled_try_1/features/Auth/screen/login_screen.dart';
+import 'package:enabled_try_1/features/Feed_page/screen/feed_screen.dart';
+import 'package:enabled_try_1/features/Home/Screens/home_page_screen.dart';
+import 'package:enabled_try_1/features/Profile/screen/profile_page.dart';
 
 //loggedout
 final loggedoutRoute = RouteMap(routes: {
@@ -32,7 +33,8 @@ final loggedinRoute = RouteMap(routes: {
       ),
       pushTransition: PageTransition.none,
       popTransition: PageTransition.none),
-  '/add_post': (route) => const MaterialPage(child: AddPostScreen()),
+  // '/add_post': (route) => const MaterialPage(child: AddPostScreen()),
+  // '/add_post/post_video': (route) => const MaterialPage(child: AddVideoScreen())
   // '/edit_profile/:bio/:profilepic': (route) => MaterialPage(
   //         child: EditProfileScreen(
   //       parentBio: route.pathParameters['bio']!,

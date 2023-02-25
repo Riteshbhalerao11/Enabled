@@ -1,8 +1,12 @@
+import 'package:enabled_try_1/features/Add_post/screens/add_post_screen.dart';
+import 'package:enabled_try_1/features/Notifications/screen/notifications_screen.dart';
+import 'package:enabled_try_1/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 
 class AddButton extends StatelessWidget {
-  const AddButton({super.key});
+  const AddButton({super.key, required this.user});
+  final UserModel user;
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +14,10 @@ class AddButton extends StatelessWidget {
       padding: const EdgeInsets.only(left: 8.0),
       child: IconButton(
           onPressed: () {
-            Routemaster.of(context).push('/add_post');
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => AddPostScreen(
+                      user: user,
+                    )));
           },
           icon: Icon(
             Icons.add_circle,
@@ -22,12 +29,15 @@ class AddButton extends StatelessWidget {
 }
 
 class NotificationButton extends StatelessWidget {
-  const NotificationButton({super.key});
-
+  const NotificationButton({super.key, required this.user});
+  final UserModel user;
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => Notifications(user: user)));
+      },
       icon: const Icon(
         Icons.notifications,
       ),

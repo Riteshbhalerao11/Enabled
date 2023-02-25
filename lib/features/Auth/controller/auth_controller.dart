@@ -108,11 +108,12 @@ class AuthController extends StateNotifier<bool> {
   }
 
   void acceptUserReq(
-      {required String otherUid,
+      {required String otherUsername,
       required String myUid,
+      required String myUsername,
       required BuildContext ctx}) async {
-    final res =
-        await _authRepository.acceptUserReq(otherUid: otherUid, myUid: myUid);
+    final res = await _authRepository.acceptUserReq(
+        otherUsername: otherUsername, myUsername: myUsername, myUid: myUid);
     res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
       ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
       showSnackBar(ctx, "Friend added", false);

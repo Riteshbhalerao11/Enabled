@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:enabled_try_1/features/edit_profile/repository/edit_profile_repo.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_pic.dart';
 import 'package:enabled_try_1/models/user_model.dart';
 import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProfilePic extends ConsumerStatefulWidget {
   const ProfilePic({super.key, required this.uid, required this.user});
@@ -86,7 +86,7 @@ class _ProfilePicState extends ConsumerState<ProfilePic> {
           height: 20,
         ),
         if (isLoading)
-          CircularProgressIndicator(
+          const CircularProgressIndicator(
             color: Colors.white,
           ),
         if (!isLoading)

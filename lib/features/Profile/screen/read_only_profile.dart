@@ -113,7 +113,7 @@ class ViewOnlyProfilePage extends ConsumerWidget {
                     ),
                   InfoBar(
                     username: user.username,
-                    points: user.points.toString(),
+                    friends: user.friends.length.toString(),
                   ),
                   const SizedBox(
                     height: 16,

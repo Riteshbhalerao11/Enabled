@@ -23,7 +23,6 @@ class FilledPictureUrl extends StatelessWidget {
   final String url;
   @override
   Widget build(BuildContext context) {
-    print("object");
     return Container(
         margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
         decoration: BoxDecoration(
@@ -34,9 +33,11 @@ class FilledPictureUrl extends StatelessWidget {
         width: double.infinity,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
-          child: Image.network(
-            url,
-            fit: BoxFit.cover,
+          child: InteractiveViewer(
+            child: Image.network(
+              url,
+              fit: BoxFit.contain,
+            ),
           ),
         ));
   }
@@ -57,7 +58,26 @@ class FilledPicture extends StatelessWidget {
         width: double.infinity,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
-          child: Image.file(img, fit: BoxFit.contain),
+          child: InteractiveViewer(child: Image.file(img, fit: BoxFit.contain)),
+        ));
+  }
+}
+
+class NetworkPicture extends StatelessWidget {
+  const NetworkPicture({super.key, required this.img});
+  final String img;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.only(left: 16, right: 16),
+        decoration: const BoxDecoration(
+          color: Colors.white70,
+        ),
+        height: 300,
+        width: double.infinity,
+        child: ClipRRect(
+          child:
+              InteractiveViewer(child: Image.network(img, fit: BoxFit.contain)),
         ));
   }
 }
