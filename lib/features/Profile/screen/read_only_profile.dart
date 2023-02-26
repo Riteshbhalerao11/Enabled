@@ -82,7 +82,6 @@ class ViewOnlyProfilePage extends ConsumerWidget {
               appBar: AppBar(
                 title: Text(
                   user.firstName,
-                  style: const TextStyle(color: Colors.black),
                 ),
               ),
               body: Column(
@@ -96,9 +95,13 @@ class ViewOnlyProfilePage extends ConsumerWidget {
                   if (user.uid != myUid)
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
+                            backgroundColor: user.friends.contains(myUid)
+                                ? Theme.of(context)
+                                    .colorScheme
+                                    .onSecondaryContainer
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         onPressed: () {
@@ -164,7 +167,7 @@ class FriendButton extends StatelessWidget {
           style: TextStyle(
               fontFamily: "Signika",
               fontSize: 18,
-              color: Theme.of(context).colorScheme.onSecondaryContainer),
+              color: Theme.of(context).colorScheme.onPrimaryContainer),
         ),
       );
     } else if (user.friendreqs.contains(username)) {

@@ -64,20 +64,26 @@ class FilledPicture extends StatelessWidget {
 }
 
 class NetworkPicture extends StatelessWidget {
-  const NetworkPicture({super.key, required this.img});
+  const NetworkPicture({super.key, required this.img, required this.altText});
   final String img;
+  final String altText;
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.only(left: 16, right: 16),
-        decoration: const BoxDecoration(
-          color: Colors.black,
-        ),
-        height: 300,
-        width: double.infinity,
-        child: ClipRRect(
-          child:
-              InteractiveViewer(child: Image.network(img, fit: BoxFit.contain)),
-        ));
+    return Semantics(
+      excludeSemantics: true,
+      label: "Image description : ",
+      hint: altText,
+      child: Container(
+          margin: const EdgeInsets.only(left: 16, right: 16),
+          decoration: const BoxDecoration(
+            color: Colors.black,
+          ),
+          height: 300,
+          width: double.infinity,
+          child: ClipRRect(
+            child: InteractiveViewer(
+                child: Image.network(img, fit: BoxFit.contain)),
+          )),
+    );
   }
 }

@@ -82,6 +82,11 @@ class AuthRepository {
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
   }
 
+  Future<UserModel> getUserDataFuture(String uid) async {
+    final userData = await _users.doc(uid).get();
+    return UserModel.fromMap(userData.data() as Map<String, dynamic>);
+  }
+
   Stream<UserModel> getUserByName(String username) {
     return _users.where('username', isEqualTo: username).snapshots().map(
       (snapshot) {

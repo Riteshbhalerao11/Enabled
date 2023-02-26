@@ -26,6 +26,11 @@ final authRepoGetUserData = StreamProvider.family((ref, String uid) {
   return authController.getUserData(uid);
 });
 
+final futureGetUserData = FutureProvider.family((ref, String uid) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.getUserDataFuture(uid);
+});
+
 final getUserDataByName =
     StreamProvider.family.autoDispose((ref, String username) {
   final authController = ref.watch(authControllerProvider.notifier);
@@ -51,6 +56,10 @@ class AuthController extends StateNotifier<bool> {
 
   Stream<UserModel> getUserData(String uid) {
     return _authRepository.getUserData(uid);
+  }
+
+  Future<UserModel> getUserDataFuture(String uid) {
+    return _authRepository.getUserDataFuture(uid);
   }
 
   Stream<UserModel> getUserByName(String username) {

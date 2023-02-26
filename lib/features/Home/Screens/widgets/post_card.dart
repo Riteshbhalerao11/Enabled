@@ -7,15 +7,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({super.key, required this.post});
+  PostCard({super.key, required this.post, required this.firstName});
   final Post post;
+  final String firstName;
+  final uid = FirebaseAuth.instance.currentUser!.uid;
+  void likePost(WidgetRef ref) async {
+    ref.read(postControllerProvider.notifier).likePost(post, uid);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        TopBar(post: post),
-        NetworkPicture(img: post.link),
+        TopBar(post: post, firstName: firstName),
+        NetworkPicture(
+          img: post.link,
+          altText: post.altText,
+        ),
         InfoBar(post: post),
         CaptionBox(caption: post.caption)
       ],
@@ -37,47 +46,65 @@ class InfoBar extends ConsumerWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16),
         color: Theme.of(context).cardColor,
         height: 45,
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0),
-              child: Text(
-                "${post.likes.length} likes",
-                style: const TextStyle(
-                    fontFamily: "SecularOne",
-                    fontSize: 16,
-                    color: Colors.white),
+        child: Semantics(
+          explicitChildNodes: true,
+          label: "Post information bar",
+          hint:
+              "${post.likes.length} likes on this image. Tap and hold to like image",
+          child: Row(
+            children: [
+              Semantics(
+                excludeSemantics: true,
+                label: "${post.likes.length} likes on this image",
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Text(
+                    "${post.likes.length} likes",
+                    style: const TextStyle(
+                        fontFamily: "SecularOne",
+                        fontSize: 16,
+                        color: Colors.white),
+                  ),
+                ),
               ),
-            ),
-            Flexible(child: Container()),
-            GestureDetector(
-              onTap: () => likePost(ref),
-              child: Icon(
-                Icons.favorite,
-                size: 32,
-                color: post.likes.contains(uid) ? Colors.red : Colors.white,
+              Flexible(child: Container()),
+              Semantics(
+                excludeSemantics: true,
+                label: "Like button",
+                hint: post.likes.contains(uid)
+                    ? "Double tap to dislike image"
+                    : "Double tap to like image",
+                child: GestureDetector(
+                  onTap: () => likePost(ref),
+                  child: Icon(
+                    Icons.favorite,
+                    size: 32,
+                    color: post.likes.contains(uid) ? Colors.red : Colors.white,
+                  ),
+                ),
               ),
-            ),
-            SizedBox(
-              width: 20,
-              child: Container(),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(right: 16.0),
-              child: Icon(
-                Icons.comment,
-                size: 32,
-                color: Colors.white,
+              SizedBox(
+                width: 20,
+                child: Container(),
               ),
-            )
-          ],
+              const Padding(
+                padding: EdgeInsets.only(right: 16.0),
+                child: Icon(
+                  Icons.comment,
+                  size: 32,
+                  color: Colors.white,
+                ),
+              )
+            ],
+          ),
         ));
   }
 }
 
 class TopBar extends StatelessWidget {
-  TopBar({super.key, required this.post});
+  TopBar({super.key, required this.post, required this.firstName});
   final Post post;
+  final String firstName;
   final uid = FirebaseAuth.instance.currentUser!.uid;
   void disLikePost(bool isLike, WidgetRef ref) {
     ref.read(postControllerProvider.notifier).disLikePost(post, uid);
@@ -94,38 +121,53 @@ class TopBar extends StatelessWidget {
         ),
         color: Theme.of(context).cardColor,
       ),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 16),
-            child: CircleAvatar(
-              radius: 20,
-              backgroundColor: Colors.blueGrey,
-              backgroundImage: post.profilepic.length < 2
-                  ? null
-                  : NetworkImage(
-                      post.profilepic,
-                    ),
-              child:
-                  post.profilepic.length < 2 ? const Icon(Icons.person) : null,
+      child: Semantics(
+        explicitChildNodes: true,
+        label: "Top bar of post card.",
+        hint: "Tap around in same row to know more",
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0, right: 16),
+              child: CircleAvatar(
+                radius: 20,
+                backgroundColor: Colors.blueGrey,
+                backgroundImage: post.profilepic.length < 2
+                    ? null
+                    : NetworkImage(
+                        post.profilepic,
+                      ),
+                child: post.profilepic.length < 2
+                    ? const Icon(Icons.person)
+                    : null,
+              ),
             ),
-          ),
-          Text(
-            post.username,
-            style: const TextStyle(fontFamily: "SecularOne", fontSize: 16),
-          ),
-          Flexible(
-            child: Container(),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(right: 18.0),
-            child: Icon(
-              Icons.announcement,
-              size: 32,
-              color: Colors.white,
+            Semantics(
+              excludeSemantics: true,
+              label: "Post author name : $firstName",
+              hint: "username is : ${post.username}",
+              child: Text(
+                post.username,
+                style: const TextStyle(fontFamily: "SecularOne", fontSize: 16),
+              ),
             ),
-          )
-        ],
+            Flexible(
+              child: Container(),
+            ),
+            Semantics(
+              label: "Report button",
+              hint: "Double tap to report user",
+              child: const Padding(
+                padding: EdgeInsets.only(right: 18.0),
+                child: Icon(
+                  Icons.announcement,
+                  size: 32,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

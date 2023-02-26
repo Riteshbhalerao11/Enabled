@@ -7,81 +7,197 @@ import 'package:enabled_try_1/features/Home/Screens/widgets/post_card.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'widgets/Buttons/appbar_buttons.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage> {
+  Future<void> announce(String message, TextDirection textDirection,
+      {Assertiveness assertiveness = Assertiveness.polite}) async {
+    final AnnounceSemanticsEvent event = AnnounceSemanticsEvent(
+        message, textDirection,
+        assertiveness: assertiveness);
+    await SystemChannels.accessibility.send(event.toMap());
+  }
+
+  Future<void> announceRefreshComplete() async {
+    await announce('Refresh complete', TextDirection.ltr);
+  }
+
+  Future<void> refresh(String uid) async {
+    await Future.delayed((const Duration(seconds: 1)), () {
+      ref.refresh(futureGetUserData(uid));
+      announceRefreshComplete();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final PageController _pageController = PageController();
+
+    final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+        GlobalKey<RefreshIndicatorState>();
     final uid = FirebaseAuth.instance.currentUser?.uid;
-    return ref.watch(authRepoGetUserData(uid!)).when(
+    return ref.watch(futureGetUserData(uid!)).when(
         data: (data) {
-          return Scaffold(
-            drawer: const ProfileDrawer(),
-            appBar: AppBar(
-              elevation: 0,
-              actions: [
-                const MessagesButton(),
-                NotificationButton(
-                  user: data,
-                ),
-                const SettingsButton(),
-              ],
-            ),
-            body: Column(
-              children: [
-                Row(
-                  children: [
-                    Flexible(flex: 2, child: Container()),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0),
-                      child: NavButtons("HOME", true, '/'),
-                    ),
-                    Flexible(flex: 2, child: Container()),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: NavButtons("FEED", false, "/feed_page/$uid"),
-                    ),
-                    Flexible(flex: 2, child: Container()),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: NavButtons("PROFILE", false, "/profile/$uid"),
-                    ),
-                    Flexible(flex: 2, child: Container()),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  child: data.friends.isEmpty
-                      ? const Padding(
-                          padding: EdgeInsets.only(bottom: 60),
-                          child: Center(
-                            child: Text(
-                              "Nothing to show yet...",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
+          return RefreshIndicator(
+            onRefresh: () {
+              return refresh(uid);
+            },
+            child: Scaffold(
+              drawer: const ProfileDrawer(),
+              appBar: AppBar(
+                elevation: 0,
+                actions: [
+                  const MessagesButton(),
+                  NotificationButton(
+                    user: data,
+                  ),
+                  const SettingsButton(),
+                ],
+              ),
+              body: Column(
+                children: [
+                  Row(
+                    children: [
+                      Flexible(flex: 2, child: Container()),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Focus(
+                          autofocus: true,
+                          child: Semantics(
+                            excludeSemantics: true,
+                            label:
+                                "Home screen button selected. You are on home screen",
+                            hint:
+                                "Double tap to revert back to first page of posts",
+                            child: TextButton(
+                              onPressed: () {
+                                _pageController
+                                    .animateToPage(0,
+                                        duration:
+                                            const Duration(milliseconds: 200),
+                                        curve: Curves.easeInOut)
+                                    .then((value) => announce(
+                                        "Reverted back to first page",
+                                        TextDirection.ltr));
+                              },
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.tertiary,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                alignment: Alignment.center,
+                                fixedSize: const Size.fromWidth(110),
+                                elevation: 5,
+                              ),
+                              child: Text(
+                                "HOME",
+                                style: TextStyle(
+                                    fontFamily: 'SecularOne',
+                                    fontSize: 16,
+                                    letterSpacing: 1.28,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer),
+                              ),
                             ),
                           ),
-                        )
-                      : ref.watch(userPostsProvider(data.friends)).when(
-                          data: (posts) => PageView.builder(
-                              itemCount: posts.length,
-                              itemBuilder: ((context, index) {
-                                final post = posts[index];
-                                return PostCard(
-                                  post: post,
-                                );
-                              })),
-                          error: (error, stacktrace) {
-                            return ErrorText(error: error.toString());
-                          },
-                          loading: () => const Loader()),
-                ),
-              ],
+                        ),
+                      ),
+                      Flexible(flex: 2, child: Container()),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: NavButtons("FEED", false, "/feed_page/$uid"),
+                      ),
+                      Flexible(flex: 2, child: Container()),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: NavButtons("PROFILE", false, "/profile/$uid"),
+                      ),
+                      Flexible(flex: 2, child: Container()),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Expanded(
+                    child: data.friends.isEmpty
+                        ? const Padding(
+                            padding: EdgeInsets.only(bottom: 60),
+                            child: Center(
+                              child: Text(
+                                "Nothing to show yet...",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ),
+                          )
+                        : RefreshIndicator(
+                            key: _refreshIndicatorKey,
+                            onRefresh: () {
+                              return refresh(uid);
+                            },
+                            child:
+                                ref.watch(userPostsProvider(data.friends)).when(
+                                    data: (posts) => PageView.builder(
+                                        controller: _pageController,
+                                        itemCount: posts.length,
+                                        itemBuilder: ((context, index) {
+                                          final post = posts[index];
+                                          return Semantics(
+                                            label:
+                                                "Image Post card by ${data.firstName}",
+                                            hint:
+                                                "Page ${index + 1}. Tap around to know more",
+                                            explicitChildNodes: true,
+                                            child: PostCard(
+                                              firstName: data.firstName,
+                                              post: post,
+                                            ),
+                                          );
+                                        })),
+                                    error: (error, stacktrace) {
+                                      return ErrorText(error: error.toString());
+                                    },
+                                    loading: () => const Loader()),
+                          ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Semantics(
+                        excludeSemantics: true,
+                        label: "Refresh button",
+                        hint: "Double tap to refresh screen",
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(bottom: 8.0, right: 10),
+                          child: FloatingActionButton(
+                            onPressed: () {
+                              _refreshIndicatorKey.currentState?.show();
+                            },
+                            child: const Icon(
+                              Icons.refresh,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           );
         },

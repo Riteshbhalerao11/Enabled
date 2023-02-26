@@ -19,12 +19,16 @@ class Pallete {
       scaffoldBackgroundColor: primaryAppColor,
       cardColor: const Color(0xFF333333),
       appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: IconThemeData(
-          color: Colors.black,
-        ),
-      ),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          titleTextStyle: TextStyle(
+              fontFamily: "SecularOne",
+              color: Colors.black,
+              fontSize: 20,
+              letterSpacing: 1.2)),
       drawerTheme: const DrawerThemeData(
         backgroundColor: Colors.white,
       ),
@@ -49,12 +53,16 @@ class Pallete {
       scaffoldBackgroundColor: primaryDarkAppColor,
       cardColor: Colors.black,
       appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xFF333333),
-        elevation: 0,
-        iconTheme: IconThemeData(
-          color: Colors.white,
-        ),
-      ),
+          backgroundColor: Color(0xFF333333),
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: Colors.white,
+          ),
+          titleTextStyle: TextStyle(
+              fontFamily: "SecularOne",
+              color: Colors.white,
+              fontSize: 20,
+              letterSpacing: 1.2)),
       drawerTheme: const DrawerThemeData(
         backgroundColor: Color(0xFF333333),
       ),
