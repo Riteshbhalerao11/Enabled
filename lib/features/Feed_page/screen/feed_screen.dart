@@ -1,4 +1,4 @@
-import 'package:enabled_try_1/features/Home/widgets/Buttons/nav_buttons.dart';
+import 'package:enabled_try_1/features/Home/Screens/widgets/Buttons/nav_buttons.dart';
 import 'package:enabled_try_1/features/Search_users/controller/search_users_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

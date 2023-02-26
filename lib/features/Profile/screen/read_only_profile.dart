@@ -23,11 +23,14 @@ class ViewOnlyProfilePage extends ConsumerWidget {
         .sendFriendReq(otherUid: otherUid, username: myUsername, ctx: ctx);
   }
 
-  void unFriend(
-      WidgetRef ref, String myUid, String otherUid, BuildContext ctx) {
-    ref
-        .read(authControllerProvider.notifier)
-        .unFriend(myUid: myUid, otherUid: otherUid, ctx: ctx);
+  void unFriend(WidgetRef ref, String myUid, String otherUid, BuildContext ctx,
+      String myUsername, String otherUsername) {
+    ref.read(authControllerProvider.notifier).unFriend(
+        myUid: myUid,
+        otherUid: otherUid,
+        ctx: ctx,
+        myUsername: myUsername,
+        otherUsername: otherUsername);
   }
 
   void cancelRequest(WidgetRef ref, String otherUid, BuildContext ctx) {
@@ -36,14 +39,17 @@ class ViewOnlyProfilePage extends ConsumerWidget {
         otherUid: otherUid, username: myUsername, ctx: ctx);
   }
 
-  void showDialogBox(BuildContext ctx, WidgetRef ref, String otherUid) {
+  void showDialogBox(
+      BuildContext ctx, WidgetRef ref, String otherUid, String myUid) {
     showDialog(
         context: ctx,
         builder: (ctx) {
           return AlertDialog(
-            title: const Text(
-              "Do you really wanna befriend ?",
-              style: TextStyle(color: Colors.black),
+            title: const FittedBox(
+              child: Text(
+                "Do you really wanna befriend ?",
+                style: TextStyle(color: Colors.black),
+              ),
             ),
             actions: [
               TextButton(
@@ -58,7 +64,9 @@ class ViewOnlyProfilePage extends ConsumerWidget {
                     style: TextStyle(color: Colors.black),
                   ),
                   onPressed: () {
-                    cancelRequest(ref, otherUid, ctx);
+                    Navigator.of(ctx).pop();
+                    unFriend(
+                        ref, myUid, otherUid, ctx, myUsername, otherUsername);
                   }),
             ],
           );
@@ -71,7 +79,6 @@ class ViewOnlyProfilePage extends ConsumerWidget {
     return ref.watch(getUserDataByName(otherUsername)).when(
           data: (user) {
             return Scaffold(
-              backgroundColor: Theme.of(context).colorScheme.primary,
               appBar: AppBar(
                 title: Text(
                   user.firstName,
@@ -96,7 +103,8 @@ class ViewOnlyProfilePage extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(20))),
                         onPressed: () {
                           if (user.friends.contains(myUsername)) {
-                            unFriend(ref, myUid, user.uid, context);
+                            showDialogBox(context, ref, user.uid, myUid);
+                            // unFriend(ref, myUid, user.uid, context);
                           } else if (user.friendreqs.contains(myUsername)) {
                             cancelRequest(ref, user.uid, context);
                           } else {
@@ -111,10 +119,7 @@ class ViewOnlyProfilePage extends ConsumerWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                  InfoBar(
-                    username: user.username,
-                    friends: user.friends.length.toString(),
-                  ),
+                  InfoBar(username: user.username, friends: user.friends),
                   const SizedBox(
                     height: 16,
                   ),
@@ -124,9 +129,11 @@ class ViewOnlyProfilePage extends ConsumerWidget {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const [
-                      MediaButton(path: "path", title: "Images"),
-                      SizedBox(
+                    children: [
+                      MediaButton(
+                          path: "/profile/${user.uid}/user_images_page",
+                          title: "Images"),
+                      const SizedBox(
                         width: 25,
                       ),
                       MediaButton(path: "path", title: "Videos"),

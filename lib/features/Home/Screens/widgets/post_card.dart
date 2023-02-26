@@ -1,7 +1,10 @@
-import 'package:enabled_try_1/features/Home/widgets/caption_box.dart';
+import 'package:enabled_try_1/features/Add_post/controller/post_controller.dart';
+import 'package:enabled_try_1/features/Home/Screens/widgets/caption_box.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_pic.dart';
 import 'package:enabled_try_1/models/post_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({super.key, required this.post});
@@ -20,14 +23,19 @@ class PostCard extends StatelessWidget {
   }
 }
 
-class InfoBar extends StatelessWidget {
-  const InfoBar({super.key, required this.post});
+class InfoBar extends ConsumerWidget {
+  InfoBar({super.key, required this.post});
   final Post post;
+  final uid = FirebaseAuth.instance.currentUser!.uid;
+  void likePost(WidgetRef ref) async {
+    ref.read(postControllerProvider.notifier).likePost(post, uid);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),
-        color: const Color(0xFf333333),
+        color: Theme.of(context).cardColor,
         height: 45,
         child: Row(
           children: [
@@ -42,21 +50,24 @@ class InfoBar extends StatelessWidget {
               ),
             ),
             Flexible(child: Container()),
-            Icon(
-              Icons.favorite,
-              size: 32,
-              color: Theme.of(context).colorScheme.onPrimaryContainer,
+            GestureDetector(
+              onTap: () => likePost(ref),
+              child: Icon(
+                Icons.favorite,
+                size: 32,
+                color: post.likes.contains(uid) ? Colors.red : Colors.white,
+              ),
             ),
             SizedBox(
-              child: Container(),
               width: 20,
+              child: Container(),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
+            const Padding(
+              padding: EdgeInsets.only(right: 16.0),
               child: Icon(
                 Icons.comment,
                 size: 32,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                color: Colors.white,
               ),
             )
           ],
@@ -65,18 +76,23 @@ class InfoBar extends StatelessWidget {
 }
 
 class TopBar extends StatelessWidget {
-  const TopBar({super.key, required this.post});
+  TopBar({super.key, required this.post});
   final Post post;
+  final uid = FirebaseAuth.instance.currentUser!.uid;
+  void disLikePost(bool isLike, WidgetRef ref) {
+    ref.read(postControllerProvider.notifier).disLikePost(post, uid);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       height: 60,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.vertical(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.vertical(
           top: Radius.circular(20),
         ),
-        color: Color(0xFf333333),
+        color: Theme.of(context).cardColor,
       ),
       child: Row(
         children: [
@@ -84,15 +100,19 @@ class TopBar extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10.0, right: 16),
             child: CircleAvatar(
               radius: 20,
-              backgroundColor: Colors.black,
-              backgroundImage: NetworkImage(
-                post.profilepic,
-              ),
+              backgroundColor: Colors.blueGrey,
+              backgroundImage: post.profilepic.length < 2
+                  ? null
+                  : NetworkImage(
+                      post.profilepic,
+                    ),
+              child:
+                  post.profilepic.length < 2 ? const Icon(Icons.person) : null,
             ),
           ),
           Text(
             post.username,
-            style: TextStyle(fontFamily: "SecularOne", fontSize: 16),
+            style: const TextStyle(fontFamily: "SecularOne", fontSize: 16),
           ),
           Flexible(
             child: Container(),

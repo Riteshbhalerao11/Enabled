@@ -98,9 +98,14 @@ class AuthController extends StateNotifier<bool> {
   void unFriend(
       {required String otherUid,
       required String myUid,
-      required BuildContext ctx}) async {
-    final res =
-        await _authRepository.unFriendUser(otherUid: otherUid, myUid: myUid);
+      required BuildContext ctx,
+      required myUsername,
+      required otherUsername}) async {
+    final res = await _authRepository.unFriendUser(
+        otherUid: otherUid,
+        myUid: myUid,
+        myUsername: myUsername,
+        otherUsername: otherUsername);
     res.fold((l) => showSnackBar(ctx, l.message, true), (r) {
       ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
       showSnackBar(ctx, "Unfriend successful", false);

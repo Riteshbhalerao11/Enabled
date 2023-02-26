@@ -1,3 +1,4 @@
+import 'package:enabled_try_1/User_posts/Screen/user_images_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -33,6 +34,11 @@ final loggedinRoute = RouteMap(routes: {
       ),
       pushTransition: PageTransition.none,
       popTransition: PageTransition.none),
+  '/profile/:uid/user_images_page': (route) => MaterialPage(
+        child: UserImagesScreen(
+          uid: route.pathParameters['uid']!,
+        ),
+      ),
   // '/add_post': (route) => const MaterialPage(child: AddPostScreen()),
   // '/add_post/post_video': (route) => const MaterialPage(child: AddVideoScreen())
   // '/edit_profile/:bio/:profilepic': (route) => MaterialPage(

@@ -2,13 +2,13 @@ import 'package:enabled_try_1/core/Common/error_text.dart';
 import 'package:enabled_try_1/core/Common/loader.dart';
 import 'package:enabled_try_1/features/Add_post/controller/post_controller.dart';
 import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
-import 'package:enabled_try_1/features/Home/widgets/Buttons/nav_buttons.dart';
-import 'package:enabled_try_1/features/Home/widgets/Buttons/post_card.dart';
+import 'package:enabled_try_1/features/Home/Screens/widgets/Buttons/nav_buttons.dart';
+import 'package:enabled_try_1/features/Home/Screens/widgets/post_card.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../widgets/Buttons/appbar_buttons.dart';
+import 'widgets/Buttons/appbar_buttons.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -56,19 +56,30 @@ class HomePage extends ConsumerWidget {
                   height: 20,
                 ),
                 Expanded(
-                  child: ref.watch(userPostsProvider(data.friends)).when(
-                      data: (posts) => PageView.builder(
-                          itemCount: posts.length,
-                          itemBuilder: ((context, index) {
-                            final post = posts[index];
-                            return PostCard(
-                              post: post,
-                            );
-                          })),
-                      error: (error, stacktrace) {
-                        return ErrorText(error: error.toString());
-                      },
-                      loading: () => const Loader()),
+                  child: data.friends.isEmpty
+                      ? const Padding(
+                          padding: EdgeInsets.only(bottom: 60),
+                          child: Center(
+                            child: Text(
+                              "Nothing to show yet...",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                          ),
+                        )
+                      : ref.watch(userPostsProvider(data.friends)).when(
+                          data: (posts) => PageView.builder(
+                              itemCount: posts.length,
+                              itemBuilder: ((context, index) {
+                                final post = posts[index];
+                                return PostCard(
+                                  post: post,
+                                );
+                              })),
+                          error: (error, stacktrace) {
+                            return ErrorText(error: error.toString());
+                          },
+                          loading: () => const Loader()),
                 ),
               ],
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:routemaster/routemaster.dart';
 
 class MediaButton extends StatelessWidget {
   const MediaButton({super.key, required this.path, required this.title});
@@ -7,7 +8,9 @@ class MediaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        Routemaster.of(context).push(path);
+      },
       style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
           shape:

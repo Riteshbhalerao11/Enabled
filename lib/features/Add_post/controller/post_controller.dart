@@ -9,9 +9,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:uuid/uuid.dart';
 
-final userPostsProvider = StreamProvider.family((ref, List<String> uid) {
-  final postController = ref.watch(postControllerProvider.notifier);
-  return postController.fetchUserPosts(uid);
+final userPostsProvider = StreamProvider.family((ref, List<String> usernames) {
+  final postController = ref.read(postControllerProvider.notifier);
+  return postController.fetchUserPosts(usernames);
+});
+
+final getuserPostsProvider = StreamProvider.family((ref, String uid) {
+  final postController = ref.read(postControllerProvider.notifier);
+  return postController.getUserPosts(uid);
 });
 
 final postControllerProvider = StateNotifierProvider<PostController, bool>(
@@ -73,10 +78,22 @@ class PostController extends StateNotifier<bool> {
     );
   }
 
-  Stream<List<Post>> fetchUserPosts(List<String> uid) {
-    if (uid.isNotEmpty) {
-      return _postRepository.fetchUserPosts(uid);
+  Stream<List<Post>> fetchUserPosts(List<String> usernames) {
+    if (usernames.isNotEmpty) {
+      return _postRepository.fetchUserPosts(usernames);
     }
     return Stream.value([]);
+  }
+
+  Stream<List<Post>> getUserPosts(String uid) {
+    return _postRepository.getUserPosts(uid);
+  }
+
+  void likePost(Post post, String uid) {
+    _postRepository.likePost(post, uid);
+  }
+
+  void disLikePost(Post post, String uid) {
+    _postRepository.disLikePost(post, uid);
   }
 }

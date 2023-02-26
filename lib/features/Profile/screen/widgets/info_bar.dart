@@ -1,9 +1,11 @@
+import 'package:enabled_try_1/features/Profile/screen/friends_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class InfoBar extends StatelessWidget {
   const InfoBar({super.key, required this.username, required this.friends});
   final String username;
-  final String friends;
+  final List<String> friends;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -36,19 +38,33 @@ class InfoBar extends StatelessWidget {
                 Flexible(
                   child: Padding(
                     padding: const EdgeInsets.only(right: 14.0),
-                    child: friends == '1'
-                        ? Text("$friends Friend",
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontFamily: "Signika",
-                                fontSize: 16,
-                                letterSpacing: 1.2))
-                        : Text("$friends Friends",
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontFamily: "Signika",
-                                fontSize: 16,
-                                letterSpacing: 1.2)),
+                    child: friends.length == 1
+                        ? TextButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      FriendsScreen(friends: friends)));
+                            },
+                            child: Text("${friends.length} Friend",
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: "Signika",
+                                    fontSize: 16,
+                                    letterSpacing: 1.2)),
+                          )
+                        : TextButton(
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      FriendsScreen(friends: friends)),
+                            ),
+                            child: Text("${friends.length} Friends",
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: "Signika",
+                                    fontSize: 16,
+                                    letterSpacing: 1.2)),
+                          ),
                   ),
                 ),
               ],

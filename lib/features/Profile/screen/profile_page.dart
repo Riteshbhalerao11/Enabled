@@ -1,18 +1,17 @@
-import 'package:enabled_try_1/core/Common/error_text.dart';
-import 'package:enabled_try_1/core/Common/loader.dart';
-import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
-import 'package:enabled_try_1/features/Home/widgets/Buttons/appbar_buttons.dart';
-import 'package:enabled_try_1/features/Profile/screen/widgets/bio_box.dart';
-import 'package:enabled_try_1/features/Profile/screen/widgets/info_bar.dart';
-import 'package:enabled_try_1/features/Profile/screen/widgets/profile_buttons.dart';
-import 'package:enabled_try_1/features/Profile/screen/widgets/profile_drawer.dart';
-import 'package:enabled_try_1/features/Profile/screen/widgets/profile_pic.dart';
-import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:enabled_try_1/features/Home/widgets/Buttons/nav_buttons.dart';
+import 'package:enabled_try_1/core/Common/error_text.dart';
+import 'package:enabled_try_1/core/Common/loader.dart';
+import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
+import 'package:enabled_try_1/features/Home/Screens/widgets/Buttons/appbar_buttons.dart';
+import 'package:enabled_try_1/features/Home/Screens/widgets/Buttons/nav_buttons.dart';
+import 'package:enabled_try_1/features/Profile/screen/widgets/bio_box.dart';
+import 'package:enabled_try_1/features/Profile/screen/widgets/info_bar.dart';
+import 'package:enabled_try_1/features/Profile/screen/widgets/profile_buttons.dart';
+import 'package:enabled_try_1/features/Profile/screen/widgets/profile_pic.dart';
+import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
 
 class ProfilePage extends ConsumerWidget {
   final String uid;
@@ -55,7 +54,7 @@ class ProfilePage extends ConsumerWidget {
                   ),
                   InfoBar(
                     username: user.username,
-                    friends: user.friends.length.toString(),
+                    friends: user.friends,
                   ),
                   const SizedBox(
                     height: 16,
@@ -66,9 +65,11 @@ class ProfilePage extends ConsumerWidget {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const [
-                      MediaButton(path: "path", title: "Images"),
-                      SizedBox(
+                    children: [
+                      MediaButton(
+                          path: '/profile/$uid/user_images_page',
+                          title: "Images"),
+                      const SizedBox(
                         width: 25,
                       ),
                       MediaButton(path: "path", title: "Videos"),

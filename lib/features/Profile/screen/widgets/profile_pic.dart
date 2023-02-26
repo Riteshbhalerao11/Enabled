@@ -71,7 +71,7 @@ class NetworkPicture extends StatelessWidget {
     return Container(
         margin: const EdgeInsets.only(left: 16, right: 16),
         decoration: const BoxDecoration(
-          color: Colors.white70,
+          color: Colors.black,
         ),
         height: 300,
         width: double.infinity,

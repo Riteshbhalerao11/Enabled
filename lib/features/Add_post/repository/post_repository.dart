@@ -33,16 +33,47 @@ class PostRepository {
     }
   }
 
-  Stream<List<Post>> fetchUserPosts(List<String> uid) {
+  Stream<List<Post>> fetchUserPosts(List<String> usernames) {
     return _posts
-        .where("uid", whereIn: uid)
+        .where("username", whereIn: usernames)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((event) => event.docs.map((e) {
-              // print('e.data() = ${e.data()}');
-              print(e.data());
-              print(e.data().runtimeType);
               return Post.fromMap(e.data() as Map<String, dynamic>);
             }).toList());
+  }
+
+  void likePost(Post post, String userId) async {
+    if (post.likes.contains(userId)) {
+      _posts.doc(post.id).update({
+        'likes': FieldValue.arrayRemove([userId])
+      });
+    } else {
+      _posts.doc(post.id).update({
+        'likes': FieldValue.arrayUnion([userId])
+      });
+    }
+  }
+
+  void disLikePost(Post post, String userId) async {
+    if (post.dislikes.contains(userId)) {
+      _posts.doc(post.id).update({
+        'dislikes': FieldValue.arrayRemove([userId])
+      });
+    } else {
+      _posts.doc(post.id).update({
+        'dislikes': FieldValue.arrayUnion([userId])
+      });
+    }
+  }
+
+  Stream<List<Post>> getUserPosts(String uid) {
+    return _posts
+        .where('uid', isEqualTo: uid)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => Post.fromMap(e.data() as Map<String, dynamic>))
+            .toList());
   }
 }

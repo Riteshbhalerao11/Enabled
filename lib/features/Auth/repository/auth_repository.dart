@@ -154,13 +154,16 @@ class AuthRepository {
   }
 
   FutureVoid unFriendUser(
-      {required String otherUid, required String myUid}) async {
+      {required String otherUid,
+      required String myUid,
+      required myUsername,
+      required otherUsername}) async {
     try {
       await _users.doc(myUid).update({
-        "friends": FieldValue.arrayRemove([otherUid]),
+        "friends": FieldValue.arrayRemove([otherUsername]),
       });
       return right(_users.doc(otherUid).update({
-        "friends": FieldValue.arrayRemove([myUid]),
+        "friends": FieldValue.arrayRemove([myUsername]),
       }));
     } on FirebaseException catch (e) {
       throw e.message!;
