@@ -47,7 +47,7 @@ class ViewOnlyProfilePage extends ConsumerWidget {
           return AlertDialog(
             title: const FittedBox(
               child: Text(
-                "Do you really wanna befriend ?",
+                "Do you really wanna unfriend ?",
                 style: TextStyle(color: Colors.black),
               ),
             ),
@@ -95,13 +95,13 @@ class ViewOnlyProfilePage extends ConsumerWidget {
                   if (user.uid != myUid)
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: user.friends.contains(myUid)
+                            backgroundColor: user.friends.contains(myUsername)
                                 ? Theme.of(context)
                                     .colorScheme
-                                    .onSecondaryContainer
+                                    .onPrimaryContainer
                                 : Theme.of(context)
                                     .colorScheme
-                                    .onPrimaryContainer,
+                                    .onSecondaryContainer,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         onPressed: () {
@@ -167,7 +167,7 @@ class FriendButton extends StatelessWidget {
           style: TextStyle(
               fontFamily: "Signika",
               fontSize: 18,
-              color: Theme.of(context).colorScheme.onPrimaryContainer),
+              color: Theme.of(context).colorScheme.onSecondaryContainer),
         ),
       );
     } else if (user.friendreqs.contains(username)) {
@@ -178,7 +178,7 @@ class FriendButton extends StatelessWidget {
           style: TextStyle(
               fontFamily: "Signika",
               fontSize: 18,
-              color: Theme.of(context).colorScheme.onSecondaryContainer),
+              color: Theme.of(context).colorScheme.onPrimaryContainer),
         ),
       );
     }
@@ -189,7 +189,7 @@ class FriendButton extends StatelessWidget {
         style: TextStyle(
             fontFamily: "Signika",
             fontSize: 18,
-            color: Theme.of(context).colorScheme.onSecondaryContainer),
+            color: Theme.of(context).colorScheme.onPrimaryContainer),
       ),
     );
   }

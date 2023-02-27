@@ -17,7 +17,7 @@ final loggedoutRoute = RouteMap(routes: {
 
 //Loggedin
 final loggedinRoute = RouteMap(routes: {
-  '/': (_) => const TransitionPage(
+  '/': (_) => TransitionPage(
       child: HomePage(),
       pushTransition: PageTransition.none,
       popTransition: PageTransition.none),

@@ -144,7 +144,7 @@ class TopBar extends StatelessWidget {
             ),
             Semantics(
               excludeSemantics: true,
-              label: "Post author name : $firstName",
+              // label: "Post author name : $firstName",
               hint: "username is : ${post.username}",
               child: Text(
                 post.username,

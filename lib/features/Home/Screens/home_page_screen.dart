@@ -13,7 +13,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'widgets/Buttons/appbar_buttons.dart';
 
 class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+  bool isLoading = false;
 
   @override
   ConsumerState<HomePage> createState() => _HomePageState();
@@ -33,9 +34,15 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   Future<void> refresh(String uid) async {
+    setState(() {
+      widget.isLoading = true;
+    });
     await Future.delayed((const Duration(seconds: 1)), () {
       ref.refresh(futureGetUserData(uid));
       announceRefreshComplete();
+    });
+    setState(() {
+      widget.isLoading = false;
     });
   }
 
@@ -43,161 +50,153 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     final PageController _pageController = PageController();
 
-    final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-        GlobalKey<RefreshIndicatorState>();
+    // final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+    // GlobalKey<RefreshIndicatorState>();
     final uid = FirebaseAuth.instance.currentUser?.uid;
     return ref.watch(futureGetUserData(uid!)).when(
         data: (data) {
-          return RefreshIndicator(
-            onRefresh: () {
-              return refresh(uid);
-            },
-            child: Scaffold(
-              drawer: const ProfileDrawer(),
-              appBar: AppBar(
-                elevation: 0,
-                actions: [
-                  const MessagesButton(),
-                  NotificationButton(
-                    user: data,
-                  ),
-                  const SettingsButton(),
-                ],
-              ),
-              body: Column(
-                children: [
-                  Row(
-                    children: [
-                      Flexible(flex: 2, child: Container()),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Focus(
-                          autofocus: true,
-                          child: Semantics(
-                            excludeSemantics: true,
-                            label:
-                                "Home screen button selected. You are on home screen",
-                            hint:
-                                "Double tap to revert back to first page of posts",
-                            child: TextButton(
-                              onPressed: () {
-                                _pageController
-                                    .animateToPage(0,
-                                        duration:
-                                            const Duration(milliseconds: 200),
-                                        curve: Curves.easeInOut)
-                                    .then((value) => announce(
-                                        "Reverted back to first page",
-                                        TextDirection.ltr));
-                              },
-                              style: TextButton.styleFrom(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.tertiary,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8),
-                                alignment: Alignment.center,
-                                fixedSize: const Size.fromWidth(110),
-                                elevation: 5,
-                              ),
-                              child: Text(
-                                "HOME",
-                                style: TextStyle(
-                                    fontFamily: 'SecularOne',
-                                    fontSize: 16,
-                                    letterSpacing: 1.28,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Flexible(flex: 2, child: Container()),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: NavButtons("FEED", false, "/feed_page/$uid"),
-                      ),
-                      Flexible(flex: 2, child: Container()),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: NavButtons("PROFILE", false, "/profile/$uid"),
-                      ),
-                      Flexible(flex: 2, child: Container()),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(
-                    child: data.friends.isEmpty
-                        ? const Padding(
-                            padding: EdgeInsets.only(bottom: 60),
-                            child: Center(
-                              child: Text(
-                                "Nothing to show yet...",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20),
-                              ),
-                            ),
-                          )
-                        : RefreshIndicator(
-                            key: _refreshIndicatorKey,
-                            onRefresh: () {
-                              return refresh(uid);
-                            },
-                            child:
-                                ref.watch(userPostsProvider(data.friends)).when(
-                                    data: (posts) => PageView.builder(
-                                        controller: _pageController,
-                                        itemCount: posts.length,
-                                        itemBuilder: ((context, index) {
-                                          final post = posts[index];
-                                          return Semantics(
-                                            label:
-                                                "Image Post card by ${data.firstName}",
-                                            hint:
-                                                "Page ${index + 1}. Tap around to know more",
-                                            explicitChildNodes: true,
-                                            child: PostCard(
-                                              firstName: data.firstName,
-                                              post: post,
-                                            ),
-                                          );
-                                        })),
-                                    error: (error, stacktrace) {
-                                      return ErrorText(error: error.toString());
-                                    },
-                                    loading: () => const Loader()),
-                          ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Semantics(
-                        excludeSemantics: true,
-                        label: "Refresh button",
-                        hint: "Double tap to refresh screen",
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.only(bottom: 8.0, right: 10),
-                          child: FloatingActionButton(
+          return Scaffold(
+            drawer: const ProfileDrawer(),
+            appBar: AppBar(
+              elevation: 0,
+              actions: [
+                const MessagesButton(),
+                NotificationButton(
+                  user: data,
+                ),
+                const SettingsButton(),
+              ],
+            ),
+            body: Column(
+              children: [
+                Row(
+                  children: [
+                    Flexible(flex: 2, child: Container()),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Focus(
+                        autofocus: true,
+                        child: Semantics(
+                          excludeSemantics: true,
+                          label:
+                              "Home screen button selected. You are on home screen",
+                          hint:
+                              "Double tap to revert back to first page of posts",
+                          child: TextButton(
                             onPressed: () {
-                              _refreshIndicatorKey.currentState?.show();
+                              _pageController
+                                  .animateToPage(0,
+                                      duration:
+                                          const Duration(milliseconds: 200),
+                                      curve: Curves.easeInOut)
+                                  .then((value) => announce(
+                                      "Reverted back to first page",
+                                      TextDirection.ltr));
                             },
-                            child: const Icon(
-                              Icons.refresh,
-                              color: Colors.white,
+                            style: TextButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.tertiary,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              alignment: Alignment.center,
+                              fixedSize: const Size.fromWidth(110),
+                              elevation: 5,
+                            ),
+                            child: Text(
+                              "HOME",
+                              style: TextStyle(
+                                  fontFamily: 'SecularOne',
+                                  fontSize: 16,
+                                  letterSpacing: 1.28,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer),
                             ),
                           ),
                         ),
-                      )
-                    ],
-                  )
-                ],
-              ),
+                      ),
+                    ),
+                    Flexible(flex: 2, child: Container()),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: NavButtons("FEED", false, "/feed_page/$uid"),
+                    ),
+                    Flexible(flex: 2, child: Container()),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: NavButtons("PROFILE", false, "/profile/$uid"),
+                    ),
+                    Flexible(flex: 2, child: Container()),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Expanded(
+                  child: widget.isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        )
+                      : data.friends.isEmpty
+                          ? const Padding(
+                              padding: EdgeInsets.only(bottom: 60),
+                              child: Center(
+                                child: Text(
+                                  "Nothing to show yet...",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ),
+                            )
+                          : ref.watch(userPostsProvider(data.friends)).when(
+                              data: (posts) => PageView.builder(
+                                  controller: _pageController,
+                                  itemCount: posts.length,
+                                  itemBuilder: ((context, index) {
+                                    final post = posts[index];
+                                    return Semantics(
+                                      label:
+                                          "Image Post card by ${data.firstName}",
+                                      hint:
+                                          "Page ${index + 1}. Tap around to know more",
+                                      explicitChildNodes: true,
+                                      child: PostCard(
+                                        firstName: data.firstName,
+                                        post: post,
+                                      ),
+                                    );
+                                  })),
+                              error: (error, stacktrace) {
+                                return ErrorText(error: error.toString());
+                              },
+                              loading: () => const Loader()),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Semantics(
+                      excludeSemantics: true,
+                      label: "Refresh button",
+                      hint: "Double tap to refresh screen",
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0, right: 10),
+                        child: FloatingActionButton(
+                          onPressed: () async {
+                            return refresh(uid);
+                          },
+                          child: const Icon(
+                            Icons.refresh,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
             ),
           );
         },
