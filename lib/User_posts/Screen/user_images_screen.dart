@@ -25,7 +25,7 @@ class UserImagesScreen extends ConsumerWidget {
                     ),
                     itemCount: post.length,
                     itemBuilder: (context, index) =>
-                        ImageTile(image: post[index].profilepic));
+                        ImageTile(image: post[index].link));
           },
           error: (e, s) => ErrorText(error: e.toString()),
           loading: () => const Loader()),

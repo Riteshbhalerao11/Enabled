@@ -47,9 +47,13 @@ class _AddImageScreenState extends State<AddImageScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        showGeneralDialogBox(context,
-            "Unsaved changes will be discarded. Continue ?", navigateBack);
-        return true;
+        if (Navigator.of(context).canPop()) {
+          return true;
+        } else {
+          showGeneralDialogBox(context,
+              "Unsaved changes will be discarded. Continue ?", navigateBack);
+          return false;
+        }
       },
       child: Scaffold(
         appBar: AppBar(
