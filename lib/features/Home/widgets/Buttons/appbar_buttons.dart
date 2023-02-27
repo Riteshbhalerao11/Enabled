@@ -1,4 +1,3 @@
-import 'package:enabled_try_1/features/Add_post/screens/add_post_screen.dart';
 import 'package:enabled_try_1/features/Notifications/screen/notifications_screen.dart';
 import 'package:enabled_try_1/models/user_model.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +13,8 @@ class AddButton extends StatelessWidget {
       padding: const EdgeInsets.only(left: 8.0),
       child: IconButton(
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => AddPostScreen(
-                      user: user,
-                    )));
+            Routemaster.of(context)
+                .push("/profile/${user.uid}/add_posts_screen");
           },
           icon: Icon(
             Icons.add_circle,

@@ -1,4 +1,4 @@
-import 'package:enabled_try_1/My_story/Screen/my_story.dart';
+import 'package:enabled_try_1/features/My_story/Screen/my_story.dart';
 import 'package:enabled_try_1/features/Profile/screen/friends_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

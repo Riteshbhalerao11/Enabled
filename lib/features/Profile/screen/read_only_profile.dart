@@ -13,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ViewOnlyProfilePage extends ConsumerWidget {
   final String otherUsername;
   final String myUsername;
-  ViewOnlyProfilePage(
+  const ViewOnlyProfilePage(
       {super.key, required this.otherUsername, required this.myUsername});
 
   void sendFriendReq(
@@ -134,7 +134,8 @@ class ViewOnlyProfilePage extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       MediaButton(
-                          path: "/profile/${user.uid}/user_images_page",
+                          path:
+                              '/feed_page/$myUid/user_page/$myUsername/$otherUsername/${user.uid}/user_images_page',
                           title: "Images"),
                       const SizedBox(
                         width: 25,

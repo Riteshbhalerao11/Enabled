@@ -1,4 +1,4 @@
-import 'package:enabled_try_1/User_posts/widgets/grid_tile.dart';
+import 'package:enabled_try_1/features/User_posts/widgets/grid_tile.dart';
 import 'package:enabled_try_1/core/Common/error_text.dart';
 import 'package:enabled_try_1/core/Common/loader.dart';
 import 'package:enabled_try_1/features/Add_post/controller/post_controller.dart';

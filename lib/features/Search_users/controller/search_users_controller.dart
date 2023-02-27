@@ -5,6 +5,7 @@ import 'package:enabled_try_1/features/Profile/screen/read_only_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
 class SearchUserDelegate extends SearchDelegate {
   final WidgetRef ref;
@@ -61,11 +62,13 @@ class SearchUserDelegate extends SearchDelegate {
       DocumentSnapshot userSnapshot =
           await _firestore.collection('users').doc(uid).get();
       final myUsername = await userSnapshot.get('username');
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ViewOnlyProfilePage(
-                otherUsername: username,
-                myUsername: myUsername,
-              )));
+      // Navigator.of(context).push(MaterialPageRoute(
+      //     builder: (context) => ViewOnlyProfilePage(
+      //           otherUsername: username,
+      //           myUsername: myUsername,
+      //         )));
+      Routemaster.of(context)
+          .push('/feed_page/$uid/user_page/$myUsername/$username');
     }
 
     return ref.watch(searchUsersProvider(query)).when(

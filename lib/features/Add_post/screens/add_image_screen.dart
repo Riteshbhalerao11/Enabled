@@ -7,8 +7,8 @@ import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
 import 'package:flutter/material.dart';
 
 class AddImageScreen extends StatefulWidget {
-  const AddImageScreen({super.key, required this.user});
-  final UserModel user;
+  const AddImageScreen({super.key});
+
   @override
   State<AddImageScreen> createState() => _AddImageScreenState();
 }
@@ -29,7 +29,6 @@ class _AddImageScreenState extends State<AddImageScreen> {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => AddDescription(
               profilepic: profilepic,
-              user: widget.user,
             )));
   }
 
