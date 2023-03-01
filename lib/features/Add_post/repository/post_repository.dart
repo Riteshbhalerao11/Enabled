@@ -33,6 +33,13 @@ class PostRepository {
     }
   }
 
+  Future<List<Post>> fetchPosts() async {
+    final posts = await _posts.orderBy("createdAt", descending: true).get();
+    return posts.docs
+        .map((e) => Post.fromMap(e.data() as Map<String, dynamic>))
+        .toList();
+  }
+
   Stream<List<Post>> fetchUserPosts(List<String> usernames) {
     return _posts
         .where("username", whereIn: usernames)

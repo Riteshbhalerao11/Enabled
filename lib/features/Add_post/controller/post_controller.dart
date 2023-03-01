@@ -9,6 +9,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:uuid/uuid.dart';
 
+final fetchPostsProvider = FutureProvider((ref) {
+  final postController = ref.read(postControllerProvider.notifier);
+  return postController.fetchPosts();
+});
+
 final userPostsProvider = StreamProvider.family((ref, List<String> usernames) {
   final postController = ref.read(postControllerProvider.notifier);
   return postController.fetchUserPosts(usernames);
@@ -83,6 +88,10 @@ class PostController extends StateNotifier<bool> {
       return _postRepository.fetchUserPosts(usernames);
     }
     return Stream.value([]);
+  }
+
+  Future<List<Post>> fetchPosts() {
+    return _postRepository.fetchPosts();
   }
 
   Stream<List<Post>> getUserPosts(String uid) {

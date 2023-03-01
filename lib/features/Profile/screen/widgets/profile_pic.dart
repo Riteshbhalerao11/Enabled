@@ -69,21 +69,24 @@ class NetworkPicture extends StatelessWidget {
   final String altText;
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      excludeSemantics: true,
-      label: "Image description : ",
-      hint: altText,
-      child: Container(
-          margin: const EdgeInsets.only(left: 16, right: 16),
-          decoration: const BoxDecoration(
-            color: Colors.black,
-          ),
-          height: 300,
-          width: double.infinity,
-          child: ClipRRect(
-            child: InteractiveViewer(
-                child: Image.network(img, fit: BoxFit.contain)),
-          )),
+    return IgnorePointer(
+      ignoringSemantics: false,
+      child: Semantics(
+        excludeSemantics: true,
+        label: "Image description : ",
+        hint: altText,
+        child: Container(
+            margin: const EdgeInsets.only(left: 16, right: 16),
+            decoration: const BoxDecoration(
+              color: Colors.black,
+            ),
+            height: 300,
+            width: double.infinity,
+            child: ClipRRect(
+              child: InteractiveViewer(
+                  child: Image.network(img, fit: BoxFit.contain)),
+            )),
+      ),
     );
   }
 }

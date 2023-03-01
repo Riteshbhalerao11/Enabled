@@ -121,12 +121,13 @@ class _HomePageState extends ConsumerState<HomePage> {
                     Flexible(flex: 2, child: Container()),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: NavButtons("FEED", false, "/feed_page/$uid"),
+                      child: NavButtons("FEED", false, "/feed_page/$uid", data),
                     ),
                     Flexible(flex: 2, child: Container()),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: NavButtons("PROFILE", false, "/profile/$uid"),
+                      child:
+                          NavButtons("PROFILE", false, "/profile/$uid", data),
                     ),
                     Flexible(flex: 2, child: Container()),
                   ],

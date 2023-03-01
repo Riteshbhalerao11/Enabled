@@ -2,6 +2,8 @@ import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:enabled_try_1/features/Notifications/screen/notifications_screen.dart';
 import 'package:enabled_try_1/models/user_model.dart';
 import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,14 @@ import 'package:speech_to_text/speech_to_text.dart';
 final voiceStateProvider = StateProvider<bool>((ref) => false);
 
 class SpeechApi {
+  static Future<void> announce(String message, TextDirection textDirection,
+      {Assertiveness assertiveness = Assertiveness.polite}) async {
+    final AnnounceSemanticsEvent event = AnnounceSemanticsEvent(
+        message, textDirection,
+        assertiveness: assertiveness);
+    await SystemChannels.accessibility.send(event.toMap());
+  }
+
   static final FlutterTts _tts = FlutterTts();
   static final _speech = SpeechToText();
   static bool result = false;
@@ -23,22 +33,24 @@ class SpeechApi {
       required Function(String err) onError}) async {
     try {
       if (_speech.isListening) {
+        onListening(false);
         _speech.stop();
         _speech.cancel();
         return true;
       }
 
       final isAvailable = await _speech.initialize(
-        onStatus: (status) => onListening(_speech.isListening),
         onError: (e) {
           _tts.speak("No dictionary words detected");
         },
       );
 
       if (isAvailable) {
+        onListening(_speech.isAvailable);
         await _speech.listen(
             partialResults: false,
             onResult: (value) {
+              onListening(false);
               if (ref.read(userProvider) != null) {
                 executeCommand(value.recognizedWords, ref.read(userProvider)!,
                     context, screen);
@@ -59,7 +71,7 @@ class SpeechApi {
   }
 
   static void executeCommand(
-      String res, UserModel user, BuildContext context, String screen) {
+      String res, UserModel user, BuildContext context, String screen) async {
     final result = res.toLowerCase().trim();
     if (result.contains("home")) {
       switch (screen) {
@@ -79,6 +91,13 @@ class SpeechApi {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => Notifications(user: user)));
       _tts.speak("Navigated to notifications");
+    } else if (result.contains("post") &&
+        (result.contains("image") || result.contains("images"))) {
+      Routemaster.of(context).push("/add_image_screen");
+      _tts.speak("Navigated to post image screen");
+    } else if ((result.contains("edit") && result.contains("profile"))) {
+      Routemaster.of(context).push("/edit_profile_screen");
+      _tts.speak("Navigated to edit profile screen");
     } else if (result.contains("profile")) {
       switch (screen) {
         case "profile":
@@ -88,14 +107,11 @@ class SpeechApi {
           break;
         default:
           {
-            Routemaster.of(context).push('/profile/${user.uid}');
-            _tts.speak("Navigated to profile");
+            await announce('Navigated to profile', TextDirection.ltr).then(
+                (value) =>
+                    Routemaster.of(context).push('/profile/${user.uid}'));
           }
       }
-    } else if (result.contains("post") &&
-        (result.contains("image") || result.contains("images"))) {
-      Routemaster.of(context).push("/add_image_screen");
-      _tts.speak("Navigated to post image screen");
     } else if (result.contains("feed")) {
       switch (screen) {
         case "feed":
@@ -112,10 +128,6 @@ class SpeechApi {
     } else if (result.contains("back")) {
       Routemaster.of(context).pop();
       _tts.speak("Navigated back");
-    } else if (result.contains("post") &&
-        (result.contains("edit") || result.contains("profile"))) {
-      Routemaster.of(context).push("/edit_profile_screen");
-      _tts.speak("Navigated to edit profile screen");
     } else {
       _tts.speak("Invalid command");
     }

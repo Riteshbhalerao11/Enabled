@@ -16,6 +16,7 @@ class _VoiceButtonState extends ConsumerState<VoiceButton> {
   @override
   Widget build(BuildContext context) {
     final isListening = ref.watch(voiceStateProvider);
+
     return FloatingActionButton(
       heroTag: "voice",
       backgroundColor: isListening
