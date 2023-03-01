@@ -1,20 +1,20 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/bio_box.dart';
 import 'package:enabled_try_1/features/edit_profile/repository/edit_provider.dart';
 import 'package:enabled_try_1/features/edit_profile/widgets/bio_edit.dart';
 import 'package:enabled_try_1/features/edit_profile/widgets/editable_bio_box.dart';
 import 'package:enabled_try_1/features/edit_profile/widgets/image.dart';
-import 'package:enabled_try_1/models/user_model.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../widgets/bio_edit.dart';
 
 class EditProfileScreen extends ConsumerWidget {
-  const EditProfileScreen({super.key, required this.user, required this.uid});
-  final UserModel user;
-  final String uid;
+  const EditProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var bio = user.bio;
+    final user = ref.read(userProvider.notifier).state;
+    var bio = user!.bio;
     final isEdit = ref.watch(editProvider);
     return GestureDetector(
       onTap: () {
@@ -33,7 +33,7 @@ class EditProfileScreen extends ConsumerWidget {
             children: [
               ProfilePic(
                 user: user,
-                uid: uid,
+                uid: user.uid,
               ),
               const SizedBox(
                 height: 50,
@@ -43,7 +43,7 @@ class EditProfileScreen extends ConsumerWidget {
               if (isEdit)
                 EditBioBox(
                   user: user,
-                  uid: uid,
+                  uid: user.uid,
                 ),
             ],
           ),

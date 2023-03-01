@@ -1,9 +1,12 @@
 // ignore: file_names
 
+import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:enabled_try_1/features/edit_profile/screens/edit_profile_screen.dart';
 import 'package:enabled_try_1/models/user_model.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
 void showSnackBar(BuildContext ctx, String message, bool isError) {
   ScaffoldMessenger.of(ctx).showSnackBar(
@@ -24,8 +27,11 @@ Future<FilePickerResult?> pickImage() async {
   return image;
 }
 
-void showDialogBox(
-    BuildContext ctx, String message, UserModel user, String uid) {
+void showDialogBox(BuildContext ctx, String message, String uid, UserModel user,
+    WidgetRef ref) {
+  ref.read(userProvider.notifier).update(
+        (state) => user,
+      );
   showDialog(
       context: ctx,
       builder: (ctx) {
@@ -48,10 +54,7 @@ void showDialogBox(
                 ),
                 onPressed: () {
                   Navigator.of(ctx).pop();
-                  Navigator.of(ctx).push(MaterialPageRoute(
-                    builder: (context) =>
-                        EditProfileScreen(user: user, uid: uid),
-                  ));
+                  Routemaster.of(ctx).push('/profile/$uid/edit_profile_screen');
                 }),
           ],
         );

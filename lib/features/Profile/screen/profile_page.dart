@@ -1,4 +1,4 @@
-import 'package:enabled_try_1/models/user_model.dart';
+import 'package:enabled_try_1/features/voice_commands/voice_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,14 +40,16 @@ class ProfilePage extends ConsumerWidget {
                     GestureDetector(
                         onLongPress: () {
                           HapticFeedback.heavyImpact();
-                          showDialogBox(context, "Edit Profile ? ", user, uid);
+                          showDialogBox(
+                              context, "Edit Profile ? ", uid, user, ref);
                         },
                         child: const ProfilePicture()),
                   if (user.profilepic.length != 1)
                     GestureDetector(
                         onLongPress: () {
                           HapticFeedback.heavyImpact();
-                          showDialogBox(context, "Edit Profile ? ", user, uid);
+                          showDialogBox(
+                              context, "Edit Profile ? ", uid, user, ref);
                         },
                         child: FilledPictureUrl(url: user.profilepic)),
                   const SizedBox(
@@ -73,8 +75,16 @@ class ProfilePage extends ConsumerWidget {
                       const SizedBox(
                         width: 25,
                       ),
-                      MediaButton(path: "path", title: "Videos"),
+                      const MediaButton(path: "path", title: "Videos"),
                     ],
+                  ),
+                  Flexible(child: Container()),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: VoiceButton(
+                      user: user,
+                      screen: 'profile',
+                    ),
                   )
                 ],
               ),

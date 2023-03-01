@@ -5,6 +5,7 @@ import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:enabled_try_1/features/Home/Screens/widgets/Buttons/nav_buttons.dart';
 import 'package:enabled_try_1/features/Home/Screens/widgets/post_card.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_drawer.dart';
+import 'package:enabled_try_1/features/voice_commands/voice_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
@@ -142,7 +143,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         )
                       : data.friends.isEmpty
                           ? const Padding(
-                              padding: EdgeInsets.only(bottom: 60),
+                              padding: EdgeInsets.only(top: 20),
                               child: Center(
                                 child: Text(
                                   "Nothing to show yet...",
@@ -175,15 +176,26 @@ class _HomePageState extends ConsumerState<HomePage> {
                               loading: () => const Loader()),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  // mainAxisSize: MainAxisSize.min,
+                  // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Semantics(
-                      excludeSemantics: true,
-                      label: "Refresh button",
-                      hint: "Double tap to refresh screen",
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0, right: 10),
+                    Flexible(child: Container()),
+                    const SizedBox(
+                      width: 70,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 35.0),
+                      child: VoiceButton(user: data, screen: "home"),
+                    ),
+                    Flexible(child: Container()),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 12.0),
+                      child: Semantics(
+                        excludeSemantics: true,
+                        label: "Refresh button",
+                        hint: "Double tap to refresh screen",
                         child: FloatingActionButton(
+                          heroTag: "refresh",
                           onPressed: () async {
                             return refresh(uid);
                           },
@@ -193,7 +205,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 )
               ],

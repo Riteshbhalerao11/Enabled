@@ -1,5 +1,6 @@
 import 'package:enabled_try_1/features/Profile/screen/read_only_profile.dart';
 import 'package:enabled_try_1/features/User_posts/Screen/user_images_screen.dart';
+import 'package:enabled_try_1/features/edit_profile/screens/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -22,7 +23,6 @@ final loggedinRoute = RouteMap(routes: {
       child: HomePage(),
       pushTransition: PageTransition.none,
       popTransition: PageTransition.none),
-  // '/signup': (_) => const MaterialPage(child: SignupScreen()),
   '/profile/:uid': (route) => TransitionPage(
       child: ProfilePage(
         uid: route.pathParameters['uid']!,
@@ -45,22 +45,19 @@ final loggedinRoute = RouteMap(routes: {
           child: ViewOnlyProfilePage(
               otherUsername: route.pathParameters['otherUsername']!,
               myUsername: route.pathParameters['myUsername']!)),
-
   '/feed_page/:uid/user_page/:myUsername/:otherUsername/:uid/user_images_page':
       (route) => MaterialPage(
             child: UserImagesScreen(
               uid: route.pathParameters['uid']!,
             ),
           ),
-
   '/profile/:uid/add_posts_screen': (route) =>
       const MaterialPage(child: AddPostScreen()),
   '/profile/:uid/add_posts_screen/add_image_screen': (route) =>
       const MaterialPage(child: AddImageScreen()),
-  // '/add_post/post_video': (route) => const MaterialPage(child: AddVideoScreen())
-  // '/edit_profile/:bio/:profilepic': (route) => MaterialPage(
-  //         child: EditProfileScreen(
-  //       parentBio: route.pathParameters['bio']!,
-  //       parentProfilepic: route.pathParameters['profilepic']!,
-  //     ))
+  '/profile/:uid/edit_profile_screen': (route) =>
+      const MaterialPage(child: EditProfileScreen()),
+  '/add_image_screen': (route) => const MaterialPage(child: AddImageScreen()),
+  '/edit_profile_screen': (route) =>
+      const MaterialPage(child: EditProfileScreen()),
 });
