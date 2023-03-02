@@ -148,7 +148,10 @@ class TopBar extends StatelessWidget {
               hint: "username is : ${post.username}",
               child: Text(
                 post.username,
-                style: const TextStyle(fontFamily: "SecularOne", fontSize: 16),
+                style: const TextStyle(
+                    fontFamily: "SecularOne",
+                    fontSize: 16,
+                    color: Colors.white),
               ),
             ),
             Flexible(

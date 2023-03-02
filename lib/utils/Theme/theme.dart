@@ -35,11 +35,11 @@ class Pallete {
       inputDecorationTheme: const InputDecorationTheme(
         labelStyle: TextStyle(color: labelTextColor),
       ),
-      textTheme: const TextTheme(
-        titleLarge: TextStyle(
-          color: Colors.white,
-        ),
-      ),
+      // textTheme: const TextTheme().copyWith(
+      //   titleLarge: TextStyle(
+      //     color: Colors.white,
+      //   ),
+      // ),
       colorScheme: const ColorScheme.light(
           primary: primaryAppColor,
           secondary: accentappColor,
@@ -53,27 +53,28 @@ class Pallete {
       scaffoldBackgroundColor: primaryDarkAppColor,
       cardColor: Colors.black,
       appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF333333),
-          elevation: 0,
-          iconTheme: IconThemeData(
-            color: Colors.white,
-          ),
-          titleTextStyle: TextStyle(
-              fontFamily: "SecularOne",
-              color: Colors.white,
-              fontSize: 20,
-              letterSpacing: 1.2)),
+        backgroundColor: Color(0xFF333333),
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
+        // titleTextStyle: TextStyle(
+        //     fontFamily: "SecularOne",
+        //     color: Colors.white,
+        //     fontSize: 20,
+        //     letterSpacing: 1.2)
+      ),
       drawerTheme: const DrawerThemeData(
         backgroundColor: Color(0xFF333333),
       ),
       inputDecorationTheme: const InputDecorationTheme(
         labelStyle: TextStyle(color: labelTextColor),
       ),
-      textTheme: const TextTheme(
-        titleLarge: TextStyle(
-          color: Colors.white,
-        ),
-      ),
+      // textTheme: const TextTheme(
+      //   titleLarge: TextStyle(
+      //     color: Colors.white,
+      //   ),
+      // ),
       colorScheme: const ColorScheme.dark(
           primary: primaryDarkAppColor,
           secondary: accentDarkappColor,

@@ -41,6 +41,7 @@ class SpeechApi {
 
       final isAvailable = await _speech.initialize(
         onError: (e) {
+          onListening(false);
           _tts.speak("No dictionary words detected");
         },
       );
@@ -53,7 +54,7 @@ class SpeechApi {
               onListening(false);
               if (ref.read(userProvider) != null) {
                 executeCommand(value.recognizedWords, ref.read(userProvider)!,
-                    context, screen);
+                    context, screen, onListening);
               } else {
                 showSnackBar(
                     context, "Something went wrong. Restart the app", true);
@@ -70,8 +71,9 @@ class SpeechApi {
     }
   }
 
-  static void executeCommand(
-      String res, UserModel user, BuildContext context, String screen) async {
+  static void executeCommand(String res, UserModel user, BuildContext context,
+      String screen, Function onListen) async {
+    onListen(false);
     final result = res.toLowerCase().trim();
     if (result.contains("home")) {
       switch (screen) {

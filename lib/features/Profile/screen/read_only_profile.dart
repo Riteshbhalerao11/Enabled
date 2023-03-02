@@ -5,6 +5,7 @@ import 'package:enabled_try_1/features/Profile/screen/widgets/bio_box.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/info_bar.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_buttons.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_pic.dart';
+import 'package:enabled_try_1/features/Profile/screen/widgets/view_only_info_bar.dart';
 import 'package:enabled_try_1/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -122,7 +123,13 @@ class ViewOnlyProfilePage extends ConsumerWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                  InfoBar(username: user.username, friends: user.friends),
+                  ViewOnlyInfoBar(
+                    otherUsername: user.username,
+                    friends: user.friends,
+                    myUid: myUid,
+                    myUsername: myUsername,
+                    otherUid: user.uid,
+                  ),
                   const SizedBox(
                     height: 16,
                   ),

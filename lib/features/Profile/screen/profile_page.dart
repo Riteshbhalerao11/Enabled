@@ -64,6 +64,7 @@ class ProfilePage extends ConsumerWidget {
                         height: 16,
                       ),
                       InfoBar(
+                        uid: user.uid,
                         username: user.username,
                         friends: user.friends,
                       ),

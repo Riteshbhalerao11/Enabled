@@ -3,15 +3,19 @@ import 'package:enabled_try_1/features/Profile/screen/friends_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 
-class InfoBar extends StatelessWidget {
-  const InfoBar(
+class ViewOnlyInfoBar extends StatelessWidget {
+  const ViewOnlyInfoBar(
       {super.key,
-      required this.username,
+      required this.otherUid,
+      required this.otherUsername,
+      required this.myUsername,
       required this.friends,
-      required this.uid});
+      required this.myUid});
 
-  final String username;
-  final String uid;
+  final String myUsername;
+  final String otherUsername;
+  final String otherUid;
+  final String myUid;
   final List<String> friends;
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,7 @@ class InfoBar extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 14.0),
                   child: Text(
-                    username,
+                    otherUsername,
                     style: const TextStyle(
                         color: Colors.white,
                         fontFamily: "Signika",
@@ -47,10 +51,11 @@ class InfoBar extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 14.0),
                     child: friends.length == 1
                         ? TextButton(
-                            onPressed: () {
-                              Routemaster.of(context)
-                                  .push('/profile/$uid/my_story');
-                            },
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      FriendsScreen(friends: friends)),
+                            ),
                             child: Text("${friends.length} Friend",
                                 style: const TextStyle(
                                     color: Colors.white,
@@ -86,11 +91,8 @@ class InfoBar extends StatelessWidget {
                     BorderRadius.horizontal(right: Radius.circular(20))),
             child: InkWell(
               onTap: () {
-                // Routemaster.of(context).push('/profile/$uid/my_story');
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => MyStory(
-                          uid: uid,
-                        )));
+                Routemaster.of(context).push(
+                    '/feed_page/$myUid/user_page/$myUsername/$otherUsername/$otherUid/my_story_page');
               },
               focusColor: Colors.white,
               borderRadius: const BorderRadius.horizontal(
