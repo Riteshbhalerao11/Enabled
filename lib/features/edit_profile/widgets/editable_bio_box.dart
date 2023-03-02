@@ -1,11 +1,10 @@
-import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
-import 'package:enabled_try_1/features/edit_profile/repository/edit_provider.dart';
-import 'package:enabled_try_1/models/user_model.dart';
-import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:routemaster/routemaster.dart';
+
+import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
+import 'package:enabled_try_1/features/edit_profile/repository/edit_provider.dart';
+import 'package:enabled_try_1/models/user_model.dart';
 
 class EditBioBox extends ConsumerStatefulWidget {
   const EditBioBox({super.key, required this.user, required this.uid});
@@ -30,7 +29,6 @@ class _EditBioBoxState extends ConsumerState<EditBioBox> {
 
   @override
   void initState() {
-    // TODO: implement initState
     final String initBio = widget.user.bio;
     super.initState();
     bioEditingController = TextEditingController(text: initBio);
@@ -115,6 +113,5 @@ class _EditBioBoxState extends ConsumerState<EditBioBox> {
           ),
       ],
     );
-    ;
   }
 }

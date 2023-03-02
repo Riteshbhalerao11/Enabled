@@ -16,6 +16,11 @@ class SearchUserDelegate extends SearchDelegate {
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
     return theme.copyWith(
+      textTheme: TextTheme(
+          titleLarge: TextStyle(
+              color: Theme.of(context).colorScheme.onSecondaryContainer,
+              fontFamily: "SecularOne",
+              fontSize: 20)),
       appBarTheme: AppBarTheme(
           backgroundColor: colorScheme.brightness == Brightness.dark
               ? Colors.grey[900]
@@ -35,11 +40,16 @@ class SearchUserDelegate extends SearchDelegate {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      IconButton(
-        onPressed: () {
-          query = '';
-        },
-        icon: const Icon(Icons.close),
+      Semantics(
+        excludeSemantics: true,
+        label: "cancel button",
+        hint: "double tap to clear input of search edit box",
+        child: IconButton(
+          onPressed: () {
+            query = '';
+          },
+          icon: const Icon(Icons.close),
+        ),
       ),
     ];
   }
@@ -72,46 +82,61 @@ class SearchUserDelegate extends SearchDelegate {
     }
 
     return ref.watch(searchUsersProvider(query)).when(
-        data: (users) => Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: users.length,
-                itemBuilder: (context, index) {
-                  final user = users[index];
-                  if (users.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        "No users found",
-                        style: TextStyle(color: Colors.white),
+        data: (users) => Semantics(
+              excludeSemantics: true,
+              explicitChildNodes: true,
+              label: "Search results card",
+              hint: "Tap around to know more",
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: users.length,
+                  itemBuilder: (context, index) {
+                    final user = users[index];
+                    if (users.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          "No users found",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      );
+                    }
+                    return Semantics(
+                      excludeSemantics: true,
+                      label: "User list tile",
+                      hint: "username is ${user.firstName}",
+                      child: ListTile(
+                        leading: CircleAvatar(
+                            backgroundColor: Colors.black,
+                            backgroundImage: (user.profilepic.length == 1)
+                                ? null
+                                : NetworkImage(user.profilepic),
+                            child: (user.profilepic.length == 1)
+                                ? const Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                  )
+                                : null),
+                        title: Semantics(
+                          label: "Username",
+                          hint: user.username,
+                          child: Text(
+                            user.username,
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                        ),
+                        onTap: () => navigate(
+                          user.username,
+                        ),
                       ),
                     );
-                  }
-                  return ListTile(
-                    leading: CircleAvatar(
-                        backgroundColor: Colors.black,
-                        backgroundImage: (user.profilepic.length == 1)
-                            ? null
-                            : NetworkImage(user.profilepic),
-                        child: (user.profilepic.length == 1)
-                            ? const Icon(
-                                Icons.person,
-                                color: Colors.white,
-                              )
-                            : null),
-                    title: Text(
-                      user.username,
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                    onTap: () => navigate(
-                      user.username,
-                    ),
-                  );
-                },
+                  },
+                ),
               ),
             ),
         error: (error, stack) => ErrorText(
@@ -124,11 +149,15 @@ class SearchUserDelegate extends SearchDelegate {
                   Icon(
                     Icons.search,
                     color: Colors.white,
+                    size: 35,
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  Text("Search users")
+                  Text(
+                    "Search users",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  )
                 ],
               ),
             ));

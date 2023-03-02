@@ -36,31 +36,31 @@ class NotificationButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => Notifications(user: user)));
+        Routemaster.of(context).push("/notifications/${user.uid}");
       },
       icon: const Icon(
         Icons.notifications,
+        size: 35,
       ),
       color: Theme.of(context).appBarTheme.iconTheme?.color,
     );
   }
 }
 
-class SettingsButton extends StatelessWidget {
-  const SettingsButton({super.key});
+// class SettingsButton extends StatelessWidget {
+//   const SettingsButton({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () {},
-      icon: const Icon(
-        Icons.settings,
-      ),
-      color: Theme.of(context).appBarTheme.iconTheme?.color,
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return IconButton(
+//       onPressed: () {},
+//       icon: const Icon(
+//         Icons.settings,
+//       ),
+//       color: Theme.of(context).appBarTheme.iconTheme?.color,
+//     );
+//   }
+// }
 
 class MessagesButton extends StatelessWidget {
   const MessagesButton({super.key});
@@ -71,6 +71,7 @@ class MessagesButton extends StatelessWidget {
       onPressed: () {},
       icon: const Icon(
         Icons.message,
+        size: 35,
       ),
       color: Theme.of(context).appBarTheme.iconTheme?.color,
     );

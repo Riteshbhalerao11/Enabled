@@ -102,6 +102,7 @@ class _AddDescriptionState extends ConsumerState<AddDescription> {
                               if (value == '') {
                                 return 'Please enter caption';
                               }
+                              return null;
                             },
                             style: const TextStyle(
                                 color: Colors.black,
@@ -146,6 +147,7 @@ class _AddDescriptionState extends ConsumerState<AddDescription> {
                               if (value == '') {
                                 return 'Alternate text is mandatory';
                               }
+                              return null;
                             },
                             style: const TextStyle(
                                 color: Colors.black,

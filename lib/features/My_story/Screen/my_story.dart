@@ -20,7 +20,7 @@ class _MyStoryState extends ConsumerState<MyStory> {
     final isLoading = ref.watch(myStoryProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Story"),
+        title: const Text("My Story"),
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(right: 8.0, bottom: 10),
@@ -88,11 +88,17 @@ class _MyStoryState extends ConsumerState<MyStory> {
                       horizontal: 16.0, vertical: 16),
                   child: ref.watch(futureGetStoryData(widget.uid!)).when(
                       data: (data) {
-                        final jdata = jsonDecode(data);
-                        _controller.document = quill.Document.fromJson(jdata);
-                        _controller.moveCursorToEnd();
-                        return quill.QuillEditor.basic(
-                            controller: _controller, readOnly: false);
+                        if (data == "") {
+                          _controller.moveCursorToEnd();
+                          return quill.QuillEditor.basic(
+                              controller: _controller, readOnly: false);
+                        } else {
+                          final jdata = jsonDecode(data);
+                          _controller.document = quill.Document.fromJson(jdata);
+                          _controller.moveCursorToEnd();
+                          return quill.QuillEditor.basic(
+                              controller: _controller, readOnly: false);
+                        }
                       },
                       error: (error, st) => ErrorText(error: error.toString()),
                       loading: () => const Center(

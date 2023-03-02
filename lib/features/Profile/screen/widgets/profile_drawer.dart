@@ -1,10 +1,9 @@
-import 'package:enabled_try_1/models/user_model.dart';
-import 'package:enabled_try_1/utils/Theme/theme.dart';
-import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
+
+import 'package:enabled_try_1/utils/Theme/theme.dart';
 
 class ProfileDrawer extends ConsumerWidget {
   const ProfileDrawer({super.key});
@@ -57,40 +56,50 @@ class ProfileDrawer extends ConsumerWidget {
             color: Colors.blueGrey,
             thickness: 1,
           ),
-          ListTile(
-            onTap: () {
-              toggleTheme(context, ref);
-            },
-            splashColor: Theme.of(context).colorScheme.onPrimary,
-            shape: const Border(bottom: BorderSide(color: Colors.blueGrey)),
-            leading: Icon(
-              Icons.colorize_outlined,
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
-            ),
-            title: Text(
-              "Theme change",
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSecondaryContainer,
-                  fontFamily: "Montserrat",
-                  letterSpacing: 1.2),
+          Semantics(
+            excludeSemantics: true,
+            label: "Toggle theme tile. List tile 1 of 2",
+            hint: "Double tap to change theme",
+            child: ListTile(
+              onTap: () {
+                toggleTheme(context, ref);
+              },
+              splashColor: Theme.of(context).colorScheme.onPrimary,
+              shape: const Border(bottom: BorderSide(color: Colors.blueGrey)),
+              leading: Icon(
+                Icons.colorize_outlined,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+              title: Text(
+                "Theme change",
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    fontFamily: "Montserrat",
+                    letterSpacing: 1.2),
+              ),
             ),
           ),
-          ListTile(
-            onTap: () {
-              showLogoutDialogBox(context, "Do you really want to logout ?");
-            },
-            splashColor: Theme.of(context).colorScheme.onPrimary,
-            shape: const Border(bottom: BorderSide(color: Colors.blueGrey)),
-            leading: Icon(
-              Icons.logout,
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
-            ),
-            title: Text(
-              "Logout",
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSecondaryContainer,
-                  fontFamily: "Montserrat",
-                  letterSpacing: 1.2),
+          Semantics(
+            excludeSemantics: true,
+            label: "Logout tile. List tile 2 of 2",
+            hint: "Double tap to log out",
+            child: ListTile(
+              onTap: () {
+                showLogoutDialogBox(context, "Do you really want to logout ?");
+              },
+              splashColor: Theme.of(context).colorScheme.onPrimary,
+              shape: const Border(bottom: BorderSide(color: Colors.blueGrey)),
+              leading: Icon(
+                Icons.logout,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+              title: Text(
+                "Logout",
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    fontFamily: "Montserrat",
+                    letterSpacing: 1.2),
+              ),
             ),
           ),
         ],

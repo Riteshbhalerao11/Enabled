@@ -61,11 +61,21 @@ class _HomePageState extends ConsumerState<HomePage> {
             appBar: AppBar(
               elevation: 0,
               actions: [
-                const MessagesButton(),
-                NotificationButton(
-                  user: data,
+                Semantics(
+                  excludeSemantics: true,
+                  label: "Notifications button",
+                  hint: "Double tap to activate",
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: NotificationButton(
+                      user: data,
+                    ),
+                  ),
                 ),
-                const SettingsButton(),
+                const Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: MessagesButton(),
+                ),
               ],
             ),
             body: SingleChildScrollView(
@@ -126,14 +136,24 @@ class _HomePageState extends ConsumerState<HomePage> {
                         Flexible(flex: 2, child: Container()),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: NavButtons(
-                              "FEED", false, "/feed_page/$uid", data),
+                          child: Semantics(
+                            excludeSemantics: true,
+                            label: "Feed button",
+                            hint: "Double tap to go to feed page",
+                            child: NavButtons(
+                                "FEED", false, "/feed_page/$uid", data),
+                          ),
                         ),
                         Flexible(flex: 2, child: Container()),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: NavButtons(
-                              "PROFILE", false, "/profile/$uid", data),
+                          child: Semantics(
+                            excludeSemantics: true,
+                            label: "Profile button",
+                            hint: "Double tap to go to profile page",
+                            child: NavButtons(
+                                "PROFILE", false, "/profile/$uid", data),
+                          ),
                         ),
                         Flexible(flex: 2, child: Container()),
                       ],
@@ -149,34 +169,41 @@ class _HomePageState extends ConsumerState<HomePage> {
                               ),
                             )
                           : data.friends.isEmpty
-                              ? const Padding(
-                                  padding: EdgeInsets.only(top: 20),
-                                  child: Center(
-                                    child: Text(
-                                      "Nothing to show yet...",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 20),
+                                  child: Semantics(
+                                    excludeSemantics: true,
+                                    label:
+                                        "There are no posts on your home right now.",
+                                    child: const Center(
+                                      child: Text(
+                                        "Nothing to show yet...",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
                                     ),
                                   ),
                                 )
                               : ref.watch(userPostsProvider(data.friends)).when(
-                                  data: (posts) => PageView.builder(
-                                      controller: _pageController,
-                                      itemCount: posts.length,
-                                      itemBuilder: ((context, index) {
-                                        final post = posts[index];
-                                        return Semantics(
-                                          label:
-                                              "Image Post card by ${data.firstName}",
-                                          hint:
-                                              "Page ${index + 1}. Tap around to know more",
-                                          explicitChildNodes: true,
-                                          child: PostCard(
-                                            firstName: data.firstName,
-                                            post: post,
-                                          ),
-                                        );
-                                      })),
+                                  data: (posts) => IntrinsicHeight(
+                                        child: PageView.builder(
+                                            controller: _pageController,
+                                            itemCount: posts.length,
+                                            itemBuilder: ((context, index) {
+                                              final post = posts[index];
+                                              return Semantics(
+                                                label:
+                                                    "Image Post card by ${data.firstName}",
+                                                hint:
+                                                    "Page ${index + 1}. Tap around to know more",
+                                                explicitChildNodes: true,
+                                                child: PostCard(
+                                                  firstName: data.firstName,
+                                                  post: post,
+                                                ),
+                                              );
+                                            })),
+                                      ),
                                   error: (error, stacktrace) {
                                     return ErrorText(error: error.toString());
                                   },
@@ -190,13 +217,19 @@ class _HomePageState extends ConsumerState<HomePage> {
                         const SizedBox(
                           width: 70,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 35.0),
-                          child: VoiceButton(user: data, screen: "home"),
+                        Semantics(
+                          excludeSemantics: true,
+                          label: "Voice commands button",
+                          hint: "Double tap and speak on beep",
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 100.0),
+                            child: VoiceButton(user: data, screen: "home"),
+                          ),
                         ),
                         Flexible(child: Container()),
                         Padding(
-                          padding: const EdgeInsets.only(right: 12.0),
+                          padding:
+                              const EdgeInsets.only(right: 12.0, bottom: 20),
                           child: Semantics(
                             excludeSemantics: true,
                             label: "Refresh button",

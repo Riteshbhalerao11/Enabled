@@ -15,120 +15,138 @@ class InfoBar extends StatelessWidget {
   final List<String> friends;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            margin: const EdgeInsets.only(left: 16),
-            height: 40,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.horizontal(
-                left: Radius.circular(20),
+    return Semantics(
+      explicitChildNodes: true,
+      label: "User information bar",
+      hint: "Tap in same row to know more",
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(left: 16),
+              height: 40,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.horizontal(
+                  left: Radius.circular(20),
+                ),
+                color: Theme.of(context).colorScheme.onBackground,
               ),
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 14.0),
-                  child: Text(
-                    username,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontFamily: "Signika",
-                        fontSize: 16,
-                        letterSpacing: 1.2),
-                  ),
-                ),
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 14.0),
-                    child: friends.length == 1
-                        ? TextButton(
-                            onPressed: () {
-                              Routemaster.of(context)
-                                  .push('/profile/$uid/my_story');
-                            },
-                            child: Text("${friends.length} Friend",
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: "Signika",
-                                    fontSize: 16,
-                                    letterSpacing: 1.2)),
-                          )
-                        : TextButton(
-                            onPressed: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      FriendsScreen(friends: friends)),
-                            ),
-                            child: Text("${friends.length} Friends",
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: "Signika",
-                                    fontSize: 16,
-                                    letterSpacing: 1.2)),
-                          ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 16),
-          child: Ink(
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius:
-                    BorderRadius.horizontal(right: Radius.circular(20))),
-            child: InkWell(
-              onTap: () {
-                // Routemaster.of(context).push('/profile/$uid/my_story');
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => MyStory(
-                          uid: uid,
-                        )));
-              },
-              focusColor: Colors.white,
-              borderRadius: const BorderRadius.horizontal(
-                  left: Radius.circular(0), right: Radius.circular(20)),
-              splashColor: Colors.purpleAccent,
-              splashFactory: InkRipple.splashFactory,
-              child: Container(
-                height: 40,
-                width: 115,
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.horizontal(
-                      right: Radius.circular(20),
-                    ),
-                    color: Colors.transparent),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(left: 8.0),
-                        child: Icon(Icons.edit_note),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 12.0),
-                        child: Text(
-                          "My Story",
-                          style: TextStyle(
-                            color: Colors.black,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Semantics(
+                    excludeSemantics: true,
+                    label: "username text",
+                    hint: username,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 14.0),
+                      child: Text(
+                        username,
+                        style: const TextStyle(
+                            color: Colors.white,
                             fontFamily: "Signika",
                             fontSize: 16,
-                          ),
-                        ),
-                      )
-                    ]),
+                            letterSpacing: 1.2),
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    child: Semantics(
+                      excludeSemantics: true,
+                      label: "Friends count",
+                      hint:
+                          "Currently you have ${friends.length} friends. Double tap to activate",
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 14.0),
+                        child: friends.length == 1
+                            ? TextButton(
+                                onPressed: () {
+                                  Routemaster.of(context)
+                                      .push('/profile/$uid/my_story');
+                                },
+                                child: Text("${friends.length} Friend",
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Signika",
+                                        fontSize: 16,
+                                        letterSpacing: 1.2)),
+                              )
+                            : TextButton(
+                                onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          FriendsScreen(friends: friends)),
+                                ),
+                                child: Text("${friends.length} Friends",
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Signika",
+                                        fontSize: 16,
+                                        letterSpacing: 1.2)),
+                              ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-        )
-      ],
+          Semantics(
+            excludeSemantics: true,
+            label: "My story button",
+            hint: "Double tap to edit your story",
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Ink(
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                        BorderRadius.horizontal(right: Radius.circular(20))),
+                child: InkWell(
+                  onTap: () {
+                    // Routemaster.of(context).push('/profile/$uid/my_story');
+                    Routemaster.of(context).push("/profile/$uid/my_story");
+                  },
+                  focusColor: Colors.white,
+                  borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(0), right: Radius.circular(20)),
+                  splashColor: Colors.purpleAccent,
+                  splashFactory: InkRipple.splashFactory,
+                  child: Container(
+                    height: 40,
+                    width: 115,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.horizontal(
+                          right: Radius.circular(20),
+                        ),
+                        color: Colors.transparent),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.only(left: 8.0),
+                            child: Icon(Icons.edit_note),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right: 12.0),
+                            child: Text(
+                              "My Story",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: "Signika",
+                                fontSize: 16,
+                              ),
+                            ),
+                          )
+                        ]),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

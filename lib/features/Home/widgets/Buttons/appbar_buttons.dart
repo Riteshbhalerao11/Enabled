@@ -1,4 +1,3 @@
-import 'package:enabled_try_1/features/Notifications/screen/notifications_screen.dart';
 import 'package:enabled_try_1/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
@@ -32,8 +31,7 @@ class NotificationButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => Notifications(user: user)));
+        Routemaster.of(context).push("/notifications/${user.uid}");
       },
       icon: const Icon(
         Icons.notifications,

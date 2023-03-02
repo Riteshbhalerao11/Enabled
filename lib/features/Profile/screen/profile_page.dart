@@ -26,12 +26,25 @@ class ProfilePage extends ConsumerWidget {
             return Scaffold(
               backgroundColor: Theme.of(context).colorScheme.primary,
               appBar: AppBar(
-                leading: AddButton(user: user),
-                title: Text(
-                  user.firstName,
-                  style: TextStyle(
-                      color:
-                          Theme.of(context).colorScheme.onSecondaryContainer),
+                leading: Semantics(
+                    excludeSemantics: true,
+                    label: "Add post button",
+                    hint: "Double tap to activate",
+                    child: AddButton(user: user)),
+                title: Focus(
+                  autofocus: true,
+                  child: Semantics(
+                    excludeSemantics: true,
+                    label: "Profile page",
+                    hint: "You are on your profile",
+                    child: Text(
+                      user.firstName,
+                      style: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer),
+                    ),
+                  ),
                 ),
               ),
               body: SingleChildScrollView(
@@ -45,21 +58,31 @@ class ProfilePage extends ConsumerWidget {
                         user: user,
                       ),
                       if (user.profilepic.length == 1)
-                        GestureDetector(
-                            onLongPress: () {
-                              HapticFeedback.heavyImpact();
-                              showDialogBox(
-                                  context, "Edit Profile ? ", uid, user, ref);
-                            },
-                            child: const ProfilePicture()),
+                        Semantics(
+                          excludeSemantics: true,
+                          label: "Empty Profile picture card",
+                          hint: "Double tap and hold to edit profile",
+                          child: GestureDetector(
+                              onLongPress: () {
+                                HapticFeedback.heavyImpact();
+                                showDialogBox(
+                                    context, "Edit Profile ? ", uid, user, ref);
+                              },
+                              child: const ProfilePicture()),
+                        ),
                       if (user.profilepic.length != 1)
-                        GestureDetector(
-                            onLongPress: () {
-                              HapticFeedback.heavyImpact();
-                              showDialogBox(
-                                  context, "Edit Profile ? ", uid, user, ref);
-                            },
-                            child: FilledPictureUrl(url: user.profilepic)),
+                        Semantics(
+                          excludeSemantics: true,
+                          label: "Your profile picture card",
+                          hint: "Double tap and hold to edit profile",
+                          child: GestureDetector(
+                              onLongPress: () {
+                                HapticFeedback.heavyImpact();
+                                showDialogBox(
+                                    context, "Edit Profile ? ", uid, user, ref);
+                              },
+                              child: FilledPictureUrl(url: user.profilepic)),
+                        ),
                       const SizedBox(
                         height: 16,
                       ),
@@ -78,21 +101,36 @@ class ProfilePage extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          MediaButton(
-                              path: '/profile/$uid/user_images_page',
-                              title: "Images"),
+                          Semantics(
+                            excludeSemantics: true,
+                            label: "Images button",
+                            hint: "double tap to see posted images by user",
+                            child: MediaButton(
+                                path: '/profile/$uid/user_images_page',
+                                title: "Images"),
+                          ),
                           const SizedBox(
                             width: 25,
                           ),
-                          const MediaButton(path: "path", title: "Videos"),
+                          Semantics(
+                              excludeSemantics: true,
+                              label: "Videos button",
+                              hint: "double tap to see posted videos by user",
+                              child: const MediaButton(
+                                  path: "path", title: "Videos")),
                         ],
                       ),
                       const SizedBox(
                         height: 20,
                       ),
-                      VoiceButton(
-                        user: user,
-                        screen: 'profile',
+                      Semantics(
+                        excludeSemantics: true,
+                        label: "Voice commands button",
+                        hint: "Double tap and speak on beep",
+                        child: VoiceButton(
+                          user: user,
+                          screen: 'profile',
+                        ),
                       )
                     ],
                   ),
@@ -118,17 +156,31 @@ class NavigationButtons extends StatelessWidget {
         Flexible(flex: 2, child: Container()),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: NavButtons("HOME", false, "/", user),
+          child: Semantics(
+              excludeSemantics: true,
+              label: "Home button",
+              hint: "Double tap to go to home page",
+              child: NavButtons("HOME", false, "/", user)),
         ),
         Flexible(flex: 2, child: Container()),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: NavButtons("FEED", false, "/feed_page/$uid", user),
+        Semantics(
+          excludeSemantics: true,
+          label: "Feed button",
+          hint: "Double tap to go to feed page",
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: NavButtons("FEED", false, "/feed_page/$uid", user),
+          ),
         ),
         Flexible(flex: 2, child: Container()),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: NavButtons("PROFILE", true, "/profile_page", user),
+        Semantics(
+          excludeSemantics: true,
+          label: "Profile button",
+          hint: "You are on profile page",
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: NavButtons("PROFILE", true, "/profile_page", user),
+          ),
         ),
         Flexible(flex: 2, child: Container()),
       ],

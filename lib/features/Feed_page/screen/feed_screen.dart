@@ -49,16 +49,30 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          title: Semantics(
+            excludeSemantics: true,
+            label: "App bar title",
+            hint: "Feed screen",
+            child: const Text(
+              "Feed",
+            ),
+          ),
           elevation: 0,
           actions: [
-            IconButton(
-              icon: Icon(
-                Icons.search,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+            Semantics(
+              excludeSemantics: true,
+              label: "Search button",
+              hint: "Double tap to go to search page",
+              child: IconButton(
+                icon: Icon(
+                  Icons.search,
+                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                ),
+                onPressed: () {
+                  showSearch(
+                      context: context, delegate: SearchUserDelegate(ref));
+                },
               ),
-              onPressed: () {
-                showSearch(context: context, delegate: SearchUserDelegate(ref));
-              },
             ),
           ],
         ),
@@ -72,21 +86,36 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                 Row(
                   children: [
                     Flexible(flex: 2, child: Container()),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0),
-                      child: NavButtons("HOME", false, '/', null),
+                    Semantics(
+                      excludeSemantics: true,
+                      label: "Home button",
+                      hint: "Double tap to go to home page",
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        child: NavButtons("HOME", false, '/', null),
+                      ),
                     ),
                     Flexible(flex: 2, child: Container()),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: NavButtons(
-                          "FEED", true, "/feed_page/${widget.uid}", null),
+                    Semantics(
+                      excludeSemantics: true,
+                      label: "Feed button",
+                      hint: "You are on feed page",
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: NavButtons(
+                            "FEED", true, "/feed_page/${widget.uid}", null),
+                      ),
                     ),
                     Flexible(flex: 2, child: Container()),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: NavButtons(
-                          "PROFILE", false, "/profile/${widget.uid}", null),
+                    Semantics(
+                      excludeSemantics: true,
+                      label: "Profile button",
+                      hint: "Double tap to go to profile page",
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: NavButtons(
+                            "PROFILE", false, "/profile/${widget.uid}", null),
+                      ),
                     ),
                     Flexible(flex: 2, child: Container()),
                   ],
@@ -119,15 +148,20 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                                   itemCount: pagePosts.length,
                                   itemBuilder: (context, index) {
                                     final post = pagePosts[index];
-                                    return GridTile(
-                                      child: Container(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimaryContainer,
-                                          child: Image.network(
-                                            post.link,
-                                            fit: BoxFit.cover,
-                                          )),
+                                    return Semantics(
+                                      excludeSemantics: true,
+                                      label: "Post tile in grid",
+                                      hint: "description : ${post.altText}",
+                                      child: GridTile(
+                                        child: Container(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimaryContainer,
+                                            child: Image.network(
+                                              post.link,
+                                              fit: BoxFit.cover,
+                                            )),
+                                      ),
                                     );
                                   },
                                 ),
@@ -152,10 +186,15 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                     const SizedBox(
                       width: 70,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
-                      child: VoiceButton(
-                          user: ref.read(userProvider)!, screen: "feed"),
+                    Semantics(
+                      excludeSemantics: true,
+                      label: "Voice commands button",
+                      hint: "Double tap and speak on beep",
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 20.0),
+                        child: VoiceButton(
+                            user: ref.read(userProvider)!, screen: "feed"),
+                      ),
                     ),
                     Flexible(child: Container()),
                     Padding(
