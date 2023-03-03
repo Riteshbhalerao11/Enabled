@@ -61,7 +61,9 @@ class _HomePageState extends ConsumerState<HomePage> {
             appBar: AppBar(
               elevation: 0,
               actions: [
-                const MessagesButton(),
+                MessagesButton(
+                  uid: uid.toString(),
+                ),
                 NotificationButton(
                   user: data,
                 ),

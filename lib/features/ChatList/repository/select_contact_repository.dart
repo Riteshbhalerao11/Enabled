@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:enabled_try_1/core/common/utils/utils.dart';
 import 'package:enabled_try_1/models/user_model.dart';
@@ -51,14 +52,7 @@ class SelectContactRepository {
         String selectedUser = selectedContact;
         if (selectedUser == userData.username) {
           isFound = true;
-          Navigator.pushNamed(
-            context,
-            MobileChatScreen.routeName,
-            arguments: {
-              'name': userData.username,
-              'uid': userData.uid,
-            },
-          );
+          Routemaster.of(context).push('/chat/${userData.uid}');
         }
       }
 
