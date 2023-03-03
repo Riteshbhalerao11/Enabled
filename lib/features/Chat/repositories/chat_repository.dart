@@ -121,7 +121,7 @@ class ChatRepository {
     } else {
 // users -> reciever user id => chats -> current user id -> set data
       var recieverChatContact = ChatContact(
-        name: senderUserData.name,
+        name: senderUserData.username,
         // profilePic: senderUserData.profilePic,
         contactId: senderUserData.username,
         timeSent: timeSent,
@@ -137,7 +137,7 @@ class ChatRepository {
           );
       // users -> current user id  => chats -> reciever user id -> set data
       var senderChatContact = ChatContact(
-        name: recieverUserData!.name,
+        name: recieverUserData!.username,
         // profilePic: recieverUserData.profilePic,
         contactId: recieverUserData.username,
         timeSent: timeSent,
@@ -254,10 +254,10 @@ class ChatRepository {
         timeSent: timeSent,
         messageType: MessageEnum.text,
         messageId: messageId,
-        username: senderUser.name,
+        username: senderUser.username,
         messageReply: messageReply,
-        recieverUserName: recieverUserData?.name,
-        senderUsername: senderUser.name,
+        recieverUserName: recieverUserData?.username,
+        senderUsername: senderUser.username,
         isGroupChat: isGroupChat,
       );
     } catch (e) {
@@ -325,11 +325,11 @@ class ChatRepository {
         text: imageUrl,
         timeSent: timeSent,
         messageId: messageId,
-        username: senderUserData.name,
+        username: senderUserData.username,
         messageType: messageEnum,
         messageReply: messageReply,
-        recieverUserName: recieverUserData?.name,
-        senderUsername: senderUserData.name,
+        recieverUserName: recieverUserData?.username,
+        senderUsername: senderUserData.username,
         isGroupChat: isGroupChat,
       );
     } catch (e) {
@@ -372,10 +372,10 @@ class ChatRepository {
         timeSent: timeSent,
         messageType: MessageEnum.gif,
         messageId: messageId,
-        username: senderUser.name,
+        username: senderUser.username,
         messageReply: messageReply,
-        recieverUserName: recieverUserData?.name,
-        senderUsername: senderUser.name,
+        recieverUserName: recieverUserData?.username,
+        senderUsername: senderUser.username,
         isGroupChat: isGroupChat,
       );
     } catch (e) {
