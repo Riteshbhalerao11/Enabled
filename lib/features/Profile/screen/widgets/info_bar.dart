@@ -20,6 +20,7 @@ class InfoBar extends StatelessWidget {
       label: "User information bar",
       hint: "Tap in same row to know more",
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
             child: Container(
@@ -40,50 +41,61 @@ class InfoBar extends StatelessWidget {
                     label: "username text",
                     hint: username,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 14.0),
-                      child: Text(
-                        username,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontFamily: "Signika",
-                            fontSize: 16,
-                            letterSpacing: 1.2),
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Text(
+                          username,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontFamily: "Signika",
+                              fontSize: 16,
+                              letterSpacing: 1.2),
+                        ),
                       ),
                     ),
                   ),
-                  Flexible(
-                    child: Semantics(
-                      excludeSemantics: true,
-                      label: "Friends count",
-                      hint:
-                          "Currently you have ${friends.length} friends. Double tap to activate",
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 14.0),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Flexible(
+                      child: Semantics(
+                        excludeSemantics: true,
+                        label: "Friends count",
+                        hint:
+                            "Currently you have ${friends.length} friends. Double tap to activate",
                         child: friends.length == 1
-                            ? TextButton(
-                                onPressed: () {
-                                  Routemaster.of(context)
-                                      .push('/profile/$uid/my_story');
-                                },
-                                child: Text("${friends.length} Friend",
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: "Signika",
-                                        fontSize: 16,
-                                        letterSpacing: 1.2)),
-                              )
-                            : TextButton(
-                                onPressed: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          FriendsScreen(friends: friends)),
+                            ? SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: FittedBox(
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Routemaster.of(context)
+                                          .push('/profile/$uid/my_story');
+                                    },
+                                    child: Text("${friends.length} Friend",
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: "Signika",
+                                            fontSize: 20,
+                                            letterSpacing: 1.2)),
+                                  ),
                                 ),
-                                child: Text("${friends.length} Friends",
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: "Signika",
-                                        fontSize: 16,
-                                        letterSpacing: 1.2)),
+                              )
+                            : SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: TextButton(
+                                  onPressed: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            FriendsScreen(friends: friends)),
+                                  ),
+                                  child: Text("${friends.length} Friends",
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: "Signika",
+                                          fontSize: 16,
+                                          letterSpacing: 1.2)),
+                                ),
                               ),
                       ),
                     ),
@@ -121,25 +133,29 @@ class InfoBar extends StatelessWidget {
                           right: Radius.circular(20),
                         ),
                         color: Colors.transparent),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.only(left: 8.0),
-                            child: Icon(Icons.edit_note),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(right: 12.0),
-                            child: Text(
-                              "My Story",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Signika",
-                                fontSize: 16,
-                              ),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Icon(Icons.edit_note),
                             ),
-                          )
-                        ]),
+                            Padding(
+                              padding: EdgeInsets.only(right: 12.0),
+                              child: Text(
+                                "My Story",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: "Signika",
+                                  fontSize: 16,
+                                ),
+                              ),
+                            )
+                          ]),
+                    ),
                   ),
                 ),
               ),

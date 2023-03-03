@@ -83,42 +83,48 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                 kToolbarHeight,
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Flexible(flex: 2, child: Container()),
-                    Semantics(
-                      excludeSemantics: true,
-                      label: "Home button",
-                      hint: "Double tap to go to home page",
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: NavButtons("HOME", false, '/', null),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Semantics(
+                        excludeSemantics: true,
+                        label: "Home button",
+                        hint: "Double tap to go to home page",
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: NavButtons("HOME", false, '/', null),
+                        ),
                       ),
-                    ),
-                    Flexible(flex: 2, child: Container()),
-                    Semantics(
-                      excludeSemantics: true,
-                      label: "Feed button",
-                      hint: "You are on feed page",
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: NavButtons(
-                            "FEED", true, "/feed_page/${widget.uid}", null),
+                      const SizedBox(
+                        width: 10,
                       ),
-                    ),
-                    Flexible(flex: 2, child: Container()),
-                    Semantics(
-                      excludeSemantics: true,
-                      label: "Profile button",
-                      hint: "Double tap to go to profile page",
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: NavButtons(
-                            "PROFILE", false, "/profile/${widget.uid}", null),
+                      Semantics(
+                        excludeSemantics: true,
+                        label: "Feed button",
+                        hint: "You are on feed page",
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: NavButtons(
+                              "FEED", true, "/feed_page/${widget.uid}", null),
+                        ),
                       ),
-                    ),
-                    Flexible(flex: 2, child: Container()),
-                  ],
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Semantics(
+                        excludeSemantics: true,
+                        label: "Profile button",
+                        hint: "Double tap to go to profile page",
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: NavButtons(
+                              "PROFILE", false, "/profile/${widget.uid}", null),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 if (!widget.isLoading)
                   Expanded(

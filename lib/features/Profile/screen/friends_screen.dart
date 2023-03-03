@@ -26,11 +26,23 @@ class FriendsScreen extends StatelessWidget {
             appBar: AppBar(
               title: const Text("Friends"),
             ),
-            body: ListView.builder(
-                itemCount: friends.length,
-                itemBuilder: (context, index) => ListTile(
-                      title: Text(friends[index]),
-                    )),
+            body: Container(
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20), color: Colors.white),
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: friends.length,
+                  itemBuilder: (context, index) => ListTile(
+                        title: Text(
+                          friends[index],
+                          style: TextStyle(
+                              fontFamily: "PTSans",
+                              fontSize: 20,
+                              color: Colors.black),
+                        ),
+                      )),
+            ),
           );
   }
 }

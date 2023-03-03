@@ -80,83 +80,92 @@ class _HomePageState extends ConsumerState<HomePage> {
             ),
             body: SingleChildScrollView(
               child: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                // MediaQuery.of(context).viewPadding.top,
+                height: MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).viewPadding.top -
+                    56,
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Flexible(flex: 2, child: Container()),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Focus(
-                            autofocus: true,
-                            child: Semantics(
-                              excludeSemantics: true,
-                              label:
-                                  "Home screen button selected. You are on home screen",
-                              hint:
-                                  "Double tap to revert back to first page of posts",
-                              child: TextButton(
-                                onPressed: () {
-                                  _pageController
-                                      .animateToPage(0,
-                                          duration:
-                                              const Duration(milliseconds: 200),
-                                          curve: Curves.easeInOut)
-                                      .then((value) => announce(
-                                          "Reverted back to first page",
-                                          TextDirection.ltr));
-                                },
-                                style: TextButton.styleFrom(
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.tertiary,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8),
-                                  alignment: Alignment.center,
-                                  fixedSize: const Size.fromWidth(110),
-                                  elevation: 5,
-                                ),
-                                child: Text(
-                                  "HOME",
-                                  style: TextStyle(
-                                      fontFamily: 'SecularOne',
-                                      fontSize: 16,
-                                      letterSpacing: 1.28,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimaryContainer),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(flex: 2, child: Container()),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Focus(
+                              autofocus: true,
+                              child: Semantics(
+                                excludeSemantics: true,
+                                label:
+                                    "Home screen button selected. You are on home screen",
+                                hint:
+                                    "Double tap to revert back to first page of posts",
+                                child: TextButton(
+                                  onPressed: () {
+                                    _pageController
+                                        .animateToPage(0,
+                                            duration: const Duration(
+                                                milliseconds: 200),
+                                            curve: Curves.easeInOut)
+                                        .then((value) => announce(
+                                            "Reverted back to first page",
+                                            TextDirection.ltr));
+                                  },
+                                  style: TextButton.styleFrom(
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.tertiary,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    alignment: Alignment.center,
+                                    fixedSize: const Size.fromWidth(110),
+                                    elevation: 5,
+                                  ),
+                                  child: Text(
+                                    "HOME",
+                                    style: TextStyle(
+                                        fontFamily: 'SecularOne',
+                                        fontSize: 16,
+                                        letterSpacing: 1.28,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimaryContainer),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Flexible(flex: 2, child: Container()),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Semantics(
-                            excludeSemantics: true,
-                            label: "Feed button",
-                            hint: "Double tap to go to feed page",
-                            child: NavButtons(
-                                "FEED", false, "/feed_page/$uid", data),
+                          const SizedBox(
+                            width: 10,
                           ),
-                        ),
-                        Flexible(flex: 2, child: Container()),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Semantics(
-                            excludeSemantics: true,
-                            label: "Profile button",
-                            hint: "Double tap to go to profile page",
-                            child: NavButtons(
-                                "PROFILE", false, "/profile/$uid", data),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Semantics(
+                              excludeSemantics: true,
+                              label: "Feed button",
+                              hint: "Double tap to go to feed page",
+                              child: NavButtons(
+                                  "FEED", false, "/feed_page/$uid", data),
+                            ),
                           ),
-                        ),
-                        Flexible(flex: 2, child: Container()),
-                      ],
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Semantics(
+                              excludeSemantics: true,
+                              label: "Profile button",
+                              hint: "Double tap to go to profile page",
+                              child: NavButtons(
+                                  "PROFILE", false, "/profile/$uid", data),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
@@ -207,6 +216,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   },
                                   loading: () => const Loader()),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Row(
                       // mainAxisSize: MainAxisSize.min,
                       // mainAxisAlignment: MainAxisAlignment.center,
@@ -219,7 +231,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                           excludeSemantics: true,
                           label: "Voice commands button",
                           hint: "Double tap and speak on beep",
-                          child: VoiceButton(user: data, screen: "home"),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20.0),
+                            child: VoiceButton(user: data, screen: "home"),
+                          ),
                         ),
                         Flexible(child: Container()),
                         Semantics(
@@ -227,7 +242,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                           label: "Refresh button",
                           hint: "Double tap to refresh screen",
                           child: Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
+                            padding:
+                                const EdgeInsets.only(right: 8.0, bottom: 8),
                             child: FloatingActionButton(
                               heroTag: "refresh",
                               onPressed: () async {
@@ -241,7 +257,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),

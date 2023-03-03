@@ -49,8 +49,8 @@ class ProfilePage extends ConsumerWidget {
               ),
               body: SingleChildScrollView(
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).viewPadding.top,
+                  // height: MediaQuery.of(context).size.height -
+                  //     MediaQuery.of(context).viewPadding.top,
                   child: Column(
                     children: [
                       NavigationButtons(
@@ -151,39 +151,45 @@ class NavigationButtons extends StatelessWidget {
   final UserModel user;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Flexible(flex: 2, child: Container()),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Semantics(
-              excludeSemantics: true,
-              label: "Home button",
-              hint: "Double tap to go to home page",
-              child: NavButtons("HOME", false, "/", user)),
-        ),
-        Flexible(flex: 2, child: Container()),
-        Semantics(
-          excludeSemantics: true,
-          label: "Feed button",
-          hint: "Double tap to go to feed page",
-          child: Padding(
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: NavButtons("FEED", false, "/feed_page/$uid", user),
+            child: Semantics(
+                excludeSemantics: true,
+                label: "Home button",
+                hint: "Double tap to go to home page",
+                child: NavButtons("HOME", false, "/", user)),
           ),
-        ),
-        Flexible(flex: 2, child: Container()),
-        Semantics(
-          excludeSemantics: true,
-          label: "Profile button",
-          hint: "You are on profile page",
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: NavButtons("PROFILE", true, "/profile_page", user),
+          const SizedBox(
+            width: 10,
           ),
-        ),
-        Flexible(flex: 2, child: Container()),
-      ],
+          Semantics(
+            excludeSemantics: true,
+            label: "Feed button",
+            hint: "Double tap to go to feed page",
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: NavButtons("FEED", false, "/feed_page/$uid", user),
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Semantics(
+            excludeSemantics: true,
+            label: "Profile button",
+            hint: "You are on profile page",
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: NavButtons("PROFILE", true, "/profile_page", user),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

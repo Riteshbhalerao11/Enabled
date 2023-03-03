@@ -19,17 +19,19 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        TopBar(post: post, myUsername: myUsername),
-        NetworkPicture(
-          img: post.link,
-          altText: post.altText,
-        ),
-        InfoBar(post: post),
-        CaptionBox(caption: post.caption)
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TopBar(post: post, myUsername: myUsername),
+          NetworkPicture(
+            img: post.link,
+            altText: post.altText,
+          ),
+          InfoBar(post: post),
+          CaptionBox(caption: post.caption)
+        ],
+      ),
     );
   }
 }
