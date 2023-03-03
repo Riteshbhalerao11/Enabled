@@ -1,12 +1,11 @@
-import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:enabled_try_1/features/Auth/screen/widgets/title.dart';
-import 'package:enabled_try_1/features/Auth/screen/widgets/forms/signup_form.dart';
-
-import 'package:enabled_try_1/features/auth/screen/widgets/subtitle.dart';
 import 'package:routemaster/routemaster.dart';
+
+import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
+import 'package:enabled_try_1/features/Auth/screen/widgets/forms/signup_form.dart';
+import 'package:enabled_try_1/features/Auth/screen/widgets/title.dart';
+import 'package:enabled_try_1/features/auth/screen/widgets/subtitle.dart';
 
 class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});
@@ -65,15 +64,20 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   padding: const EdgeInsets.only(bottom: 48),
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child: TextButton(
-                      onPressed: () {
-                        Routemaster.of(context).pop();
-                      },
-                      child: const Text("Back to login",
-                          style: TextStyle(
-                              fontFamily: 'Lora',
-                              fontSize: 20,
-                              color: Colors.white)),
+                    child: Semantics(
+                      excludeSemantics: true,
+                      label: "Back to login button",
+                      hint: "Double tap to go back to login page",
+                      child: TextButton(
+                        onPressed: () {
+                          Routemaster.of(context).pop();
+                        },
+                        child: const Text("Back to login",
+                            style: TextStyle(
+                                fontFamily: 'Lora',
+                                fontSize: 20,
+                                color: Colors.white)),
+                      ),
                     ),
                   ),
                 ),

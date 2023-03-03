@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class ForgotPass extends StatelessWidget {
@@ -10,12 +9,10 @@ class ForgotPass extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       child: TextButton(
         onPressed: () {},
-        child: Text(
+        child: const Text(
           "forgot password ?",
-          style: TextStyle(
-              fontFamily: 'Lora',
-              fontSize: 20,
-              color: Theme.of(context).textTheme.titleLarge?.color),
+          style:
+              TextStyle(fontFamily: 'Lora', fontSize: 20, color: Colors.white),
         ),
       ),
     );

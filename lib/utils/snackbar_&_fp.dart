@@ -10,10 +10,13 @@ import 'package:routemaster/routemaster.dart';
 void showSnackBar(BuildContext ctx, String message, bool isError) {
   ScaffoldMessenger.of(ctx).showSnackBar(
     SnackBar(
-      content: Text(
-        message,
-        style: TextStyle(
-            color: isError ? Colors.white : Colors.black, fontSize: 16),
+      content: Semantics(
+        liveRegion: true,
+        child: Text(
+          message,
+          style: TextStyle(
+              color: isError ? Colors.white : Colors.black, fontSize: 16),
+        ),
       ),
       backgroundColor: isError ? Colors.red : Colors.white,
       padding: const EdgeInsetsDirectional.all(24),

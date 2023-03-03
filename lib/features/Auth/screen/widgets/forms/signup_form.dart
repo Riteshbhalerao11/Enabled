@@ -1,4 +1,5 @@
 import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
+import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +19,11 @@ class _SignupFormState extends ConsumerState<SignupForm> {
   String _userBio = '';
   String _userName = '';
   String _firstName = '';
+  bool _isMailValid = true;
+  bool _isPassValid = true;
+  bool _isNameValid = true;
+  bool _isUNameValid = true;
+  bool _isBioValid = true;
 
   final defaultBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(20),
@@ -31,6 +37,8 @@ class _SignupFormState extends ConsumerState<SignupForm> {
         _formkey.currentState?.save();
         widget.submitData(_userName.trim(), _userEmail.trim(),
             _userPassword.trim(), _firstName.trim(), _userBio.trim());
+      } else {
+        showSnackBar(context, "Invalid field values", true);
       }
     }
   }
@@ -48,11 +56,14 @@ class _SignupFormState extends ConsumerState<SignupForm> {
               child: Semantics(
                 excludeSemantics: true,
                 label: "Email address input box. Double tap to activate",
+                hint: _isMailValid ? null : "Invalid email address",
                 child: TextFormField(
                   validator: (value) {
                     if (value == null || !value.contains('@')) {
+                      _isMailValid = false;
                       return "Invalid Email address";
                     }
+                    _isMailValid = true;
                     return null;
                   },
                   keyboardType: TextInputType.emailAddress,
@@ -89,14 +100,18 @@ class _SignupFormState extends ConsumerState<SignupForm> {
               child: Semantics(
                 excludeSemantics: true,
                 label: "User name input box. Double tap to activate",
+                hint: _isUNameValid ? null : "Invalid user name",
                 child: TextFormField(
                   validator: (value) {
                     if (value!.trim() == '') {
+                      _isUNameValid = false;
                       return "Please enter username";
                     } else if (value.trim() != value.trim().toLowerCase() ||
                         value.trim().contains(" ")) {
+                      _isUNameValid = false;
                       return "Enter valid username";
                     }
+                    _isUNameValid = true;
                     return null;
                   },
                   keyboardType: TextInputType.emailAddress,
@@ -131,11 +146,14 @@ class _SignupFormState extends ConsumerState<SignupForm> {
               child: Semantics(
                 excludeSemantics: true,
                 label: "Password input box. Double tap to activate",
+                hint: _isPassValid ? null : "Invalid password",
                 child: TextFormField(
                   validator: (value) {
                     if (value == null || value.length < 7) {
+                      _isPassValid = false;
                       return "Invalid Password";
                     }
+                    _isPassValid = true;
                     return null;
                   },
                   style: const TextStyle(
@@ -172,11 +190,14 @@ class _SignupFormState extends ConsumerState<SignupForm> {
               child: Semantics(
                 excludeSemantics: true,
                 label: "First name input box. Double tap to activate",
+                hint: _isNameValid ? null : "First name can't be null",
                 child: TextFormField(
                   validator: (value) {
                     if (value!.trim() == '') {
+                      _isNameValid = false;
                       return "Please enter username";
                     }
+                    _isNameValid = true;
                     return null;
                   },
                   keyboardType: TextInputType.emailAddress,
@@ -217,11 +238,14 @@ class _SignupFormState extends ConsumerState<SignupForm> {
               child: Semantics(
                 excludeSemantics: true,
                 label: "Bio input box. Double tap to activate",
+                hint: _isBioValid ? null : "Invalid bio",
                 child: TextFormField(
                   validator: (value) {
                     if (value!.trim() == '') {
+                      _isBioValid = false;
                       return "Please enter bio";
                     }
+                    _isBioValid = true;
                     return null;
                   },
                   keyboardType: TextInputType.emailAddress,
@@ -254,6 +278,7 @@ class _SignupFormState extends ConsumerState<SignupForm> {
             const SizedBox(height: 16),
             if (isLoading)
               const CircularProgressIndicator(
+                semanticsLabel: "Loading",
                 color: Colors.white,
               ),
             if (!isLoading)

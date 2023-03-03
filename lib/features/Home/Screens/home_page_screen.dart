@@ -80,8 +80,8 @@ class _HomePageState extends ConsumerState<HomePage> {
             ),
             body: SingleChildScrollView(
               child: SizedBox(
-                height: MediaQuery.of(context).size.height -
-                    MediaQuery.of(context).viewPadding.top,
+                height: MediaQuery.of(context).size.height,
+                // MediaQuery.of(context).viewPadding.top,
                 child: Column(
                   children: [
                     Row(
@@ -185,25 +185,23 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   ),
                                 )
                               : ref.watch(userPostsProvider(data.friends)).when(
-                                  data: (posts) => IntrinsicHeight(
-                                        child: PageView.builder(
-                                            controller: _pageController,
-                                            itemCount: posts.length,
-                                            itemBuilder: ((context, index) {
-                                              final post = posts[index];
-                                              return Semantics(
-                                                label:
-                                                    "Image Post card by ${data.firstName}",
-                                                hint:
-                                                    "Page ${index + 1}. Tap around to know more",
-                                                explicitChildNodes: true,
-                                                child: PostCard(
-                                                  firstName: data.firstName,
-                                                  post: post,
-                                                ),
-                                              );
-                                            })),
-                                      ),
+                                  data: (posts) => PageView.builder(
+                                      controller: _pageController,
+                                      itemCount: posts.length,
+                                      itemBuilder: ((context, index) {
+                                        final post = posts[index];
+                                        return Semantics(
+                                          label:
+                                              "Image Post card by ${data.firstName}",
+                                          hint:
+                                              "Page ${index + 1}. Tap around to know more",
+                                          explicitChildNodes: true,
+                                          child: PostCard(
+                                            myUsername: data.username,
+                                            post: post,
+                                          ),
+                                        );
+                                      })),
                                   error: (error, stacktrace) {
                                     return ErrorText(error: error.toString());
                                   },
@@ -221,19 +219,15 @@ class _HomePageState extends ConsumerState<HomePage> {
                           excludeSemantics: true,
                           label: "Voice commands button",
                           hint: "Double tap and speak on beep",
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 100.0),
-                            child: VoiceButton(user: data, screen: "home"),
-                          ),
+                          child: VoiceButton(user: data, screen: "home"),
                         ),
                         Flexible(child: Container()),
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(right: 12.0, bottom: 20),
-                          child: Semantics(
-                            excludeSemantics: true,
-                            label: "Refresh button",
-                            hint: "Double tap to refresh screen",
+                        Semantics(
+                          excludeSemantics: true,
+                          label: "Refresh button",
+                          hint: "Double tap to refresh screen",
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
                             child: FloatingActionButton(
                               heroTag: "refresh",
                               onPressed: () async {

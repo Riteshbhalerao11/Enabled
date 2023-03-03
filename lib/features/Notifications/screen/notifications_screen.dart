@@ -132,7 +132,7 @@ class _NotificationsState extends ConsumerState<Notifications> {
                         );
                 }
                 return widget.isLoading
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(
                           color: Colors.white,
                         ),

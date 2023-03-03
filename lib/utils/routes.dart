@@ -53,6 +53,20 @@ final loggedinRoute = RouteMap(routes: {
           uid: route.pathParameters['uid']!,
         ),
       ),
+
+  '/user_page/:myUsername/:otherUsername/:page': (route) => MaterialPage(
+        child: ViewOnlyProfilePage(
+            page: route.pathParameters['page']!,
+            otherUsername: route.pathParameters['otherUsername']!,
+            myUsername: route.pathParameters['myUsername']!),
+      ),
+
+  '/user_page/:myUsername/:otherUsername/:page/my_story/:uid': (route) =>
+      MaterialPage(
+        child: ReadOnlyMyStory(
+          uid: route.pathParameters['uid']!,
+        ),
+      ),
   //------------------------Profile routes-----------------------
 
   '/profile/:uid/user_images_page': (route) => MaterialPage(
@@ -79,22 +93,32 @@ final loggedinRoute = RouteMap(routes: {
           child: Notifications(
         uid: route.pathParameters['uid']!,
       )),
-
-  //--------------------------Feed page routes-------------------------------
-
-  '/feed_page/:uid/user_page/:myUsername/:otherUsername': (route) =>
+  '/profile/:uid/friends/user_page/:myUsername/:otherUsername/:page': (route) =>
       MaterialPage(
         child: ViewOnlyProfilePage(
+            page: route.pathParameters['page']!,
             otherUsername: route.pathParameters['otherUsername']!,
             myUsername: route.pathParameters['myUsername']!),
       ),
-  '/feed_page/:uid/user_page/:myUsername/:otherUsername/:otheruid/user_images_page':
+
+  // '/profile/:uid/friends'
+
+  //--------------------------Feed page routes-------------------------------
+
+  '/feed_page/:uid/user_page/:myUsername/:otherUsername/:page': (route) =>
+      MaterialPage(
+        child: ViewOnlyProfilePage(
+            page: route.pathParameters['page']!,
+            otherUsername: route.pathParameters['otherUsername']!,
+            myUsername: route.pathParameters['myUsername']!),
+      ),
+  '/feed_page/:uid/user_page/:myUsername/:otherUsername/user_images_page/:otheruid':
       (route) => MaterialPage(
             child: UserImagesScreen(
               uid: route.pathParameters['otheruid']!,
             ),
           ),
-  '/feed_page/:uid/user_page/:myUsername/:otherUsername/:otheruid/my_story_page':
+  '/feed_page/:uid/user_page/:myUsername/:otherUsername/:page/:otheruid/my_story_page':
       (route) => MaterialPage(
             child: ReadOnlyMyStory(
               uid: route.pathParameters['otheruid']!,

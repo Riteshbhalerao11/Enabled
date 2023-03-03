@@ -4,6 +4,7 @@ import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/bio_box.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_buttons.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/profile_pic.dart';
+import 'package:enabled_try_1/features/Profile/screen/widgets/info_bar.dart';
 import 'package:enabled_try_1/features/Profile/screen/widgets/view_only_info_bar.dart';
 import 'package:enabled_try_1/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,8 +14,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ViewOnlyProfilePage extends ConsumerWidget {
   final String otherUsername;
   final String myUsername;
+  final String page;
   const ViewOnlyProfilePage(
-      {super.key, required this.otherUsername, required this.myUsername});
+      {super.key,
+      required this.otherUsername,
+      required this.myUsername,
+      required this.page});
 
   void sendFriendReq(
       WidgetRef ref, String myUid, String otherUid, BuildContext ctx) {
@@ -153,6 +158,7 @@ class ViewOnlyProfilePage extends ConsumerWidget {
                       height: 16,
                     ),
                   ViewOnlyInfoBar(
+                    page: page,
                     otherUsername: user.username,
                     friends: user.friends,
                     myUid: myUid,
@@ -175,7 +181,7 @@ class ViewOnlyProfilePage extends ConsumerWidget {
                         hint: "double tap to see posted images by user",
                         child: MediaButton(
                             path:
-                                '/feed_page/$myUid/user_page/$myUsername/$otherUsername/${user.uid}/user_images_page',
+                                '/feed_page/$myUid/user_page/$myUsername/$otherUsername/user_images_page/${user.uid}',
                             title: "Images"),
                       ),
                       const SizedBox(
@@ -228,7 +234,7 @@ class FriendButton extends StatelessWidget {
         label: "Friends button",
         hint: "You have sent friend request. Double tap to cancel request",
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             "Requested",
             style: TextStyle(

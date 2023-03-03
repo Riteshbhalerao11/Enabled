@@ -78,7 +78,7 @@ class SearchUserDelegate extends SearchDelegate {
       //           myUsername: myUsername,
       //         )));
       Routemaster.of(context)
-          .push('/feed_page/$uid/user_page/$myUsername/$username');
+          .push('/feed_page/$uid/user_page/$myUsername/$username/feed');
     }
 
     return ref.watch(searchUsersProvider(query)).when(

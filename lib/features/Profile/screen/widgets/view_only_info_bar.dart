@@ -6,12 +6,13 @@ import 'package:routemaster/routemaster.dart';
 class ViewOnlyInfoBar extends StatelessWidget {
   const ViewOnlyInfoBar(
       {super.key,
+      required this.page,
       required this.otherUid,
       required this.otherUsername,
       required this.myUsername,
       required this.friends,
       required this.myUid});
-
+  final String page;
   final String myUsername;
   final String otherUsername;
   final String otherUid;
@@ -19,18 +20,18 @@ class ViewOnlyInfoBar extends StatelessWidget {
   final List<String> friends;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Semantics(
-          excludeSemantics: true,
-          explicitChildNodes: true,
-          label: "User information bar",
-          hint: "Tap in same row to know more",
-          child: Expanded(
+    return Semantics(
+      excludeSemantics: true,
+      explicitChildNodes: true,
+      label: "User information bar",
+      hint: "Tap in same row to know more",
+      child: Row(
+        children: [
+          Expanded(
             child: Container(
               margin: const EdgeInsets.only(left: 16),
               height: 40,
-              width: double.infinity,
+              // width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.horizontal(
                   left: Radius.circular(20),
@@ -98,61 +99,66 @@ class ViewOnlyInfoBar extends StatelessWidget {
               ),
             ),
           ),
-        ),
-        Semantics(
-          excludeSemantics: true,
-          label: "My story button",
-          hint: "Double tap to view user's story",
-          child: Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Ink(
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius:
-                      BorderRadius.horizontal(right: Radius.circular(20))),
-              child: InkWell(
-                onTap: () {
-                  Routemaster.of(context).push(
-                      '/feed_page/$myUid/user_page/$myUsername/$otherUsername/$otherUid/my_story_page');
-                },
-                focusColor: Colors.white,
-                borderRadius: const BorderRadius.horizontal(
-                    left: Radius.circular(0), right: Radius.circular(20)),
-                splashColor: Colors.purpleAccent,
-                splashFactory: InkRipple.splashFactory,
-                child: Container(
-                  height: 40,
-                  width: 115,
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.horizontal(
-                        right: Radius.circular(20),
-                      ),
-                      color: Colors.transparent),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Padding(
-                          padding: EdgeInsets.only(left: 8.0),
-                          child: Icon(Icons.edit_note),
+          Semantics(
+            excludeSemantics: true,
+            label: "My story button",
+            hint: "Double tap to view user's story",
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Ink(
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                        BorderRadius.horizontal(right: Radius.circular(20))),
+                child: InkWell(
+                  onTap: () {
+                    if (page == 'feed') {
+                      Routemaster.of(context).push(
+                          '/feed_page/$myUid/user_page/$myUsername/$otherUsername/feed/$otherUid/my_story_page');
+                    } else if (page == 'home') {
+                      Routemaster.of(context).push(
+                          '/user_page/$myUsername/$otherUsername/home/my_story/$otherUid');
+                    }
+                  },
+                  focusColor: Colors.white,
+                  borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(0), right: Radius.circular(20)),
+                  splashColor: Colors.purpleAccent,
+                  splashFactory: InkRipple.splashFactory,
+                  child: Container(
+                    height: 40,
+                    width: 115,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.horizontal(
+                          right: Radius.circular(20),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 12.0),
-                          child: Text(
-                            "My Story",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "Signika",
-                              fontSize: 16,
-                            ),
+                        color: Colors.transparent),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.only(left: 8.0),
+                            child: Icon(Icons.edit_note),
                           ),
-                        )
-                      ]),
+                          Padding(
+                            padding: EdgeInsets.only(right: 12.0),
+                            child: Text(
+                              "My Story",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: "Signika",
+                                fontSize: 16,
+                              ),
+                            ),
+                          )
+                        ]),
+                  ),
                 ),
               ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }

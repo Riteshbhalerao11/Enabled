@@ -137,8 +137,8 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
 
                               // Create GridView with posts for current page
                               return Padding(
-                                padding:
-                                    EdgeInsets.only(left: 8, right: 8, top: 6),
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, top: 6),
                                 child: GridView.builder(
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(

@@ -5,15 +5,14 @@ class Tagline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return const Text(
       "Share your story",
       style: TextStyle(
-        height: 0.5,
-        fontFamily: 'Merriweather',
-        fontSize: 18,
-        fontWeight: FontWeight.normal,
-        color: Theme.of(context).textTheme.titleLarge?.color,
-      ),
+          height: 0.5,
+          fontFamily: 'Merriweather',
+          fontSize: 18,
+          fontWeight: FontWeight.normal,
+          color: Colors.white),
     );
   }
 }

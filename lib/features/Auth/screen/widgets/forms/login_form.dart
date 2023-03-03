@@ -1,8 +1,8 @@
 import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
 import 'package:enabled_try_1/features/Auth/screen/signup_screen.dart';
+import 'package:enabled_try_1/utils/snackbar_&_fp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:routemaster/routemaster.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
   final void Function(String email, String password, BuildContext ctx)
@@ -15,6 +15,8 @@ class LoginForm extends ConsumerStatefulWidget {
 
 class _LoginFormState extends ConsumerState<LoginForm> {
   final _formkey = GlobalKey<FormState>();
+  bool _isPassValid = true;
+  bool _isMailValid = true;
   String _userEmail = '';
   String _userPassword = '';
   final defaultBorder = OutlineInputBorder(
@@ -28,6 +30,8 @@ class _LoginFormState extends ConsumerState<LoginForm> {
       if (isValid) {
         _formkey.currentState?.save();
         widget.loginUser(_userEmail, _userPassword, context);
+      } else {
+        showSnackBar(context, "Enter valid field values", true);
       }
     }
   }
@@ -45,11 +49,14 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               child: Semantics(
                 excludeSemantics: true,
                 label: "Email address input box. Double tap to activate",
+                hint: _isMailValid ? null : "Email is  invalid",
                 child: TextFormField(
                   validator: (value) {
                     if (value == null || !value.contains('@')) {
+                      _isMailValid = false;
                       return "Please enter valid email address";
                     }
+                    _isMailValid = true;
                     return null;
                   },
                   keyboardType: TextInputType.emailAddress,
@@ -82,11 +89,14 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               child: Semantics(
                 excludeSemantics: true,
                 label: "Password input box. Double tap to activate",
+                hint: _isPassValid ? null : "Password is  invalid",
                 child: TextFormField(
                   validator: (value) {
                     if (value == null || value.length < 7) {
+                      _isPassValid = false;
                       return "Invalid Password";
                     }
+                    _isPassValid = true;
                     return null;
                   },
                   style: const TextStyle(
@@ -118,6 +128,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
             const SizedBox(height: 16),
             if (isLoading)
               const CircularProgressIndicator(
+                semanticsLabel: "Loading",
                 color: Colors.white,
               ),
             if (!isLoading)
@@ -150,10 +161,15 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                           height: 72,
                           thickness: 1.5,
                         ))),
-                const Text(
-                  "New here ?",
-                  style: TextStyle(
-                      fontFamily: 'Lora', fontSize: 16, color: Colors.white),
+                Semantics(
+                  excludeSemantics: true,
+                  hint: "Sign up if you are a new user",
+                  label: "Information text",
+                  child: const Text(
+                    "New here ?",
+                    style: TextStyle(
+                        fontFamily: 'Lora', fontSize: 16, color: Colors.white),
+                  ),
                 ),
                 Expanded(
                     child: Container(
