@@ -16,7 +16,7 @@ final searchUsersProvider = StreamProvider.family((ref, String username) {
   return authController.searchUsers(username);
 });
 final userDataAuthProvider = FutureProvider((ref) {
-  final authController = ref.watch(authControllerProvider);
+  final authController = ref.watch(authControllerProvider.notifier);
   return authController.getCurrentUserData();
 });
 final authStateChangeProvider = StreamProvider((ref) {

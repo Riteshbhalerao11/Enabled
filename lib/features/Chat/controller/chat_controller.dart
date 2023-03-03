@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:enabled_try_1/core/common/enums/message_enum.dart';
 import 'package:enabled_try_1/core/common/providers/message_reply_provider.dart';
-import 'package:enabled_try_1/features/Auth/controller/auth_controller.dart';
+import 'package:enabled_try_1/features/auth/controller/auth_controller.dart';
 import 'package:enabled_try_1/features/chat/repositories/chat_repository.dart';
 import 'package:enabled_try_1/models/chat_contact.dart';
 import 'package:enabled_try_1/models/group.dart';
@@ -49,7 +49,7 @@ class ChatController {
     bool isGroupChat,
   ) {
     final messageReply = ref.read(messageReplyProvider);
-    ref.read(authRepoGetActiveUserData).whenData(
+    ref.read(userDataAuthProvider).whenData(
           (value) => chatRepository.sendTextMessage(
             context: context,
             text: text,
@@ -59,7 +59,7 @@ class ChatController {
             isGroupChat: isGroupChat,
           ),
         );
-    ref.read(messageReplyProvider.notifier).update((state) => null);
+    ref.read(messageReplyProvider.state).update((state) => null);
   }
 
   void sendFileMessage(
@@ -70,7 +70,7 @@ class ChatController {
     bool isGroupChat,
   ) {
     final messageReply = ref.read(messageReplyProvider);
-    ref.read(authRepoGetActiveUserData).whenData(
+    ref.read(userDataAuthProvider).whenData(
           (value) => chatRepository.sendFileMessage(
             context: context,
             file: file,
@@ -82,7 +82,7 @@ class ChatController {
             isGroupChat: isGroupChat,
           ),
         );
-    ref.read(messageReplyProvider.notifier).update((state) => null);
+    ref.read(messageReplyProvider.state).update((state) => null);
   }
 
   void sendGIFMessage(
@@ -96,7 +96,7 @@ class ChatController {
     String gifUrlPart = gifUrl.substring(gifUrlPartIndex);
     String newgifUrl = 'https://i.giphy.com/media/$gifUrlPart/200.gif';
 
-    ref.read(authRepoGetActiveUserData).whenData(
+    ref.read(userDataAuthProvider).whenData(
           (value) => chatRepository.sendGIFMessage(
             context: context,
             gifUrl: newgifUrl,
@@ -106,7 +106,7 @@ class ChatController {
             isGroupChat: isGroupChat,
           ),
         );
-    ref.read(messageReplyProvider.notifier).update((state) => null);
+    ref.read(messageReplyProvider.state).update((state) => null);
   }
 
   void setChatMessageSeen(

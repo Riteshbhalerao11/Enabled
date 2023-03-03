@@ -47,7 +47,7 @@ class ChatRepository {
         contacts.add(
           ChatContact(
             name: user.username,
-            // profilePic: user.profilePic,
+            profilePic: user.profilepic,
             contactId: chatContact.contactId,
             timeSent: chatContact.timeSent,
             lastMessage: chatContact.lastMessage,
@@ -122,7 +122,7 @@ class ChatRepository {
 // users -> reciever user id => chats -> current user id -> set data
       var recieverChatContact = ChatContact(
         name: senderUserData.username,
-        // profilePic: senderUserData.profilePic,
+        profilePic: senderUserData.profilepic,
         contactId: senderUserData.username,
         timeSent: timeSent,
         lastMessage: text,
@@ -138,7 +138,7 @@ class ChatRepository {
       // users -> current user id  => chats -> reciever user id -> set data
       var senderChatContact = ChatContact(
         name: recieverUserData!.username,
-        // profilePic: recieverUserData.profilePic,
+        profilePic: recieverUserData.profilepic,
         contactId: recieverUserData.username,
         timeSent: timeSent,
         lastMessage: text,
