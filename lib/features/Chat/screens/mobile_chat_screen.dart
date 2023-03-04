@@ -46,7 +46,7 @@ class MobileChatScreen extends ConsumerWidget {
                     }
                     return Column(
                       children: [
-                        Text("Ritesh"),
+                        Text(snapshot.data!.username),
                         // Text(
                         //   snapshot.data!.isOnline ? 'online' : 'offline',
                         //   style: const TextStyle(
