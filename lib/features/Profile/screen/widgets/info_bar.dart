@@ -55,9 +55,9 @@ class InfoBar extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Flexible(
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
                       child: Semantics(
                         excludeSemantics: true,
                         label: "Friends count",
@@ -69,8 +69,11 @@ class InfoBar extends StatelessWidget {
                                 child: FittedBox(
                                   child: TextButton(
                                     onPressed: () {
-                                      Routemaster.of(context)
-                                          .push('/profile/$uid/my_story');
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) => FriendsScreen(
+                                                friends: friends)),
+                                      );
                                     },
                                     child: Text("${friends.length} Friend",
                                         style: const TextStyle(

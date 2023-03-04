@@ -93,6 +93,7 @@ final loggedinRoute = RouteMap(routes: {
           child: Notifications(
         uid: route.pathParameters['uid']!,
       )),
+
   '/profile/:uid/friends/user_page/:myUsername/:otherUsername/:page': (route) =>
       MaterialPage(
         child: ViewOnlyProfilePage(

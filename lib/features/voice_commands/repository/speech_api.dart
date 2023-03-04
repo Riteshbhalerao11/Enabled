@@ -91,6 +91,7 @@ class SpeechApi {
       _tts.speak("Navigated to edit profile screen");
     } else if (result.contains("profile")) {
       Routemaster.of(context).push('/profile/${user.uid}');
+      _tts.speak("Navigated to profile screen");
     } else if (result.contains("feed")) {
       Routemaster.of(context).push('/feed_page/${user.uid}');
       _tts.speak("Navigated to feed screen");

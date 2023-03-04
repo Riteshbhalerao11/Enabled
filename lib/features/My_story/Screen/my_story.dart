@@ -69,45 +69,48 @@ class _MyStoryState extends ConsumerState<MyStory> {
             ),
           ),
           Expanded(
-              child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: const Offset(0, 2),
-                    )
-                  ]),
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 16),
-                  child: ref.watch(futureGetStoryData(widget.uid!)).when(
-                      data: (data) {
-                        if (data == "") {
-                          _controller.moveCursorToEnd();
-                          return quill.QuillEditor.basic(
-                              controller: _controller, readOnly: false);
-                        } else {
-                          final jdata = jsonDecode(data);
-                          _controller.document = quill.Document.fromJson(jdata);
-                          _controller.moveCursorToEnd();
-                          return quill.QuillEditor.basic(
-                              controller: _controller, readOnly: false);
-                        }
-                      },
-                      error: (error, st) => ErrorText(error: error.toString()),
-                      loading: () => const Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.black,
-                            ),
-                          ))),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 2),
+                      )
+                    ]),
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 16),
+                    child: ref.watch(futureGetStoryData(widget.uid!)).when(
+                        data: (data) {
+                          if (data == "") {
+                            _controller.moveCursorToEnd();
+                            return quill.QuillEditor.basic(
+                                controller: _controller, readOnly: false);
+                          } else {
+                            final jdata = jsonDecode(data);
+                            _controller.document =
+                                quill.Document.fromJson(jdata);
+                            _controller.moveCursorToEnd();
+                            return quill.QuillEditor.basic(
+                                controller: _controller, readOnly: false);
+                          }
+                        },
+                        error: (error, st) =>
+                            ErrorText(error: error.toString()),
+                        loading: () => const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.black,
+                              ),
+                            ))),
+              ),
             ),
-          )),
+          ),
         ],
       ),
     );
