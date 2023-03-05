@@ -67,33 +67,45 @@ class SelectContactsScreen extends ConsumerWidget {
       //       loading: () => const Loader(),
       //     ),
       body: ref.watch(getContactsProvider).when(
-            data: (contactList) => ListView.builder(
-                itemCount: contactList.length,
-                itemBuilder: (context, index) {
-                  return ref.watch(getUserDataByName(contactList[index])).when(
-                    data: (contact) {
-                      return InkWell(
-                        onTap: () => selectContact(ref, contact.username, context),
-                        child: Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: ListTile(
-                          title: Text(
-                            contact.username,
-                            style: const TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        leading: CircleAvatar(
-                                backgroundImage: NetworkImage(contact.profilepic),
-                                radius: 30,
+            data: (contactList) => Padding(
+              padding: const EdgeInsets.only(top : 8.0 , left: 10, right: 10),
+              child: Container(
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                    itemCount: contactList.length,
+                    itemBuilder: (context, index) {
+                      return ref.watch(getUserDataByName(contactList[index])).when(
+                        data: (contact) {
+                          return InkWell(
+                            onTap: () => selectContact(ref, contact.username, context),
+                            child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: ListTile(
+                              title: Text(
+                                contact.username,
+                                
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,  
+                                  fontFamily: "PTSans",
+                                  letterSpacing: 1,
+                                  fontWeight: FontWeight.bold
+                                ),
                               ),
-                      ),
-                    ),
-                  );
-                    },
-                    error: (err, trace) => ErrorScreen(error: err.toString()),
-                    loading: () => const Loader());
-                }
+                            leading: CircleAvatar(
+                                    backgroundImage: NetworkImage(contact.profilepic),
+                                    radius: 25,
+                                  ),
+                          ),
+                        ),
+                      );
+                        },
+                        error: (err, trace) => ErrorScreen(error: err.toString()),
+                        loading: () => const Loader());
+                    }
+                ),
+              ),
             ),
             error: (err, trace) => ErrorScreen(error: err.toString()),
             loading: () => const Loader())

@@ -15,7 +15,7 @@ class Pallete {
   static const accentDarkappColor = Colors.black;
   static const backgroundColor = Color.fromRGBO(19, 28, 33, 1);
   static const textColor = Color.fromRGBO(241, 241, 242, 1);
-  static const appBarColor = Color.fromRGBO(31, 44, 52, 1);
+  static const appBarColor = Color(0xFF4ECDE8);
   static const webAppBarColor = Color.fromRGBO(42, 47, 50, 1);
   static const messageColor = Color(0xFF4ECDE8);
   static const senderMessageColor = Color.fromARGB(255, 78, 132, 232);

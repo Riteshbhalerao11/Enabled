@@ -36,46 +36,51 @@ class MobileChatScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Pallete.appBarColor,
-          title: StreamBuilder<UserModel>(
-                  stream: ref.read(authControllerProvider.notifier).getUserData(uid),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Loader();
-                    }
-                    return Column(
-                      children: [
-                        Text(snapshot.data!.username),
-                        // Text(
-                        //   snapshot.data!.isOnline ? 'online' : 'offline',
-                        //   style: const TextStyle(
-                        //     fontSize: 13,
-                        //     fontWeight: FontWeight.normal,
-                        //   ),
-                        // ),
-                      ],
-                    );
-                  }),
-          centerTitle: false,
-          actions: [
-            // IconButton(
-            //   onPressed: () => makeCall(ref, context),
-            //   icon: const Icon(Icons.video_call),
-            // ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.call),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.more_vert),
-            ),
-          ],
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus!.unfocus();
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            
+            title: StreamBuilder<UserModel>(
+                    stream: ref.read(authControllerProvider.notifier).getUserData(uid),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Loader();
+                      }
+                      return Column(
+                        children: [
+                          Text(snapshot.data!.username , style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),),
+                          // Text(
+                          //   snapshot.data!.isOnline ? 'online' : 'offline',
+                          //   style: const TextStyle(
+                          //     fontSize: 13,
+                          //     fontWeight: FontWeight.normal,
+                          //   ),
+                          // ),
+                        ],
+                      );
+                    }),
+            centerTitle: false,
+            actions: [
+              // IconButton(
+              //   onPressed: () => makeCall(ref, context),
+              //   icon: const Icon(Icons.video_call),
+              // ),
+              // IconButton(
+              //   onPressed: () {},
+              //   icon: const Icon(Icons.call ,),
+              // ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.more_vert),
+              ),
+            ],
+          ),
+          body: TempWidget(uid: uid),
         ),
-        body: TempWidget(uid: uid),
-      );
+    );
   }
   // Widget build(BuildContext context, WidgetRef ref) {
   //   return Scaffold( body: TempWidget(uid: uid));

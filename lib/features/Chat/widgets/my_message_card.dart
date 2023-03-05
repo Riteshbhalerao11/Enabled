@@ -44,14 +44,14 @@ class MyMessageCard extends StatelessWidget {
             elevation: 1,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            color: Pallete.messageColor,
+            color:Colors.white,
             margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             child: Stack(
               children: [
                 Padding(
                   padding: type == MessageEnum.text
                       ? const EdgeInsets.only(
-                          left: 10,
+                          left: 20,
                           right: 30,
                           top: 5,
                           bottom: 20,
@@ -69,6 +69,7 @@ class MyMessageCard extends StatelessWidget {
                           username,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
+                            
                           ),
                         ),
                         const SizedBox(height: 3),
@@ -98,14 +99,17 @@ class MyMessageCard extends StatelessWidget {
                 ),
                 Positioned(
                   bottom: 4,
-                  right: 10,
+                  right: 0,
+                  // bottom: 4,
+                  // right: 10,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
                         date,
                         style: const TextStyle(
                           fontSize: 13,
-                          color: Colors.white60,
+                          color: Colors.grey
                         ),
                       ),
                       const SizedBox(
