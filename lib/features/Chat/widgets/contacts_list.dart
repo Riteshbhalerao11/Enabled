@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:enabled_try_1/core/common/utils/colors.dart';
+// import 'package:enabled_try_1/core/common/utils/colors.dart';
+import 'package:enabled_try_1/utils/Theme/theme.dart';
 import 'package:enabled_try_1/core/common/widgets/loader.dart';
 import 'package:enabled_try_1/features/chat/controller/chat_controller.dart';
 import 'package:enabled_try_1/features/chat/screens/mobile_chat_screen.dart';
@@ -78,7 +79,7 @@ class ContactsList extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          const Divider(color: dividerColor, indent: 85),
+                          const Divider(color: Pallete.dividerColor, indent: 85),
                         ],
                       );
                     },
@@ -145,7 +146,7 @@ class ContactsList extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          const Divider(color: dividerColor, indent: 85),
+                          const Divider(color: Pallete.dividerColor, indent: 85),
                         ],
                       );
                     },

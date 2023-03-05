@@ -5,7 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:enabled_try_1/core/common/utils/colors.dart';
+// import 'package:enabled_try_1/core/common/utils/colors.dart';
+import 'package:enabled_try_1/utils/Theme/theme.dart';
 import 'package:enabled_try_1/core/common/enums/message_enum.dart';
 import 'package:enabled_try_1/core/common/providers/message_reply_provider.dart';
 import 'package:enabled_try_1/core/common/utils/utils.dart';
@@ -180,7 +181,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                 },
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: mobileChatBoxColor,
+                  fillColor: Pallete.mobileChatBoxColor,
                   prefixIcon: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: SizedBox(

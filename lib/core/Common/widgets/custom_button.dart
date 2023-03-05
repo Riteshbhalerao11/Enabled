@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:enabled_try_1/core/common/utils/colors.dart';
+// import 'package:enabled_try_1/core/common/utils/colors.dart';
+import 'package:enabled_try_1/utils/Theme/theme.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -21,7 +22,7 @@ class CustomButton extends StatelessWidget {
       child: Text(
         text,
         style: const TextStyle(
-          color: blackColor,
+          color: Pallete.blackColor,
         ),
       ),
     );

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:swipe_to/swipe_to.dart';
 
-import 'package:enabled_try_1/core/common/utils/colors.dart';
+// import 'package:enabled_try_1/core/common/utils/colors.dart';
+import 'package:enabled_try_1/utils/Theme/theme.dart';
 import 'package:enabled_try_1/core/common/enums/message_enum.dart';
 import 'package:enabled_try_1/features/chat/widgets/display_text_image_gif.dart';
 
@@ -43,7 +44,7 @@ class MyMessageCard extends StatelessWidget {
             elevation: 1,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            color: messageColor,
+            color: Pallete.messageColor,
             margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             child: Stack(
               children: [
@@ -74,7 +75,7 @@ class MyMessageCard extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            color: backgroundColor.withOpacity(0.5),
+                            color: Pallete.backgroundColor.withOpacity(0.5),
                             borderRadius: const BorderRadius.all(
                               Radius.circular(
                                 5,

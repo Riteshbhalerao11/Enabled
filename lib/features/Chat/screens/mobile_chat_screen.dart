@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:enabled_try_1/core/common/utils/colors.dart';
+// import 'package:enabled_try_1/core/common/utils/colors.dart';
+import 'package:enabled_try_1/utils/Theme/theme.dart';
 import 'package:enabled_try_1/core/common/widgets/loader.dart';
 import 'package:enabled_try_1/features/auth/controller/auth_controller.dart';
 // import 'package:enabled_try_1/features/call/controller/call_controller.dart';
@@ -37,7 +38,7 @@ class MobileChatScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: appBarColor,
+          backgroundColor: Pallete.appBarColor,
           title: StreamBuilder<UserModel>(
                   stream: ref.read(authControllerProvider.notifier).getUserData(uid),
                   builder: (context, snapshot) {
