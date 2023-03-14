@@ -72,9 +72,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(right: 8.0),
-                  child: MessagesButton(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: MessagesButton(
+                    uid: uid.toString(),
+                  ),
                 ),
               ],
             ),

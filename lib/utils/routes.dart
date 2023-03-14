@@ -5,7 +5,8 @@ import 'package:enabled_try_1/features/User_posts/Screen/user_images_screen.dart
 import 'package:enabled_try_1/features/edit_profile/screens/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
-
+import 'package:enabled_try_1/features/Chat/screens/mobile_chat_screen.dart';
+import 'package:enabled_try_1/features/ChatList/screens/select_contact_screen.dart';
 import 'package:enabled_try_1/features/Add_post/screens/add_image_screen.dart';
 import 'package:enabled_try_1/features/Add_post/screens/add_post_screen.dart';
 import 'package:enabled_try_1/features/Auth/screen/login_screen.dart';
@@ -28,6 +29,13 @@ final loggedinRoute = RouteMap(routes: {
       child: HomePage(),
       pushTransition: PageTransition.none,
       popTransition: PageTransition.none),
+  '/chatlist': (route) => const TransitionPage(
+    child: SelectContactsScreen()
+    ),
+  '/chat/:uid': (route) => TransitionPage(
+    child: MobileChatScreen(
+      uid: route.pathParameters['uid']!,
+    )),
   '/profile/:uid': (route) => TransitionPage(
       child: ProfilePage(
         uid: route.pathParameters['uid']!,

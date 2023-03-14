@@ -57,12 +57,15 @@ class SettingsButton extends StatelessWidget {
 }
 
 class MessagesButton extends StatelessWidget {
-  const MessagesButton({super.key});
+  final String uid;
+  const MessagesButton({super.key, required this.uid});
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () {},
+      onPressed: () {
+        Routemaster.of(context).push('/chat/$uid');
+      },
       icon: const Icon(
         Icons.message,
       ),
