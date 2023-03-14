@@ -8,8 +8,8 @@ class CaptionBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       excludeSemantics: true,
-      label: "Caption : ",
-      hint: caption,
+      label: "Caption box of post card",
+      hint: "caption : $caption",
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: SizedBox(

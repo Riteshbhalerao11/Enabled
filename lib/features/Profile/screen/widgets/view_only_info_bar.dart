@@ -21,7 +21,6 @@ class ViewOnlyInfoBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      excludeSemantics: true,
       explicitChildNodes: true,
       label: "User information bar",
       hint: "Tap in same row to know more",

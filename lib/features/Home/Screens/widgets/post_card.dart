@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
-class PostCard extends StatelessWidget {
+class PostCard extends ConsumerWidget {
   PostCard({super.key, required this.post, required this.myUsername});
   final String myUsername;
   final Post post;
@@ -18,7 +18,7 @@ class PostCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,

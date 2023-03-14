@@ -121,9 +121,15 @@ class ViewOnlyProfilePage extends ConsumerWidget {
               ),
               body: Column(
                 children: [
-                  if (user.profilepic.length == 1) const ProfilePicture(),
+                  if (user.profilepic.length == 1)
+                    Semantics(
+                        label: "User profile picture",
+                        hint: "Currently there is no profile picture",
+                        child: const ProfilePicture()),
                   if (user.profilepic.length != 1)
-                    FilledPictureUrl(url: user.profilepic),
+                    Semantics(
+                        label: "User profile picture",
+                        child: FilledPictureUrl(url: user.profilepic)),
                   const SizedBox(
                     height: 16,
                   ),

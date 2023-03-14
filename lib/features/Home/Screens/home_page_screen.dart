@@ -59,6 +59,19 @@ class _HomePageState extends ConsumerState<HomePage> {
           return Scaffold(
             drawer: const ProfileDrawer(),
             appBar: AppBar(
+              leading: Builder(builder: (context) {
+                return Semantics(
+                  excludeSemantics: true,
+                  label: 'Side drawer menu button',
+                  hint: 'Double tap to open the side drawer',
+                  child: IconButton(
+                    icon: const Icon(Icons.menu),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                  ),
+                );
+              }),
               elevation: 0,
               actions: [
                 Semantics(
@@ -72,10 +85,15 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: MessagesButton(
-                    uid: uid.toString(),
+                Semantics(
+                  excludeSemantics: true,
+                  label: "Chat button",
+                  hint: "double tap to activate",
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: MessagesButton(
+                      uid: uid.toString(),
+                    ),
                   ),
                 ),
               ],
@@ -203,7 +221,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                         final post = posts[index];
                                         return Semantics(
                                           label:
-                                              "Image Post card by ${data.firstName}",
+                                              "Image Post card by ${post.username}",
                                           hint:
                                               "Page ${index + 1}. Tap around to know more",
                                           explicitChildNodes: true,

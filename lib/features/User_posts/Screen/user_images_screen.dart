@@ -11,7 +11,13 @@ class UserImagesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Images")),
+      appBar: AppBar(
+        title: const Text("Images"),
+        leading: Icon(
+          Icons.abc,
+          color: Theme.of(context).appBarTheme.backgroundColor,
+        ),
+      ),
       body: ref.watch(getuserPostsProvider(uid)).when(
           data: (post) {
             return post.isEmpty

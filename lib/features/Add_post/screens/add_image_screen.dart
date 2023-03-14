@@ -72,11 +72,19 @@ class _AddImageScreenState extends State<AddImageScreen> {
                 if (profilePic != null)
                   GestureDetector(
                       onLongPress: selectProfileImage,
-                      child: FilledPicture(img: profilePic!)),
+                      child: Semantics(
+                          label: "Your Profile picture",
+                          hint:
+                              "Double tap and hold or press the add button to change image",
+                          child: FilledPicture(img: profilePic!))),
                 if (profilePic == null)
                   GestureDetector(
                       onLongPress: selectProfileImage,
-                      child: const ProfilePicture()),
+                      child: Semantics(
+                          label: " Empty profile picture box",
+                          hint:
+                              "Double tap and hold or press the add button to add a profile picture",
+                          child: const ProfilePicture())),
                 Positioned(
                   right: 0,
                   bottom: 0,

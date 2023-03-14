@@ -73,8 +73,8 @@ class NetworkPicture extends StatelessWidget {
       ignoringSemantics: false,
       child: Semantics(
         excludeSemantics: true,
-        label: "Image description : ",
-        hint: altText,
+        label: "Post card image",
+        hint: " description : $altText",
         child: Container(
             margin: const EdgeInsets.only(left: 16, right: 16),
             decoration: const BoxDecoration(
