@@ -110,6 +110,17 @@ class AuthRepository {
     }
   }
 
+  Future<UserModel?> getCurrentUserData() async {
+    var userData =
+        await _firestore.collection('users').doc(_auth.currentUser?.uid).get();
+
+    UserModel? user;
+    if (userData.data() != null) {
+      user = UserModel.fromMap(userData.data()!);
+    }
+    return user;
+  }
+  
   FutureVoid editBio(UserModel user, String uid, String prevBio) async {
     if (user.bio == prevBio) {
       return left(Failure("Bio unchanged"));

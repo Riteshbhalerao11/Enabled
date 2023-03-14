@@ -13,6 +13,19 @@ class Pallete {
   static const buttonColor = Color(0xFF882ECE);
   static const primaryDarkAppColor = Color(0xFF333333);
   static const accentDarkappColor = Colors.black;
+  static const backgroundColor = Color.fromRGBO(19, 28, 33, 1);
+  static const textColor = Color.fromRGBO(241, 241, 242, 1);
+  static const appBarColor = Color(0xFF4ECDE8);
+  static const webAppBarColor = Color.fromRGBO(42, 47, 50, 1);
+  static const messageColor = Color(0xFF4ECDE8);
+  static const senderMessageColor = Color.fromARGB(255, 78, 132, 232);
+  static const tabColor = Color(0xFF4ECDE8);
+  static const searchBarColor = Color(0xFF4ECDE8);
+  static const dividerColor = Color.fromRGBO(37, 45, 50, 1);
+  static const chatBarMessage = Color(0xFF4ECDE8);
+  static const mobileChatBoxColor = Color(0xFF4ECDE8);
+  static const greyColor = Colors.grey;
+  static const blackColor = Colors.black;
 
 //Theme
   static var lightModeAppTheme = ThemeData.light().copyWith(
